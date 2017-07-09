@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "707847669697",
+    "firebase_url": "https://financelearn-dffeb.firebaseio.com",
+    "project_id": "financelearn-dffeb",
+    "storage_bucket": "financelearn-dffeb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:707847669697:android:ebe8be5883468643",
+        "android_client_info": {
+          "package_name": "com.grandilo.financelearn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "707847669697-btlbsupds3tdtsi1cal5h707bojkm2kd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.grandilo.financelearn",
+            "certificate_hash": "1c6d359a1020a3e3da0a950ccda406c56a7708c9"
+          }
+        },
+        {
+          "client_id": "707847669697-4nq70dhf80mgigtg7vevsm1rb5v4j10k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZtpDbE1W9o449r0NngY55wKi3-Y8rd20"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "707847669697-4nq70dhf80mgigtg7vevsm1rb5v4j10k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
