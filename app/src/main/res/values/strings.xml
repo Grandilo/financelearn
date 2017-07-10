@@ -11,4 +11,25 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_pre_test">PreTestActivity</string>
+    <string name="employee">EMPLOYEE</string>
+    <string name="manager">MANAGER</string>
+    <string name="hr">HR</string>
+    <string name="select_your_category">Select Your Category</string>
+    <string name="employee_login">Employee Login</string>
+    <string name="your_employee_id">Your employee Id</string>
+    <string name="manager_login">Manager Login</string>
+    <string name="you_id">Your Id</string>
+    <string name="hr_id">Hr Id</string>
+    <string name="hr_login">Hr Login</string>
+    <string name="your_password">Your password</string>
+    <string name="continue_">CONTINUE</string>
+    <string name="your_id">Your Id</string>
+    <string name="welcome_lets_get_you_started">Welcome, lets get you started</string>
+    <string name="welcome_ugo">Welcome, Ugo</string>
+    <string name="my_courses">My Courses</string>
+    <string name="demo">Demo</string>
+    <string name="send_notification">SEND NOTIFICATION</string>
+    <string name="cancel">CANCEL</string>
+    <string name="new_password">New Password</string>
+    <string name="current_password">Current password</string>
 </resources>

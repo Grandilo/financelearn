@@ -1,0 +1,51 @@
+package com.grandilo.financelearn.ui.activities;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.grandilo.financelearn.R;
+import com.grandilo.financelearn.utils.AppPreferences;
+import com.grandilo.financelearn.utils.FinanceLearningConstants;
+
+/**
+ * The splash screen launches the app and check if a user has logged into the app.
+ *
+ * @author Ugo
+ ***/
+public class SplashActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
+        checkAuthenticationStatus();
+    }
+
+    /**
+     * Method checks if a Firebase User has Logged
+     ***/
+    private void checkAuthenticationStatus() {
+        FirebaseUser signedInUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (signedInUser != null) {
+            //A user has logged into the app, let's move on
+            String loggedType = AppPreferences.getLoggedInType(this);
+            if (loggedType != null) {
+                if (loggedType.equals(FinanceLearningConstants.LOGIN_TYPE_EMPLOYEE)) {
+                    Intent mEmployeeHomeScreenIntent = new Intent(SplashActivity.this, EmployeeHomeScreen.class);
+                    startActivity(mEmployeeHomeScreenIntent);
+                }
+                finish();
+            }
+        } else {
+            //No has has logged into the app,let's sign him/her in automatically
+            Intent authIntent = new Intent(SplashActivity.this, AuthenticationActivity.class);
+            startActivity(authIntent);
+        }
+        finish();
+    }
+
+}
