@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.grandilo.financelearn.R;
 import com.grandilo.financelearn.ui.adapters.PreTestCoursesAdapter;
+import com.grandilo.financelearn.utils.FinanceLearningConstants;
 import com.grandilo.financelearn.utils.FirebaseUtils;
 
 import java.util.ArrayList;
@@ -82,6 +83,9 @@ public class PreAvailableCoursesActivity extends AppCompatActivity implements Vi
                 };
 
                 HashMap<String, String> courseProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
+                if (courseProps != null) {
+                    courseProps.put(FinanceLearningConstants.COURSE_ID,dataSnapshot.getKey());
+                }
                 courses.add(courseProps);
                 preTestCoursesAdapter.notifyDataSetChanged();
             }

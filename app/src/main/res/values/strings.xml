@@ -32,4 +32,6 @@
     <string name="cancel">CANCEL</string>
     <string name="new_password">New Password</string>
     <string name="current_password">Current password</string>
+    <string name="update_my_password">Update My Password</string>
+    <string name="sign_out">Sign Out</string>
 </resources>
