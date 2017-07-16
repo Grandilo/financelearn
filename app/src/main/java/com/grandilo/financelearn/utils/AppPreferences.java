@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 
 /**
- * @author Wan Clem
+ * @author Ugo
  */
 
 public class AppPreferences {
