@@ -18,4 +18,16 @@ public class FinanceLearningConstants {
     public static final String SHARED_PREFS = "shared_prefs";
     public static final String COURSE_NAME = "name";
 
+    public static final String LOGGED_IN_USER = "logged_in_user";
+    public static final String PASSWORD = "password";
+
+    public static final String COURSE_ID = "course_id";
+    public static final String CATEGORY_ASSIGN_ME_COURSES = "assign_me_courses";
+    public static final String EMPLOYEE_NAME = "employee_name";
+    public static final String EMPLOYEE_ID = "employee_id";
+    public static String NOTIFICATIONS_NODE = "Notifications";
+
+    public static String NOTIFICATION_BODY = "notification_body";
+    public static String NOTIFICATION_CATEGORY = "notification_category";
+
 }

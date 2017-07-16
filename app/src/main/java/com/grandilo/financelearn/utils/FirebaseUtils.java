@@ -21,4 +21,7 @@ public class FirebaseUtils {
         return getRootReference().child("courses");
     }
 
+    public static DatabaseReference getNotificationsNode(){
+        return getRootReference().child(FinanceLearningConstants.NOTIFICATIONS_NODE);
+    }
 }

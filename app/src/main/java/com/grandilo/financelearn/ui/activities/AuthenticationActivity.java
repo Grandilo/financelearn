@@ -1,15 +1,16 @@
 package com.grandilo.financelearn.ui.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.grandilo.financelearn.R;
+import com.grandilo.financelearn.ui.ApplicationLoader;
 import com.grandilo.financelearn.utils.AppPreferences;
 import com.grandilo.financelearn.utils.FinanceLearningConstants;
 
@@ -33,11 +34,8 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
     private void initViews() {
         Button staffLoginButton = (Button) findViewById(R.id.employee_login);
         Button managerLoginButton = (Button) findViewById(R.id.manager_login);
-        Button hrLoginButton = (Button) findViewById(R.id.hr_login);
-
         staffLoginButton.setOnClickListener(this);
         managerLoginButton.setOnClickListener(this);
-        hrLoginButton.setOnClickListener(this);
     }
 
     @Override
@@ -48,9 +46,6 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
                 break;
             case R.id.manager_login:
                 launchLoginActivity(FinanceLearningConstants.LOGIN_TYPE_MANAGER);
-                break;
-            case R.id.hr_login:
-                launchLoginActivity(FinanceLearningConstants.LOGIN_TYPE_HR);
                 break;
         }
     }
@@ -66,8 +61,8 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == LOGIN_REQUEST_CODE && resultCode == RESULT_OK) {
             String logInType = data.getStringExtra(FinanceLearningConstants.LOGIN_TYPE);
-            FirebaseUser loggedInUser = FirebaseAuth.getInstance().getCurrentUser();
-            if (loggedInUser != null) {
+            boolean isUserLopgged = AppPreferences.isUserLoggedIn(AuthenticationActivity.this);
+            if (isUserLopgged) {
                 //A user has authenticated successfully
                 AppPreferences.saveLoggedInType(AuthenticationActivity.this, logInType);
                 switch (logInType) {
@@ -78,10 +73,6 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
                     case FinanceLearningConstants.LOGIN_TYPE_MANAGER:
                         Intent managerHomeScreenIntent = new Intent(AuthenticationActivity.this, ManagerHomeScreen.class);
                         startActivity(managerHomeScreenIntent);
-                        break;
-                    default:
-                        Intent hrHomeScreenIntent = new Intent(AuthenticationActivity.this, HrHomeScreen.class);
-                        startActivity(hrHomeScreenIntent);
                         break;
                 }
                 finish();

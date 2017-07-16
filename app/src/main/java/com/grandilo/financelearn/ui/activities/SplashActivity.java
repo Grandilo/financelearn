@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.grandilo.financelearn.R;
 import com.grandilo.financelearn.utils.AppPreferences;
 import com.grandilo.financelearn.utils.FinanceLearningConstants;
@@ -29,8 +27,8 @@ public class SplashActivity extends AppCompatActivity {
      * Method checks if a Firebase User has Logged
      ***/
     private void checkAuthenticationStatus() {
-        FirebaseUser signedInUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (signedInUser != null) {
+        boolean isUserLoggedIn = AppPreferences.isUserLoggedIn(this);
+        if (isUserLoggedIn) {
             //A user has logged into the app, let's move on
             String loggedType = AppPreferences.getLoggedInType(this);
             if (loggedType != null) {
