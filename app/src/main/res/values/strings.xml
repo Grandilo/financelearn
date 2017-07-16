@@ -34,4 +34,5 @@
     <string name="current_password">Current password</string>
     <string name="update_my_password">Update My Password</string>
     <string name="sign_out">Sign Out</string>
+    <string name="staff_to_assign_courses">Staff to assign courses</string>
 </resources>

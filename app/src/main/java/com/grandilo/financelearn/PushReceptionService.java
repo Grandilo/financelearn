@@ -35,46 +35,47 @@ public class PushReceptionService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        HashMap<String,Object>testNotifProps  = new HashMap<>();
-        testNotifProps.put(FinanceLearningConstants.EMPLOYEE_ID,"0XKL");
-        testNotifProps.put(FinanceLearningConstants.EMPLOYEE_NAME,"ODOGU WONKE");
-        testNotifProps.put(FinanceLearningConstants.NOTIFICATION_CATEGORY,FinanceLearningConstants.CATEGORY_ASSIGN_ME_COURSES);
-         NotifUtils.blowNotification(testNotifProps);
-
         if (signedInUserObject != null) {
 
-            FirebaseUtils.getNotificationsNode().child(signedInUserObject.optString("staff_id")).addChildEventListener(new ChildEventListener() {
+            FirebaseUtils.getNotificationsNode().orderByChild(FinanceLearningConstants.NOTIFICATIONS_TARGET)
+                    .equalTo(signedInUserObject.optString("staff_id"))
+                    .addChildEventListener(new ChildEventListener() {
 
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    GenericTypeIndicator<HashMap<String, Object>> notifGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>() {};
-                    HashMap<String, Object> notifProps = dataSnapshot.getValue(notifGenericTypeIndicator);
-                    if (notifProps!=null){
-                        NotifUtils.blowNotification(notifProps);
-                    }
-                }
+                        @Override
+                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                            GenericTypeIndicator<HashMap<String, Object>> notifGenericTypeIndicator =
+                                    new GenericTypeIndicator<HashMap<String, Object>>() {};
 
-                }
+                            HashMap<String, Object> notifProps = dataSnapshot.getValue(notifGenericTypeIndicator);
 
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                            if (notifProps != null) {
+                                NotifUtils.blowNotification(notifProps);
+                            }
 
-                }
+                        }
 
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                        @Override
+                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                }
+                        }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+                        @Override
+                        public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-                }
+                        }
 
-            });
+                        @Override
+                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+
+                    });
 
         }
         return START_NOT_STICKY;

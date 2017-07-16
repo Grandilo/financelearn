@@ -35,7 +35,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Staff to assign courses"
+            android:id="@+id/content_empty_view"
+            android:text="@string/staff_to_assign_courses"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
 

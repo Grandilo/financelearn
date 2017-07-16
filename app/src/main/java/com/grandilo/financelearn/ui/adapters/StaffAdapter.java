@@ -41,7 +41,7 @@ public class StaffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         StaffItemHolder staffItemHolder = (StaffItemHolder) holder;
         HashMap<String, Object> staffDetails = staffList.get(position);
-        staffItemHolder.bindStaffDetails(context,staffDetails);
+        staffItemHolder.bindStaffDetails(context, staffDetails);
     }
 
     @Override
@@ -72,6 +72,7 @@ public class StaffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     Intent staffProfileIntent = new Intent(context, StaffProfileManagementScreen.class);
                     staffProfileIntent.putExtra(FinanceLearningConstants.EMPLOYEE_ID, (String) staffDetails.get(FinanceLearningConstants.EMPLOYEE_ID));
                     staffProfileIntent.putExtra(FinanceLearningConstants.EMPLOYEE_NAME, (String) staffDetails.get(FinanceLearningConstants.EMPLOYEE_NAME));
+                    staffProfileIntent.putExtra(FinanceLearningConstants.SOURCE_ACTIVITY, context.getClass().getSimpleName());
                     context.startActivity(staffProfileIntent);
                 }
 

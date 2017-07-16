@@ -30,6 +30,7 @@ public class FinanceLearningConstants {
     public static final String LAUNCH_TYPE = "launch_type";
     public static final String CATEGORY_COURSES_ASSIGNED_TO_ME_JUST_NOW = "courses_assigned_to_me_just_now";
     public static final java.lang.String SOURCE_ACTIVITY = "source_activity";
+    public static final String NOTIFICATIONS_TARGET = "notification_target";
 
     public static String NOTIFICATIONS_NODE = "Notifications";
 
