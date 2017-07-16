@@ -11,12 +11,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.grandilo.financelearn.notifs.NotifUtils;
 import com.grandilo.financelearn.utils.AppPreferences;
+import com.grandilo.financelearn.utils.FinanceLearningConstants;
 import com.grandilo.financelearn.utils.FirebaseUtils;
 
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.Objects;
 
 /**
  * @author Ugo
@@ -34,15 +34,20 @@ public class PushReceptionService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        HashMap<String,Object>testNotifProps  = new HashMap<>();
+        testNotifProps.put(FinanceLearningConstants.EMPLOYEE_ID,"0XKL");
+        testNotifProps.put(FinanceLearningConstants.EMPLOYEE_NAME,"ODOGU WONKE");
+        testNotifProps.put(FinanceLearningConstants.NOTIFICATION_CATEGORY,FinanceLearningConstants.CATEGORY_ASSIGN_ME_COURSES);
+         NotifUtils.blowNotification(testNotifProps);
+
         if (signedInUserObject != null) {
+
             FirebaseUtils.getNotificationsNode().child(signedInUserObject.optString("staff_id")).addChildEventListener(new ChildEventListener() {
 
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                    GenericTypeIndicator<HashMap<String, Object>> notifGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>() {
-                    };
-
+                    GenericTypeIndicator<HashMap<String, Object>> notifGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>() {};
                     HashMap<String, Object> notifProps = dataSnapshot.getValue(notifGenericTypeIndicator);
                     if (notifProps!=null){
                         NotifUtils.blowNotification(notifProps);
@@ -68,7 +73,9 @@ public class PushReceptionService extends Service {
                 public void onCancelled(DatabaseError databaseError) {
 
                 }
+
             });
+
         }
         return START_NOT_STICKY;
     }

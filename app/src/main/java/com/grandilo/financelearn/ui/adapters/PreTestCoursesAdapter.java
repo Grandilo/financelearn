@@ -78,10 +78,11 @@ public class PreTestCoursesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         void bindCourse(HashMap<String, String> courseItem, final int position) {
 
-            final String courseAssigned = signedInUser.optString("course_assign");
+            final String courseAssigned = signedInUser.optString(FinanceLearningConstants.COURSES_ASSIGNED);
             final String courseId = courseItem.get(FinanceLearningConstants.COURSE_ID);
 
             Log.d("CheckedCourses", "User Props=" + signedInUser.toString());
+
             if (courseAssigned != null) {
                 Log.d("CheckedCourses", "Course String =" + courseAssigned);
                 try {
@@ -101,6 +102,7 @@ public class PreTestCoursesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             } else {
                 Log.d("CheckedCourses", "Courses are null");
             }
+
             String courseItemTitle = courseItem.get(FinanceLearningConstants.COURSE_NAME);
             courseItemTitleView.setText(courseItemTitle);
             Log.d("CheckedCourses", "Course Id = " + courseId);
@@ -125,6 +127,7 @@ public class PreTestCoursesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             });
 
         }
+
     }
 
 }

@@ -27,6 +27,7 @@
         <activity android:name=".ui.activities.AuthenticationActivity" />
 
         <activity android:name=".ui.activities.EmployeeHomeScreen" />
+        <activity android:name=".ui.activities.ManagerHomeScreen" />
 
         <activity android:name=".ui.activities.PreAvailableCoursesActivity" />
 
