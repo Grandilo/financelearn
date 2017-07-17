@@ -35,6 +35,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText idBox, passwordBox;
     private String loginType;
 
+    private String TAG = LoginActivity.class.getSimpleName();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,6 +135,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 UiUtils.dismissProgressDialog();
+                Log.e(TAG, "DB Error", databaseError.toException());
                 Toast.makeText(LoginActivity.this, "Sorry, " + "Your last operation was cancelled. Please try again", Toast.LENGTH_LONG).show();
             }
 
