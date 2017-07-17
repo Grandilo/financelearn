@@ -50,9 +50,14 @@ public class AppPreferences {
 
     public static JSONObject getSignedInUser(Context context) {
         try {
-            return new JSONObject(context.getSharedPreferences(FinanceLearningConstants.SHARED_PREFS,
+            String loggedInUser = context.getSharedPreferences(FinanceLearningConstants.SHARED_PREFS,
                     Context.MODE_PRIVATE)
-                    .getString(FinanceLearningConstants.LOGGED_IN_USER, null));
+                    .getString(FinanceLearningConstants.LOGGED_IN_USER, null);
+            if (loggedInUser != null) {
+                return new JSONObject(loggedInUser);
+            } else {
+                return null;
+            }
         } catch (JSONException e) {
             e.printStackTrace();
             return null;

@@ -35,6 +35,9 @@ public class SplashActivity extends AppCompatActivity {
                 if (loggedType.equals(FinanceLearningConstants.LOGIN_TYPE_EMPLOYEE)) {
                     Intent mEmployeeHomeScreenIntent = new Intent(SplashActivity.this, EmployeeHomeScreen.class);
                     startActivity(mEmployeeHomeScreenIntent);
+                }else if (loggedType.equals(FinanceLearningConstants.LOGIN_TYPE_MANAGER)){
+                    Intent mManagerIntent = new Intent(SplashActivity.this, ManagerHomeScreen.class);
+                    startActivity(mManagerIntent);
                 }
                 finish();
             }

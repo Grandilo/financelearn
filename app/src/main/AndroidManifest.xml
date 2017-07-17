@@ -10,6 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".ui.activities.SplashActivity"
             android:theme="@style/LaunchTheme">
@@ -19,22 +20,44 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.activities.LoginActivity"
             android:configChanges="orientation|screenSize|screenLayout"
             android:windowSoftInputMode="stateHidden" />
 
-        <activity android:name=".ui.activities.AuthenticationActivity" />
+        <activity
+            android:name=".ui.activities.AuthenticationActivity"
+            android:configChanges="orientation|screenLayout|screenSize" />
 
-        <activity android:name=".ui.activities.EmployeeHomeScreen" />
-        <activity android:name=".ui.activities.ManagerHomeScreen" />
+        <activity
+            android:name=".ui.activities.EmployeeHomeScreen"
+            android:configChanges="orientation|screenLayout|screenSize" />
 
-        <activity android:name=".ui.activities.PreAvailableCoursesActivity" />
+        <activity
+            android:name=".ui.activities.ManagerHomeScreen"
+            android:configChanges="orientation|screenLayout|screenSize" />
+
+        <activity
+            android:name=".ui.activities.StaffProfileManagementScreen"
+            android:configChanges="orientation|screenLayout|screenSize" />
+
+        <activity
+            android:name=".ui.activities.PreTestCourseSelectionActivity"
+            android:configChanges="orientation|screenSize|screenLayout" />
+
+        <activity
+            android:name=".ui.activities.Pretest"
+            android:configChanges="orientation|screenLayout|screenSize" />
 
         <activity
             android:name=".ui.activities.UpdatePasswordActivity"
             android:configChanges="orientation|screenLayout|screenSize"
             android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".ui.activities.PreTestResult"
+            android:configChanges="orientation|screenLayout|screenSize" />
 
         <receiver android:name=".receivers.ConnectivityChangedReceiver">
             <intent-filter>

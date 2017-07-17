@@ -28,6 +28,15 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
         populateSignedInUserProps();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JSONObject signedInUserProps = AppPreferences.getSignedInUser(this);
+        if (signedInUserProps==null){
+            finish();
+        }
+    }
+
     private void finishLogOut() {
         AppPreferences.saveLoggedInType(EmployeeHomeScreen.this, null);
         Intent splashScreenIntent = new Intent(EmployeeHomeScreen.this, SplashActivity.class);
@@ -80,7 +89,7 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.my_courses_view:
-                Intent preTestIntent = new Intent(EmployeeHomeScreen.this, PreAvailableCoursesActivity.class);
+                Intent preTestIntent = new Intent(EmployeeHomeScreen.this, PreTestCourseSelectionActivity.class);
                 startActivity(preTestIntent);
                 break;
         }

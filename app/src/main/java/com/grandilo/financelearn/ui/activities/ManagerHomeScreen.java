@@ -13,11 +13,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.grandilo.financelearn.R;
-import com.grandilo.financelearn.ui.adapters.StaffAdapter;
+import com.grandilo.financelearn.ui.adapters.StaffListAdapter;
 import com.grandilo.financelearn.utils.AppPreferences;
 import com.grandilo.financelearn.utils.FinanceLearningConstants;
 import com.grandilo.financelearn.utils.FirebaseUtils;
-import com.grandilo.financelearn.utils.UiUtils;
 
 import org.json.JSONObject;
 
@@ -35,7 +34,7 @@ public class ManagerHomeScreen extends AppCompatActivity {
     private JSONObject signedInUserObject;
 
     private List<HashMap<String, Object>> staffList = new ArrayList<>();
-    private StaffAdapter staffAdapter;
+    private StaffListAdapter staffListAdapter;
 
     private TextView staffToAssignContentView;
 
@@ -52,10 +51,10 @@ public class ManagerHomeScreen extends AppCompatActivity {
 
 
     private void initStaffAdapter() {
-        staffAdapter = new StaffAdapter(this, staffList);
+        staffListAdapter = new StaffListAdapter(this, staffList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         staffRecyclerView.setLayoutManager(linearLayoutManager);
-        staffRecyclerView.setAdapter(staffAdapter);
+        staffRecyclerView.setAdapter(staffListAdapter);
     }
 
     private void fetchAllStaffToAssignCourses() {
@@ -74,7 +73,7 @@ public class ManagerHomeScreen extends AppCompatActivity {
                             if (staffProps != null) {
                                 if (!staffList.contains(staffProps)) {
                                     staffList.add(staffProps);
-                                    staffAdapter.notifyDataSetChanged();
+                                    staffListAdapter.notifyDataSetChanged();
                                 }
                             }
                             staffToAssignContentView.setVisibility(View.GONE);
@@ -93,7 +92,7 @@ public class ManagerHomeScreen extends AppCompatActivity {
                             if (staffProps != null) {
                                 if (staffList.contains(staffProps)) {
                                     staffList.remove(staffProps);
-                                    staffAdapter.notifyDataSetChanged();
+                                    staffListAdapter.notifyDataSetChanged();
                                 }
                             }
                         }

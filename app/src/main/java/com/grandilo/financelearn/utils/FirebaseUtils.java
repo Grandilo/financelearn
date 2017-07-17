@@ -24,4 +24,8 @@ public class FirebaseUtils {
     public static DatabaseReference getNotificationsNode(){
         return getRootReference().child(FinanceLearningConstants.NOTIFICATIONS_NODE);
     }
+
+    public static DatabaseReference getPretestReference(){
+        return getRootReference().child(FinanceLearningConstants.PRETEST);
+    }
 }

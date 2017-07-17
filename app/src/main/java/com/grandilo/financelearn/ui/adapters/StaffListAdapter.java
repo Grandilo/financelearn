@@ -19,13 +19,13 @@ import java.util.List;
  * @author Ugo
  */
 
-public class StaffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class StaffListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<HashMap<String, Object>> staffList;
     private LayoutInflater layoutInflater;
     private Context context;
 
-    public StaffAdapter(Context context, List<HashMap<String, Object>> staffList) {
+    public StaffListAdapter(Context context, List<HashMap<String, Object>> staffList) {
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
         this.staffList = staffList;

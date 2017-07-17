@@ -78,7 +78,7 @@ public class PushReceptionService extends Service {
                     });
 
         }
-        return START_NOT_STICKY;
+        return START_STICKY;
     }
 
     @Nullable
