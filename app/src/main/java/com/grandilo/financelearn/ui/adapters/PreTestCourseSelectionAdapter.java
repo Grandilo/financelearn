@@ -97,7 +97,7 @@ public class PreTestCourseSelectionAdapter extends RecyclerView.Adapter<Recycler
                         String s = courseArray.optString(i);
                         if (s.equals(courseId)) {
                             checkBox.setChecked(true);
-                            checkedPositions.put(position, true);
+                            checkedPositions.put(courseId.hashCode(), true);
                             coursesToTest.add(courseId);
                         }
                     }
@@ -117,7 +117,7 @@ public class PreTestCourseSelectionAdapter extends RecyclerView.Adapter<Recycler
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
 
-                    if (checkedPositions.get(position)) {
+                    if (checkedPositions.get(courseId.hashCode())) {
                         checkBox.setChecked(true);
                     } else {
                         if (checked) {
