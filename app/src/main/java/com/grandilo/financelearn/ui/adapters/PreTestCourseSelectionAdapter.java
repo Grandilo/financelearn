@@ -98,7 +98,9 @@ public class PreTestCourseSelectionAdapter extends RecyclerView.Adapter<Recycler
                         if (s.equals(courseId)) {
                             checkBox.setChecked(true);
                             checkedPositions.put(courseId.hashCode(), true);
-                            coursesToTest.add(courseId);
+                            if (!coursesToTest.contains(courseId)) {
+                                coursesToTest.add(courseId);
+                            }
                         }
                     }
                 } catch (JSONException e) {
