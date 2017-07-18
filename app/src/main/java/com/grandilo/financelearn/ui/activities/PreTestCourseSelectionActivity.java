@@ -96,7 +96,7 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
     }
 
     public static void reviewSelections() {
-        int selectedCoursesCount = preTestCourseSelectionAdapter.getCoursesToTest().size();
+        int selectedCoursesCount = FinanceLearningConstants.coursesToTest.size();
         if (selectedCoursesCount == 4) {
             bottomBar.setVisibility(View.VISIBLE);
             nextButton.setVisibility(View.VISIBLE);
@@ -196,7 +196,7 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
                 break;
             case R.id.next_button:
                 //Prepare questions here
-                ArrayList<String> selectedCourseIds = preTestCourseSelectionAdapter.getCoursesToTest();
+                ArrayList<String> selectedCourseIds = FinanceLearningConstants.coursesToTest;
                 Intent preTestIntent = new Intent(PreTestCourseSelectionActivity.this, Pretest.class);
                 preTestIntent.putStringArrayListExtra(FinanceLearningConstants.SELECTED_PRE_TEST_COURSES, selectedCourseIds);
                 startActivity(preTestIntent);

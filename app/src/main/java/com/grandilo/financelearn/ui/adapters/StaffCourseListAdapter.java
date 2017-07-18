@@ -1,8 +1,6 @@
 package com.grandilo.financelearn.ui.adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +14,6 @@ import com.grandilo.financelearn.R;
 import com.grandilo.financelearn.ui.activities.StaffProfileManagementScreen;
 import com.grandilo.financelearn.utils.FinanceLearningConstants;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,7 +25,6 @@ public class StaffCourseListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private LayoutInflater layoutInflater;
     private List<HashMap<String, String>> courses;
-    private static ArrayList<String> coursesToTest = new ArrayList<>();
     private Context context;
 
     public StaffCourseListAdapter(Context context, List<HashMap<String, String>> courses) {
@@ -50,10 +46,6 @@ public class StaffCourseListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         if (courseItem != null) {
             courseItemHolder.bindCourse(context, courseItem);
         }
-    }
-
-    public ArrayList<String> getCoursesToTest() {
-        return coursesToTest;
     }
 
     @Override
@@ -84,17 +76,17 @@ public class StaffCourseListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
                     if (checked) {
-                        if (coursesToTest.size() < 2) {
-                            if (!coursesToTest.contains(courseId)) {
-                                coursesToTest.add(courseId);
+                        if (FinanceLearningConstants.coursesToAssign.size() < 2) {
+                            if (!FinanceLearningConstants.coursesToAssign.contains(courseId)) {
+                                FinanceLearningConstants.coursesToAssign.add(courseId);
                             }
                         } else {
                             checkBox.setChecked(false);
                             Toast.makeText(context, "The 2 courses have being selected", Toast.LENGTH_LONG).show();
                         }
                     } else {
-                        if (coursesToTest.contains(courseId)) {
-                            coursesToTest.remove(courseId);
+                        if (FinanceLearningConstants.coursesToAssign.contains(courseId)) {
+                            FinanceLearningConstants.coursesToAssign.remove(courseId);
                         }
                     }
                     StaffProfileManagementScreen.reviewSelection();

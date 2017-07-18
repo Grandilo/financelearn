@@ -83,7 +83,7 @@ public class StaffProfileManagementScreen extends AppCompatActivity implements V
     }
 
     public static void reviewSelection(){
-        int selectedCoursesCount = staffCourseListAdapter.getCoursesToTest().size();
+        int selectedCoursesCount = FinanceLearningConstants.coursesToAssign.size();
         if (selectedCoursesCount == 2) {
             bottomBar.setVisibility(View.VISIBLE);
         } else {
@@ -176,7 +176,7 @@ public class StaffProfileManagementScreen extends AppCompatActivity implements V
         if (view.getId()==R.id.assign_courses_button){
             UiUtils.showProgressDialog(this,"Assigning Courses");
             HashMap<String, Object> updatableProps = new HashMap<>();
-            updatableProps.put(FinanceLearningConstants.COURSES_ASSIGNED, staffCourseListAdapter.getCoursesToTest());
+            updatableProps.put(FinanceLearningConstants.COURSES_ASSIGNED, FinanceLearningConstants.coursesToAssign);
 
             FirebaseUtils.getStaffReference().child(staffId).updateChildren(updatableProps, new DatabaseReference.CompletionListener() {
 

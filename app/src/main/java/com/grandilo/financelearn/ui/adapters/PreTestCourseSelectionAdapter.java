@@ -21,7 +21,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,7 +35,6 @@ public class PreTestCourseSelectionAdapter extends RecyclerView.Adapter<Recycler
     private Context context;
 
     private static JSONObject signedInUser;
-    private static ArrayList<String> coursesToTest = new ArrayList<>();
 
     public PreTestCourseSelectionAdapter(Context context, List<HashMap<String, String>> courses) {
         this.context = context;
@@ -51,16 +49,12 @@ public class PreTestCourseSelectionAdapter extends RecyclerView.Adapter<Recycler
         return new CourseItemHolder(convertView);
     }
 
-    public ArrayList<String> getCoursesToTest() {
-        return coursesToTest;
-    }
-
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         CourseItemHolder courseItemHolder = (CourseItemHolder) holder;
         HashMap<String, String> courseItem = courses.get(position);
         if (courseItem != null) {
-            courseItemHolder.bindCourse(context, courseItem, position);
+            courseItemHolder.bindCourse(context, courseItem);
         }
     }
 
@@ -83,7 +77,7 @@ public class PreTestCourseSelectionAdapter extends RecyclerView.Adapter<Recycler
             checkBox = (CheckBox) itemView.findViewById(R.id.checkbox);
         }
 
-        void bindCourse(final Context context, HashMap<String, String> courseItem, final int position) {
+        void bindCourse(final Context context, HashMap<String, String> courseItem) {
 
             final String courseAssigned = signedInUser.optString(FinanceLearningConstants.COURSES_ASSIGNED);
             final String courseId = courseItem.get(FinanceLearningConstants.COURSE_ID);
@@ -96,10 +90,10 @@ public class PreTestCourseSelectionAdapter extends RecyclerView.Adapter<Recycler
                     for (int i = 0; i < courseArray.length(); i++) {
                         String s = courseArray.optString(i);
                         if (s.equals(courseId)) {
-                            checkBox.setChecked(true);
-                            checkedPositions.put(courseId.hashCode(), true);
-                            if (!coursesToTest.contains(courseId)) {
-                                coursesToTest.add(courseId);
+                            if (!FinanceLearningConstants.coursesToTest.contains(courseId)) {
+                                FinanceLearningConstants.coursesToTest.add(courseId);
+                                checkBox.setChecked(true);
+                                checkedPositions.put(courseId.hashCode(), true);
                             }
                         }
                     }
@@ -123,17 +117,17 @@ public class PreTestCourseSelectionAdapter extends RecyclerView.Adapter<Recycler
                         checkBox.setChecked(true);
                     } else {
                         if (checked) {
-                            if (coursesToTest.size() < 4) {
-                                if (!coursesToTest.contains(courseId)) {
-                                    coursesToTest.add(courseId);
+                            if (FinanceLearningConstants.coursesToTest.size() < 4) {
+                                if (!FinanceLearningConstants.coursesToTest.contains(courseId)) {
+                                    FinanceLearningConstants.coursesToTest.add(courseId);
                                 }
                             } else {
                                 checkBox.setChecked(false);
                                 Toast.makeText(context, "All 4 courses have being selected. You may proceed", Toast.LENGTH_LONG).show();
                             }
                         } else {
-                            if (coursesToTest.contains(courseId)) {
-                                coursesToTest.remove(courseId);
+                            if (FinanceLearningConstants.coursesToTest.contains(courseId)) {
+                                FinanceLearningConstants.coursesToTest.remove(courseId);
                             }
                         }
                     }

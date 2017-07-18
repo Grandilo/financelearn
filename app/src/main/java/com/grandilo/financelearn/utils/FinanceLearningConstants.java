@@ -2,6 +2,7 @@ package com.grandilo.financelearn.utils;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -55,7 +56,6 @@ public class FinanceLearningConstants {
 
     public static String COURSES_ASSIGNED = "courses_assigned";
 
-
     //////PRETEST COURSE MAP/////
     public static HashMap<String, String> courseMap = new HashMap<>();
 
@@ -65,5 +65,9 @@ public class FinanceLearningConstants {
 
     //<CourseId, Wrong Answers Map>
     public static HashMap<String, List<JSONObject>> wrongAnswersMap = new HashMap<>();
+
+    public static ArrayList<String> coursesToTest = new ArrayList<>();
+
+    public static ArrayList<String> coursesToAssign = new ArrayList<>();
 
 }
