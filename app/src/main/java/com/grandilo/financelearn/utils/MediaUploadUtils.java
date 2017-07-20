@@ -225,7 +225,6 @@ public class MediaUploadUtils {
 
                 if (progress==100){
                     createProgressNotification(operationId, false, title, (int) progress, progressMessage);
-                    updateNotification(builder,operationId, (int) progress);
                 }
 
             }
