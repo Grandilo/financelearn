@@ -61,11 +61,11 @@ public class PreTestResultAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         public String getResultCategory(float percentage) {
             if (percentage < 39) {
-                return "BASIC";
+                return "Basic";
             } else if (percentage > 39 && percentage < 69) {
                 return "Intermediate";
             } else {
-                return "EXPERT";
+                return "Expert";
             }
         }
 
@@ -74,7 +74,7 @@ public class PreTestResultAdapter extends RecyclerView.Adapter<RecyclerView.View
             try {
 
                 List<JSONObject> rightAnswers = FinanceLearningConstants.rightAnswersMap.get(courseId);
-                resultItem.setText(FinanceLearningConstants.courseMap.get(courseId));
+                resultItem.setText(FinanceLearningConstants.pretestCourseMap.get(courseId));
 
                 if (rightAnswers != null) {
                     int rightAnswersCount = rightAnswers.size();
@@ -82,10 +82,10 @@ public class PreTestResultAdapter extends RecyclerView.Adapter<RecyclerView.View
                     if (rightAnswersCount > 0) {
                         percentageView.setText(percentAge + " % (" + getResultCategory(percentAge) + ")");
                     } else {
-                        percentageView.setText("0 % (BASIC)");
+                        percentageView.setText("0 % (Basic)");
                     }
                 } else {
-                    percentageView.setText("0 % (BASIC)");
+                    percentageView.setText("0 % (Basic)");
                 }
 
             } catch (NullPointerException ignore) {

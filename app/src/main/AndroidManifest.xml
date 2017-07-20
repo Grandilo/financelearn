@@ -49,7 +49,7 @@
             android:configChanges="orientation|screenSize|screenLayout" />
 
         <activity
-            android:name=".ui.activities.Pretest"
+            android:name=".ui.activities.PretestQuestionsActivity"
             android:configChanges="orientation|screenLayout|screenSize" />
 
         <activity
@@ -58,7 +58,7 @@
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name=".ui.activities.PreTestResult"
+            android:name=".ui.activities.PreTestResultActivity"
             android:configChanges="orientation|screenLayout|screenSize" />
 
         <receiver android:name=".receivers.ConnectivityChangedReceiver">

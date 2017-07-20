@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/appbar"
         android:layout_centerHorizontal="true"
-        android:padding="16dp"
+        android:padding="10dp"
         android:id="@+id/header_lets_test_your_knowledge"
         android:text="@string/let_s_test_your_knowlegdge"
         android:textColor="@android:color/darker_gray"

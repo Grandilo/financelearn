@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.grandilo.financelearn.R;
 import com.grandilo.financelearn.ui.adapters.PretestQuestionAndAnswersAdapter;
+import com.grandilo.financelearn.utils.AppPreferences;
 import com.grandilo.financelearn.utils.FinanceLearningConstants;
 import com.grandilo.financelearn.utils.FirebaseUtils;
 
@@ -31,9 +32,8 @@ import java.util.List;
  */
 
 @SuppressWarnings("unchecked")
-public class Pretest extends AppCompatActivity implements View.OnClickListener {
+public class PretestQuestionsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Toolbar toolbar;
     private TextView questionsPageCounter, previousQuestion, nextQuestion, questionsFetchProgressMessage;
     private ViewPager questionsViewPager;
     private PretestQuestionAndAnswersAdapter pretestQuestionAndAnswersAdapter;
@@ -48,7 +48,7 @@ public class Pretest extends AppCompatActivity implements View.OnClickListener {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pretest);
-        toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
@@ -69,6 +69,23 @@ public class Pretest extends AppCompatActivity implements View.OnClickListener {
         fetchQuestionsForSelectedCourses();
         fetchCourseNames();
 
+        checkPretestStatus();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkPretestStatus();
+    }
+
+    private void checkPretestStatus() {
+        JSONObject signedInUser = AppPreferences.getSignedInUser(this);
+        if (signedInUser != null) {
+            boolean pretestTaken = signedInUser.optBoolean(FinanceLearningConstants.PRETEST_TAKEN,false);
+            if (pretestTaken){
+                finish();
+            }
+        }
     }
 
     @Override
@@ -201,7 +218,7 @@ public class Pretest extends AppCompatActivity implements View.OnClickListener {
                     }
                 } else {
                     //Finish up here
-                    Intent preTestResultIntent = new Intent(Pretest.this, PreTestResult.class);
+                    Intent preTestResultIntent = new Intent(PretestQuestionsActivity.this, PreTestResultActivity.class);
                     preTestResultIntent.putExtra(FinanceLearningConstants.TOTAL_NO_OF_QS, pretestQuestions.size());
                     startActivity(preTestResultIntent);
                 }
@@ -231,7 +248,7 @@ public class Pretest extends AppCompatActivity implements View.OnClickListener {
                 if (selectedCoursesForPretest.contains(courseKey)) {
                     if (courseProps != null) {
                         String courseName = courseProps.get(FinanceLearningConstants.COURSE_NAME);
-                        FinanceLearningConstants.courseMap.put(dataSnapshot.getKey(), courseName);
+                        FinanceLearningConstants.pretestCourseMap.put(dataSnapshot.getKey(), courseName);
                     }
                 }
             }

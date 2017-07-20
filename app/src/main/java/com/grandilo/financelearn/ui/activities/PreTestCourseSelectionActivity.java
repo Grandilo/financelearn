@@ -7,7 +7,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -57,6 +59,12 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pre_test_courses);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar()!=null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         TextView managerCoursesUnselectedMessageView = (TextView) findViewById(R.id.courses_unselected_message);
         managerCoursesUnselectedMessageView.setText(Html.fromHtml("Your manager hasn't selected <b>2 courses</b> yet"));
@@ -93,6 +101,14 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
         fetchCourses();
 
         clearAllNotificationsForCurrentStaff();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId()==android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public static void reviewSelections() {
@@ -197,13 +213,48 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
                 break;
             case R.id.next_button:
                 //Prepare questions here
+                updateSelfSelectedCourses();
                 ArrayList<String> selectedCourseIds = FinanceLearningConstants.coursesToTest;
-                Intent preTestIntent = new Intent(PreTestCourseSelectionActivity.this, Pretest.class);
+                Intent preTestIntent = new Intent(PreTestCourseSelectionActivity.this, PretestQuestionsActivity.class);
                 preTestIntent.putStringArrayListExtra(FinanceLearningConstants.SELECTED_PRE_TEST_COURSES, selectedCourseIds);
                 startActivity(preTestIntent);
+                finish();
                 break;
         }
 
+    }
+
+    private void updateSelfSelectedCourses() {
+        HashMap<String, Object> pretestCourses = new HashMap<>();
+        List<String> coursesToTest = FinanceLearningConstants.coursesToTest;
+        if (!coursesToTest.isEmpty()) {
+            pretestCourses.put(FinanceLearningConstants.ALL_PRETEST_COURSES, coursesToTest);
+        }
+        FirebaseUtils.getStaffReference().child(signedInUser.optString("staff_id")).updateChildren(pretestCourses, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(final DatabaseError databaseError, DatabaseReference databaseReference) {
+                if (databaseError == null) {
+                    FirebaseUtils.getStaffReference().child(signedInUser.optString("staff_id")).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot!=null){
+                                GenericTypeIndicator<HashMap<String,Object>>hashMapGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>(){};
+                                HashMap<String,Object>newUserProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
+                                if (newUserProps!=null){
+                                    AppPreferences.saveLoggedInUser(PreTestCourseSelectionActivity.this,newUserProps);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+
+                    });
+                }
+            }
+        });
     }
 
     private void clearAllNotificationsForCurrentStaff() {

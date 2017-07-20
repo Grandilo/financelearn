@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.WeakHashMap;
 
 /**
  * This holds commonly used app constants
@@ -28,14 +27,15 @@ public class FinanceLearningConstants {
     public static final String COURSE_VIDEO = "course_video";
     public static final String CANCEL_UPLOAD = "cancel_upload";
     public static final String OPERATION_ID = "operation_id";
+    public static final String PRETEST_TAKEN = "pretest_taken";
+    public static final String ALL_PRETEST_COURSES = "all_pretest_courses";
+    public static final java.lang.String MAIN_TEST_TAKEN = "main_test_taken";
 
     public static String COURSE_VIDEOS = "course_videos";
 
     public static final String LOGIN_TYPE = "login_type";
     public static final String LOGIN_TYPE_EMPLOYEE = "login_type_staff";
     public static final String LOGIN_TYPE_MANAGER = "login_type_manager";
-    public static final String LOGIN_TYPE_HR = "login_type_hr";
-    public static final String EMAIL_DOMAIN_SUFFIX = "@app.com";
 
     public static final String LAST_NAME = "lastname";
     public static final String SURNAME = "surname";
@@ -55,11 +55,7 @@ public class FinanceLearningConstants {
     public static final String CATEGORY_COURSES_ASSIGNED_TO_ME_JUST_NOW = "courses_assigned_to_me_just_now";
     public static final java.lang.String SOURCE_ACTIVITY = "source_activity";
     public static final String NOTIFICATIONS_TARGET = "notification_target";
-    public static final String ACTION_TYPE = "action_type";
-
-    public static final String ACTION_TYPE_COURSE_SELECTION = "action_type_course_selection";
-    public static final String SELECTED_COURSES_COUNT = "selected_courses_count";
-    public static final String SELECTED_PRE_TEST_COURSES = "selected_pre_test_courses";
+     public static final String SELECTED_PRE_TEST_COURSES = "selected_pre_test_courses";
     public static final String PRETEST = "pre_test";
 
     public static final java.lang.String QUESTION = "question";
@@ -73,27 +69,22 @@ public class FinanceLearningConstants {
 
     public static String NOTIFICATIONS_NODE = "Notifications";
 
-    public static String NOTIFICATION_BODY = "notification_body";
     public static String NOTIFICATION_CATEGORY = "notification_category";
 
     public static String COURSES_ASSIGNED = "courses_assigned";
+    public static final String FINANCE_LEARN_FILES_BUCKET = "gs://financelearn-dffeb.appspot.com";
 
     //////PRETEST COURSE MAP/////
-    public static HashMap<String, String> courseMap = new HashMap<>();
+    public static HashMap<String, String> pretestCourseMap = new HashMap<>();
 
     ///////PRETEST RESULT MAP//////////
     //<CourseId, Right Answers Map>
     public static HashMap<String, List<JSONObject>> rightAnswersMap = new HashMap<>();
-
     //<CourseId, Wrong Answers Map>
     public static HashMap<String, List<JSONObject>> wrongAnswersMap = new HashMap<>();
 
     public static ArrayList<String> coursesToTest = new ArrayList<>();
-
     public static ArrayList<String> coursesToAssign = new ArrayList<>();
-
-    public static final String FINANCE_LEARN_FILES_BUCKET = "gs://financelearn-dffeb.appspot.com";
-
     public static SparseArray<UploadTask> taskQueue = new SparseArray<>();
 
 }

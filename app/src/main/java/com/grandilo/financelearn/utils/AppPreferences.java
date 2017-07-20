@@ -2,6 +2,7 @@ package com.grandilo.financelearn.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,6 +44,7 @@ public class AppPreferences {
                 }
             }
             context.getSharedPreferences(FinanceLearningConstants.SHARED_PREFS, Context.MODE_PRIVATE).edit().putString(FinanceLearningConstants.LOGGED_IN_USER, jsonObject.toString()).commit();
+            Log.d("NewUserProps",jsonObject.toString());
         } else {
             context.getSharedPreferences(FinanceLearningConstants.SHARED_PREFS, Context.MODE_PRIVATE).edit().putString(FinanceLearningConstants.LOGGED_IN_USER, null).commit();
         }

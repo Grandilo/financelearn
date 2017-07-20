@@ -41,4 +41,6 @@
     <string name="text_next">NEXT</string>
     <string name="please_wait">Please wait...</string>
     <string name="upload_course_video">Upload Course Video</string>
+    <string name="your_pretest_result">Your Pretest Result</string>
+
 </resources>

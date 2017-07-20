@@ -3,6 +3,7 @@ package com.grandilo.financelearn.ui.adapters;
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,6 +116,7 @@ public class PretestQuestionAndAnswersAdapter extends PagerAdapter {
                                     }
                                 }
                                 FinanceLearningConstants.rightAnswersMap.put(courseId, rightAnswers);
+                                Log.d("AnswerLog","Right Answers Map = "+FinanceLearningConstants.rightAnswersMap.toString());
                             } else {
 
                                 //User selected a wrong answer, clear previous right answer if any
@@ -143,6 +145,7 @@ public class PretestQuestionAndAnswersAdapter extends PagerAdapter {
                                 }
 
                                 List<JSONObject> wrongAnswers = FinanceLearningConstants.wrongAnswersMap.get(courseId);
+
                                 if (wrongAnswers == null) {
                                     wrongAnswers = new ArrayList<>();
                                     wrongAnswers.add(wrongObject);
@@ -151,8 +154,10 @@ public class PretestQuestionAndAnswersAdapter extends PagerAdapter {
                                         wrongAnswers.add(wrongObject);
                                     }
                                 }
-                                FinanceLearningConstants.wrongAnswersMap.put(courseId, rightAnswers);
 
+                                FinanceLearningConstants.wrongAnswersMap.put(courseId, wrongAnswers);
+
+                                Log.d("AnswerLog","Wrong Answers Map = "+FinanceLearningConstants.wrongAnswersMap.toString());
                             }
 
                         }
@@ -204,6 +209,7 @@ public class PretestQuestionAndAnswersAdapter extends PagerAdapter {
                                 }
 
                                 FinanceLearningConstants.rightAnswersMap.put(courseId, rightAnswers);
+                                Log.d("AnswerLog","Right Answers Map = "+FinanceLearningConstants.rightAnswersMap.toString());
 
                             } else {
 
@@ -241,7 +247,9 @@ public class PretestQuestionAndAnswersAdapter extends PagerAdapter {
                                         wrongAnswers.add(wrongObject);
                                     }
                                 }
-                                FinanceLearningConstants.wrongAnswersMap.put(courseId, rightAnswers);
+
+                                FinanceLearningConstants.wrongAnswersMap.put(courseId, wrongAnswers);
+                                Log.d("AnswerLog","Wrong Answers Map = "+FinanceLearningConstants.wrongAnswersMap.toString());
 
                             }
 
