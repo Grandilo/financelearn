@@ -207,23 +207,43 @@ public class MediaUploadUtils {
 
         FinanceLearningConstants.taskQueue.put(operationId, uploadTask);
 
+        final NotificationCompat.Builder builder = createProgressNotification(operationId, true, title, 0, progressMessage);
+
         uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+
             @SuppressWarnings("unused")
             @Override
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                updateProgressNotification(operationId, title, (int) progress, progressMessage);
+                Log.d("UploadProgress",(int)progress+"");
+                if (builder != null) {
+                    updateNotification(builder, operationId,(int) progress);
+                }else{
+                    createProgressNotification(operationId, true, title, (int) progress, progressMessage);
+                }
+
+                if (progress==100){
+                    createProgressNotification(operationId, false, title, (int) progress, progressMessage);
+                    updateNotification(builder,operationId, (int) progress);
+                }
+
             }
+
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
                 if (taskSnapshot.getDownloadUrl() != null) {
                     String returnedFileUrl = taskSnapshot.getDownloadUrl().toString();
                     Log.e(TAG, "Completed Upload of file = " + filePath + " with upload url = " + returnedFileUrl);
                     FinanceLearningConstants.taskQueue.remove(operationId);
                     doneCallback.done(returnedFileUrl, null);
                 }
+
             }
+
         }).addOnFailureListener(new OnFailureListener() {
 
             @Override
@@ -242,7 +262,7 @@ public class MediaUploadUtils {
         return (NotificationManager) ApplicationLoader.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
-    private static void updateProgressNotification(int operationId, String title, int progress, String progressMessage) {
+    private static NotificationCompat.Builder createProgressNotification(int operationId, boolean addAction, String title, int progress, String progressMessage) {
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(ApplicationLoader.getInstance());
         NotificationManager notificationManager = getNotificationManager();
@@ -252,9 +272,6 @@ public class MediaUploadUtils {
                 .setSmallIcon(android.R.drawable.stat_sys_upload);
 
         mBuilder.setProgress(100, progress, false);
-
-        notificationManager.notify(operationId, mBuilder.build());
-
         mBuilder.setOngoing(true);
         mBuilder.setContentInfo(progress + "%");
 
@@ -265,14 +282,27 @@ public class MediaUploadUtils {
                     .setProgress(0, 0, false);
             mBuilder.setOngoing(false);
             mBuilder.setSmallIcon(android.R.drawable.stat_sys_upload_done);
-        } else {
+        }
+
+        if (addAction) {
             Intent cancelIntent = new Intent(ApplicationLoader.getInstance().getApplicationContext(), UploadCourseVideoActivity.class);
             cancelIntent.putExtra(FinanceLearningConstants.CANCEL_UPLOAD, true);
             cancelIntent.putExtra(FinanceLearningConstants.OPERATION_ID, operationId);
             PendingIntent cancelPendingIntent = PendingIntent.getActivity(ApplicationLoader.getInstance().getApplicationContext(), 0, cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             mBuilder.addAction(R.drawable.ic_clear_black_24dp, "CANCEL", cancelPendingIntent);
         }
+
         notificationManager.notify(operationId, mBuilder.build());
+        return mBuilder;
+
+    }
+
+    private static void updateNotification(NotificationCompat.Builder mBuilder, int operationId,int progress) {
+
+        mBuilder.setContentInfo(progress + "%");
+        mBuilder.setProgress(100, progress, false);
+        getNotificationManager().notify(operationId, mBuilder.build());
+
     }
 
 }

@@ -19,14 +19,13 @@ import java.util.List;
 /**
  * @author Ugo
  */
-
-public class VideoThumbnailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<HashMap<String, Object>> videoProps;
     private LayoutInflater layoutInflater;
     private Context context;
 
-    public VideoThumbnailsAdapter(Context context, List<HashMap<String, Object>> videoProps) {
+    public VideosAdapter(Context context, List<HashMap<String, Object>> videoProps) {
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
         this.videoProps = videoProps;
