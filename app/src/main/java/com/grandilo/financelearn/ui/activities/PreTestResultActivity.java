@@ -1,5 +1,6 @@
 package com.grandilo.financelearn.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -55,6 +58,14 @@ public class PreTestResultActivity extends AppCompatActivity {
         Log.d("ResultTag", "CourseIds = " + TextUtils.join(",", courseIds));
 
         courseResultList = (RecyclerView) findViewById(R.id.course_result_list);
+        TextView continueButton = (TextView) findViewById(R.id.continue_button);
+        continueButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent videosIntent = new Intent(PreTestResultActivity.this,VideosActivity.class);
+                startActivity(videosIntent);
+            }
+        });
         totalNumberOfQs = getIntent().getExtras().getInt(FinanceLearningConstants.TOTAL_NO_OF_QS);
         initResultAdapter();
 
@@ -66,10 +77,31 @@ public class PreTestResultActivity extends AppCompatActivity {
         JSONObject jsonObject = AppPreferences.getSignedInUser(this);
 
         if (jsonObject != null) {
+
             final String staffId = jsonObject.optString("staff_id");
+
             HashMap<String, Object> updatableProps = new HashMap<>();
-            updatableProps.put(FinanceLearningConstants.PRETEST_TAKEN, true);
+
+            if (!FinanceLearningConstants.pretestRightAnswers.isEmpty() || !FinanceLearningConstants.pretestWrongAnswers.isEmpty()) {
+
+                if (!FinanceLearningConstants.pretestRightAnswers.isEmpty()) {
+                    JSONObject rightAnsJSON = new JSONObject(FinanceLearningConstants.pretestRightAnswers);
+                    updatableProps.put(FinanceLearningConstants.PRETEST_RIGHT_ANSWERS, rightAnsJSON.toString());
+                }
+
+                if (!FinanceLearningConstants.pretestWrongAnswers.isEmpty()){
+                    JSONObject wrongAnsJSON = new JSONObject(FinanceLearningConstants.pretestWrongAnswers);
+                    updatableProps.put(FinanceLearningConstants.PRETEST_WRONG_ANSWERS,wrongAnsJSON.toString());
+                }
+
+                updatableProps.put(FinanceLearningConstants.PRETEST_TAKEN, true);
+
+                updatableProps.put(FinanceLearningConstants.TOTAL_NO_OF_QS,totalNumberOfQs);
+
+            }
+
             FirebaseUtils.getStaffReference().child(staffId).updateChildren(updatableProps, new DatabaseReference.CompletionListener() {
+
                 @Override
                 public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
@@ -85,9 +117,9 @@ public class PreTestResultActivity extends AppCompatActivity {
                                     GenericTypeIndicator<HashMap<String, Object>> hashMapGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>() {
                                     };
 
-                                    HashMap<String,Object>newUserProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
-                                    if (newUserProps!=null){
-                                        AppPreferences.saveLoggedInUser(PreTestResultActivity.this,newUserProps);
+                                    HashMap<String, Object> newUserProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
+                                    if (newUserProps != null) {
+                                        AppPreferences.saveLoggedInUser(PreTestResultActivity.this, newUserProps);
                                     }
 
                                 }

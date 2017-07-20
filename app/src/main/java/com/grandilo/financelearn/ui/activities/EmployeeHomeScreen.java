@@ -17,6 +17,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.grandilo.financelearn.R;
 import com.grandilo.financelearn.ui.UploadCourseVideoActivity;
 import com.grandilo.financelearn.utils.AppPreferences;
@@ -27,6 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +43,7 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
     private ChildEventListener coursesEventListener;
     private DatabaseReference courseReference;
 
-    JSONArray allPretestCourses;
+    String allPretestCourses;
     List<String> pretestCourseList = new ArrayList<>();
 
     @Override
@@ -49,24 +53,40 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
         initViews();
         populateSignedInUserProps();
 
-        allPretestCourses = signedInUserProps.optJSONArray(FinanceLearningConstants.ALL_PRETEST_COURSES);
+        allPretestCourses = signedInUserProps.optString(FinanceLearningConstants.ALL_PRETEST_COURSES);
+        String rightPretestAnswers = signedInUserProps.optString(FinanceLearningConstants.PRETEST_RIGHT_ANSWERS);
 
         if (allPretestCourses != null) {
-            Log.d("ResultTag","AllPretest Courses are not null");
-            for (int i = 0; i < allPretestCourses.length(); i++) {
-                String courseId = allPretestCourses.optString(i);
-                if (courseId != null) {
-                    if (!pretestCourseList.contains(courseId)) {
-                        pretestCourseList.add(courseId);
+            Log.d("ResultTag", "AllPretest Courses are not null");
+            try {
+                JSONArray allPretestCoursesJSONArray = new JSONArray(allPretestCourses);
+                for (int i = 0; i < allPretestCoursesJSONArray.length(); i++) {
+                    String courseId = allPretestCoursesJSONArray.optString(i);
+                    if (courseId != null) {
+                        if (!pretestCourseList.contains(courseId)) {
+                            pretestCourseList.add(courseId);
+                        }
                     }
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        }else {
-            Log.d("ResultTag","AllPretest Courses are null");
+        } else {
+            Log.d("ResultTag", "AllPretest Courses are null");
         }
 
+        if (rightPretestAnswers != null) {
+
+            Type hasType = new TypeToken<HashMap<String, Object>>() {
+            }.getType();
+
+            Gson gson = new Gson();
+            FinanceLearningConstants.pretestRightAnswers = gson.fromJson(rightPretestAnswers,hasType);
+
+        }
         courseReference = FirebaseUtils.getCourses();
         fetchCourses();
+        fetchUpdatedUserInfo();
     }
 
     @Override
@@ -95,6 +115,8 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
     private void populateSignedInUserProps() {
         signedInUserProps = AppPreferences.getSignedInUser(this);
         if (signedInUserProps != null) {
+            Log.d("ResultTag", "Signed In User Props = " + signedInUserProps.toString());
+
             String lastName = signedInUserProps.optString(FinanceLearningConstants.LAST_NAME);
             String surname = signedInUserProps.optString(FinanceLearningConstants.SURNAME);
             if (getSupportActionBar() != null) {
@@ -164,7 +186,7 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
                     boolean pretestTaken = signedInUserProps.optBoolean(FinanceLearningConstants.PRETEST_TAKEN, false);
                     if (pretestTaken) {
                         Intent pretestResultIntent = new Intent(EmployeeHomeScreen.this, PreTestResultActivity.class);
-                        pretestResultIntent.putExtra(FinanceLearningConstants.TOTAL_NO_OF_QS, pretestCourseList.size());
+                        pretestResultIntent.putExtra(FinanceLearningConstants.TOTAL_NO_OF_QS, signedInUserProps.optInt(FinanceLearningConstants.TOTAL_NO_OF_QS));
                         startActivity(pretestResultIntent);
                     } else {
                         Intent preTestIntent = new Intent(EmployeeHomeScreen.this, PreTestCourseSelectionActivity.class);
@@ -239,4 +261,26 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
         courseReference.addChildEventListener(coursesEventListener);
     }
 
+    public void fetchUpdatedUserInfo() {
+        if (signedInUserProps != null) {
+            FirebaseUtils.getStaffReference().child(signedInUserProps.optString("staff_id")).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot != null) {
+                        GenericTypeIndicator<HashMap<String, Object>> hashMapGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>() {
+                        };
+                        HashMap<String, Object> newUserProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
+                        if (newUserProps != null) {
+                            AppPreferences.saveLoggedInUser(EmployeeHomeScreen.this, newUserProps);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+    }
 }

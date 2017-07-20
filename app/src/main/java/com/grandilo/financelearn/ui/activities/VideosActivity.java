@@ -36,6 +36,7 @@ public class VideosActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_videos);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolbar);
 
@@ -64,6 +65,7 @@ public class VideosActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //Fetch Videos based on the scores of the staff in the pretest
     private void fetchVideos() {
 
         videosListener = new ChildEventListener() {
@@ -73,15 +75,14 @@ public class VideosActivity extends AppCompatActivity {
 
                 if (dataSnapshot != null) {
 
-                    GenericTypeIndicator<HashMap<String, Object>> hashMapGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>() {};
+                    GenericTypeIndicator<HashMap<String, Object>> hashMapGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>() {
+                    };
 
                     HashMap<String, Object> stringObjectHashMap = dataSnapshot.getValue(hashMapGenericTypeIndicator);
 
                     if (stringObjectHashMap != null) {
-                        if (!videos.contains(stringObjectHashMap)){
-                            videos.add(stringObjectHashMap);
-                            videosAdapter.notifyDataSetChanged();
-                        }
+                        videos.add(stringObjectHashMap);
+                        videosAdapter.notifyDataSetChanged();
                     }
 
                 }
@@ -116,9 +117,11 @@ public class VideosActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (videosListener!=null && videosReference!=null){
+
+        if (videosListener != null && videosReference != null) {
             videosReference.removeEventListener(videosListener);
         }
+
     }
 
 }

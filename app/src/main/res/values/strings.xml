@@ -42,5 +42,6 @@
     <string name="please_wait">Please wait...</string>
     <string name="upload_course_video">Upload Course Video</string>
     <string name="your_pretest_result">Your Pretest Result</string>
+    <string name="videos">Videos For You</string>
 
 </resources>

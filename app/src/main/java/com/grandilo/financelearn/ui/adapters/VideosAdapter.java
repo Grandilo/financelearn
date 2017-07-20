@@ -1,7 +1,10 @@
 package com.grandilo.financelearn.ui.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.grandilo.financelearn.R;
+import com.grandilo.financelearn.ui.activities.VideoPlaybackActivity;
 import com.grandilo.financelearn.utils.FinanceLearningConstants;
 
 import java.util.HashMap;
@@ -62,23 +66,39 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             courseTitleView = itemView.findViewById(R.id.course_title);
         }
 
-        void bindVideo(Context context, HashMap<String, Object> videoProps) {
+        void bindVideo(final Context context, HashMap<String, Object> videoProps) {
 
             HashMap<String, Object> courseDetails = (HashMap<String, Object>) videoProps.get(FinanceLearningConstants.COURSE_DETAILS);
 
-            String expertLevel = (String) videoProps.get(FinanceLearningConstants.EXPERTISE_LEVEL);
+            final String expertLevel = (String) videoProps.get(FinanceLearningConstants.EXPERTISE_LEVEL);
+
+            String courseName = null;
 
             if (courseDetails != null && expertLevel != null) {
-                String courseName = (String) courseDetails.get(FinanceLearningConstants.COURSE_NAME);
+                courseName = (String) courseDetails.get(FinanceLearningConstants.COURSE_NAME);
                 if (courseName != null) {
-                    courseTitleView.setText(expertLevel + " video on " + courseName);
+                    courseTitleView.setText(Html.fromHtml(expertLevel + " video on <b>" + courseName + "</b>"));
                 }
             }
 
             HashMap<String, Object> thumbProps = (HashMap<String, Object>) videoProps.get(FinanceLearningConstants.COURSE_VIDEO);
             if (thumbProps != null) {
                 String videoThumbnail = (String) thumbProps.get(FinanceLearningConstants.THUMB_NAIL);
+                final String videoRemoteUrl = (String) thumbProps.get(FinanceLearningConstants.REMOTE_URL);
+                Log.d("Thumbs", videoThumbnail);
                 Glide.with(context).load(videoThumbnail).diskCacheStrategy(DiskCacheStrategy.ALL).into(thumbnailPreviewImageView);
+                final String finalCourseName = courseName;
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent videoPlaybackIntent  = new Intent(context, VideoPlaybackActivity.class);
+                        videoPlaybackIntent.putExtra(FinanceLearningConstants.VIDEO_URL,videoRemoteUrl);
+                        videoPlaybackIntent.putExtra(FinanceLearningConstants.VIDEO_NAME,expertLevel + " video on <b>" + finalCourseName + "</b>");
+                        context.startActivity(videoPlaybackIntent);
+                    }
+                });
+            } else {
+                Log.d("Thumbs", "ThumbProps are kindda null");
             }
 
         }

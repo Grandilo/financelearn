@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
@@ -14,16 +14,51 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_actionbar"
             style="@style/ToolbarNormalTheme"
-            app:title="@string/welcome_ugo"
+            app:title="@string/videos"
             app:titleTextColor="@color/colorWhite" />
 
     </android.support.design.widget.AppBarLayout>
 
+    <TextView
+        android:id="@+id/educ_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/appbar"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:padding="15dp"
+        android:textSize="15sp"
+        android:text="When you are done with this videos, you may proceed to the main test" />
+
+    <LinearLayout
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/proceed_to_main_test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/colorPrimary"
+            android:gravity="center_horizontal"
+            android:padding="14dp"
+            android:text="PROCEED"
+            android:textColor="@color/colorWhite" />
+
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/videos_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_bar"
+        android:layout_below="@+id/educ_text"
+        android:background="#e3e3e3">
 
     </android.support.v7.widget.RecyclerView>
 
-</LinearLayout>
+</RelativeLayout>

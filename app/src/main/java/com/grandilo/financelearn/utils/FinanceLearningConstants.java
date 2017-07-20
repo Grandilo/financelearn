@@ -30,6 +30,10 @@ public class FinanceLearningConstants {
     public static final String PRETEST_TAKEN = "pretest_taken";
     public static final String ALL_PRETEST_COURSES = "all_pretest_courses";
     public static final java.lang.String MAIN_TEST_TAKEN = "main_test_taken";
+    public static final String PRETEST_RIGHT_ANSWERS = "pretest_right_answers";
+    public static final String PRETEST_WRONG_ANSWERS = "pretest_wrong_answers";
+    public static final java.lang.String VIDEO_URL = "video_url";
+    public static final java.lang.String VIDEO_NAME = "video_name";
 
     public static String COURSE_VIDEOS = "course_videos";
 
@@ -79,9 +83,9 @@ public class FinanceLearningConstants {
 
     ///////PRETEST RESULT MAP//////////
     //<CourseId, Right Answers Map>
-    public static HashMap<String, List<JSONObject>> rightAnswersMap = new HashMap<>();
+    public static HashMap<String, List<JSONObject>> pretestRightAnswers = new HashMap<>();
     //<CourseId, Wrong Answers Map>
-    public static HashMap<String, List<JSONObject>> wrongAnswersMap = new HashMap<>();
+    public static HashMap<String, List<JSONObject>> pretestWrongAnswers = new HashMap<>();
 
     public static ArrayList<String> coursesToTest = new ArrayList<>();
     public static ArrayList<String> coursesToAssign = new ArrayList<>();

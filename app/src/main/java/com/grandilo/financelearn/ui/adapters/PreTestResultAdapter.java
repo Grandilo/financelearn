@@ -73,7 +73,7 @@ public class PreTestResultAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             try {
 
-                List<JSONObject> rightAnswers = FinanceLearningConstants.rightAnswersMap.get(courseId);
+                List<JSONObject> rightAnswers = FinanceLearningConstants.pretestRightAnswers.get(courseId);
                 resultItem.setText(FinanceLearningConstants.pretestCourseMap.get(courseId));
 
                 if (rightAnswers != null) {

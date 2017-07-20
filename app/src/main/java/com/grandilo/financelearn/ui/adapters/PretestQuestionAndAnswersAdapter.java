@@ -106,7 +106,7 @@ public class PretestQuestionAndAnswersAdapter extends PagerAdapter {
                                     e.printStackTrace();
                                 }
 
-                                List<JSONObject> rightAnswers = FinanceLearningConstants.rightAnswersMap.get(courseId);
+                                List<JSONObject> rightAnswers = FinanceLearningConstants.pretestRightAnswers.get(courseId);
                                 if (rightAnswers == null) {
                                     rightAnswers = new ArrayList<>();
                                     rightAnswers.add(correctObject);
@@ -115,8 +115,8 @@ public class PretestQuestionAndAnswersAdapter extends PagerAdapter {
                                         rightAnswers.add(correctObject);
                                     }
                                 }
-                                FinanceLearningConstants.rightAnswersMap.put(courseId, rightAnswers);
-                                Log.d("AnswerLog","Right Answers Map = "+FinanceLearningConstants.rightAnswersMap.toString());
+                                FinanceLearningConstants.pretestRightAnswers.put(courseId, rightAnswers);
+                                Log.d("AnswerLog","Right Answers Map = "+FinanceLearningConstants.pretestRightAnswers.toString());
                             } else {
 
                                 //User selected a wrong answer, clear previous right answer if any
@@ -127,12 +127,12 @@ public class PretestQuestionAndAnswersAdapter extends PagerAdapter {
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-                                List<JSONObject> rightAnswers = FinanceLearningConstants.rightAnswersMap.get(courseId);
+                                List<JSONObject> rightAnswers = FinanceLearningConstants.pretestRightAnswers.get(courseId);
                                 if (rightAnswers != null) {
                                     if (rightAnswers.contains(rightObject)) {
                                         rightAnswers.remove(rightObject);
                                     }
-                                    FinanceLearningConstants.rightAnswersMap.put(courseId, rightAnswers);
+                                    FinanceLearningConstants.pretestRightAnswers.put(courseId, rightAnswers);
                                 }
 
                                 JSONObject wrongObject = new JSONObject();
@@ -144,7 +144,7 @@ public class PretestQuestionAndAnswersAdapter extends PagerAdapter {
                                     e.printStackTrace();
                                 }
 
-                                List<JSONObject> wrongAnswers = FinanceLearningConstants.wrongAnswersMap.get(courseId);
+                                List<JSONObject> wrongAnswers = FinanceLearningConstants.pretestWrongAnswers.get(courseId);
 
                                 if (wrongAnswers == null) {
                                     wrongAnswers = new ArrayList<>();
@@ -155,9 +155,9 @@ public class PretestQuestionAndAnswersAdapter extends PagerAdapter {
                                     }
                                 }
 
-                                FinanceLearningConstants.wrongAnswersMap.put(courseId, wrongAnswers);
+                                FinanceLearningConstants.pretestWrongAnswers.put(courseId, wrongAnswers);
 
-                                Log.d("AnswerLog","Wrong Answers Map = "+FinanceLearningConstants.wrongAnswersMap.toString());
+                                Log.d("AnswerLog","Wrong Answers Map = "+FinanceLearningConstants.pretestWrongAnswers.toString());
                             }
 
                         }
@@ -198,7 +198,7 @@ public class PretestQuestionAndAnswersAdapter extends PagerAdapter {
                                     e.printStackTrace();
                                 }
 
-                                List<JSONObject> rightAnswers = FinanceLearningConstants.rightAnswersMap.get(courseId);
+                                List<JSONObject> rightAnswers = FinanceLearningConstants.pretestRightAnswers.get(courseId);
                                 if (rightAnswers == null) {
                                     rightAnswers = new ArrayList<>();
                                     rightAnswers.add(correctObject);
@@ -208,8 +208,8 @@ public class PretestQuestionAndAnswersAdapter extends PagerAdapter {
                                     }
                                 }
 
-                                FinanceLearningConstants.rightAnswersMap.put(courseId, rightAnswers);
-                                Log.d("AnswerLog","Right Answers Map = "+FinanceLearningConstants.rightAnswersMap.toString());
+                                FinanceLearningConstants.pretestRightAnswers.put(courseId, rightAnswers);
+                                Log.d("AnswerLog","Right Answers Map = "+FinanceLearningConstants.pretestRightAnswers.toString());
 
                             } else {
 
@@ -221,12 +221,12 @@ public class PretestQuestionAndAnswersAdapter extends PagerAdapter {
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-                                List<JSONObject> rightAnswers = FinanceLearningConstants.rightAnswersMap.get(courseId);
+                                List<JSONObject> rightAnswers = FinanceLearningConstants.pretestRightAnswers.get(courseId);
                                 if (rightAnswers != null) {
                                     if (rightAnswers.contains(rightObject)) {
                                         rightAnswers.remove(rightObject);
                                     }
-                                    FinanceLearningConstants.rightAnswersMap.put(courseId, rightAnswers);
+                                    FinanceLearningConstants.pretestRightAnswers.put(courseId, rightAnswers);
                                 }
 
                                 JSONObject wrongObject = new JSONObject();
@@ -238,7 +238,7 @@ public class PretestQuestionAndAnswersAdapter extends PagerAdapter {
                                     e.printStackTrace();
                                 }
 
-                                List<JSONObject> wrongAnswers = FinanceLearningConstants.wrongAnswersMap.get(courseId);
+                                List<JSONObject> wrongAnswers = FinanceLearningConstants.pretestWrongAnswers.get(courseId);
                                 if (wrongAnswers == null) {
                                     wrongAnswers = new ArrayList<>();
                                     wrongAnswers.add(wrongObject);
@@ -248,8 +248,8 @@ public class PretestQuestionAndAnswersAdapter extends PagerAdapter {
                                     }
                                 }
 
-                                FinanceLearningConstants.wrongAnswersMap.put(courseId, wrongAnswers);
-                                Log.d("AnswerLog","Wrong Answers Map = "+FinanceLearningConstants.wrongAnswersMap.toString());
+                                FinanceLearningConstants.pretestWrongAnswers.put(courseId, wrongAnswers);
+                                Log.d("AnswerLog","Wrong Answers Map = "+FinanceLearningConstants.pretestWrongAnswers.toString());
 
                             }
 
