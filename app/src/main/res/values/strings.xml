@@ -8,7 +8,7 @@
     <string name="title_activity_login">Login</string>
     <string name="staff_number">Staff Number</string>
 
-    <string name="title_activity_pre_test">PreTestActivity</string>
+    <string name="title_activity_pre_test">PreTest</string>
     <string name="employee">EMPLOYEE</string>
     <string name="manager">MANAGER</string>
     <string name="hr">HR</string>
@@ -36,4 +36,9 @@
     <string name="assign_2_courses">Assign 2 Courses</string>
     <string name="assign_selected"><![CDATA[ASSIGN SELECTED >]]></string>
     <string name="finish_up">FINISH UP!</string>
+    <string name="let_s_test_your_knowlegdge">Let\'s test your knowlegdge</string>
+    <string name="text_previous">PREVIOUS</string>
+    <string name="text_next">NEXT</string>
+    <string name="please_wait">Please wait...</string>
+    <string name="upload_course_video">Upload Course Video</string>
 </resources>

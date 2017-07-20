@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -31,6 +33,7 @@ import java.util.List;
 @SuppressWarnings("unchecked")
 public class Pretest extends AppCompatActivity implements View.OnClickListener {
 
+    private Toolbar toolbar;
     private TextView questionsPageCounter, previousQuestion, nextQuestion, questionsFetchProgressMessage;
     private ViewPager questionsViewPager;
     private PretestQuestionAndAnswersAdapter pretestQuestionAndAnswersAdapter;
@@ -45,7 +48,16 @@ public class Pretest extends AppCompatActivity implements View.OnClickListener {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pretest);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("PreTest");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         offloadIntent();
+
         initViews();
 
         pretestQuestionAndAnswersAdapter = new PretestQuestionAndAnswersAdapter(this, pretestQuestions);
@@ -57,6 +69,15 @@ public class Pretest extends AppCompatActivity implements View.OnClickListener {
         fetchQuestionsForSelectedCourses();
         fetchCourseNames();
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void offloadIntent() {
@@ -72,7 +93,7 @@ public class Pretest extends AppCompatActivity implements View.OnClickListener {
         questionsFetchProgressMessage = (TextView) findViewById(R.id.questions_fetch_progress_message);
         previousQuestion.setOnClickListener(this);
         nextQuestion.setOnClickListener(this);
-        questionsViewPager.setOffscreenPageLimit(pretestQuestions.size()-1);
+        questionsViewPager.setOffscreenPageLimit(pretestQuestions.size() - 1);
         questionsViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -85,7 +106,7 @@ public class Pretest extends AppCompatActivity implements View.OnClickListener {
                     previousQuestion.setVisibility(View.GONE);
                 } else {
                     previousQuestion.setVisibility(View.VISIBLE);
-                    if (position == pretestQuestions.size()-1) {
+                    if (position == pretestQuestions.size() - 1) {
                         nextQuestion.setText(R.string.finish_up);
                     } else {
                         nextQuestion.setText(getString(R.string.action_next));
@@ -180,8 +201,8 @@ public class Pretest extends AppCompatActivity implements View.OnClickListener {
                     }
                 } else {
                     //Finish up here
-                    Intent preTestResultIntent = new Intent(Pretest.this,PreTestResult.class);
-                    preTestResultIntent.putExtra(FinanceLearningConstants.TOTAL_NO_OF_QS,pretestQuestions.size());
+                    Intent preTestResultIntent = new Intent(Pretest.this, PreTestResult.class);
+                    preTestResultIntent.putExtra(FinanceLearningConstants.TOTAL_NO_OF_QS, pretestQuestions.size());
                     startActivity(preTestResultIntent);
                 }
                 break;

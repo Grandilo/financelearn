@@ -55,16 +55,40 @@ public class PreTestResultAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         public PretestResultViewHolder(View itemView) {
             super(itemView);
-            resultItem = (TextView) itemView.findViewById(R.id.course_title);
-            percentageView = (TextView) itemView.findViewById(R.id.percentage_score);
+            resultItem = itemView.findViewById(R.id.course_title);
+            percentageView = itemView.findViewById(R.id.percentage_score);
+        }
+
+        public String getResultCategory(float percentage) {
+            if (percentage < 39) {
+                return "BASIC";
+            } else if (percentage > 39 && percentage < 69) {
+                return "Intermediate";
+            } else {
+                return "EXPERT";
+            }
         }
 
         public void bindResult(int totalNoOfQ, String courseId) {
+
             try {
+
                 List<JSONObject> rightAnswers = FinanceLearningConstants.rightAnswersMap.get(courseId);
                 resultItem.setText(FinanceLearningConstants.courseMap.get(courseId));
-                percentageView.setText(rightAnswers.size() * 100 / totalNoOfQ + " % ");
-            }catch (NullPointerException ignore){
+
+                if (rightAnswers != null) {
+                    int rightAnswersCount = rightAnswers.size();
+                    float percentAge = rightAnswers.size() * 100 / totalNoOfQ;
+                    if (rightAnswersCount > 0) {
+                        percentageView.setText(percentAge + " % (" + getResultCategory(percentAge) + ")");
+                    } else {
+                        percentageView.setText("0 % (BASIC)");
+                    }
+                } else {
+                    percentageView.setText("0 % (BASIC)");
+                }
+
+            } catch (NullPointerException ignore) {
 
             }
 

@@ -12,13 +12,17 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.grandilo.financelearn.R;
+import com.grandilo.financelearn.ui.UploadCourseVideoActivity;
 import com.grandilo.financelearn.utils.AppPreferences;
 import com.grandilo.financelearn.utils.FinanceLearningConstants;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 @SuppressWarnings("deprecation")
 public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClickListener {
+
+    private JSONObject signedInUserProps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +35,7 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
     @Override
     protected void onResume() {
         super.onResume();
-        JSONObject signedInUserProps = AppPreferences.getSignedInUser(this);
+        signedInUserProps = AppPreferences.getSignedInUser(this);
         if (signedInUserProps==null){
             finish();
         }
@@ -54,12 +58,6 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_employee, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
     private void initViews() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolbar);
@@ -68,6 +66,30 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
         }
         View myCoursesView = findViewById(R.id.my_courses_view);
         myCoursesView.setOnClickListener(this);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (signedInUserProps!=null){
+            MenuItem uploadVideoItem = menu.findItem(R.id.upload_video);
+            try {
+                if (signedInUserProps.get("staff_id").equals("wan")
+                        || signedInUserProps.get("staff_id").equals("cali")
+                        || signedInUserProps.get("staff_id").equals("ugo")){
+                    uploadVideoItem.setVisible(true);
+                    supportInvalidateOptionsMenu();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_employee, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -81,6 +103,9 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
         } else if (item.getItemId() == R.id.sign_out) {
             AppPreferences.saveLoggedInUser(EmployeeHomeScreen.this, null);
             finishLogOut();
+        }else if (item.getItemId()==R.id.upload_video){
+            Intent uploadVideoIntent = new Intent(this, UploadCourseVideoActivity.class);
+            startActivity(uploadVideoIntent);
         }
         return super.onOptionsItemSelected(item);
     }

@@ -164,6 +164,7 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
     @Override
     protected void onStop() {
         super.onStop();
+        FinanceLearningConstants.coursesToTest.clear();
         if (courseReference != null && coursesEventListener != null) {
             courseReference.removeEventListener(coursesEventListener);
         }

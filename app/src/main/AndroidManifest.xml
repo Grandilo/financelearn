@@ -65,6 +65,11 @@
             </intent-filter>
         </receiver>
 
+        <activity
+            android:name=".ui.UploadCourseVideoActivity"
+            android:launchMode="singleInstance"
+            android:configChanges="orientation|screenSize|screenLayout" />
+
         <service
             android:name=".PushReceptionService"
             android:enabled="true" />

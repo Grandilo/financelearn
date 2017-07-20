@@ -4,6 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.Toast;
+
+import com.grandilo.financelearn.ui.ApplicationLoader;
 
 /**
  * @author Ugo
@@ -33,4 +36,7 @@ public class UiUtils {
         }
     }
 
+    public static void showToast(String message){
+        Toast.makeText(ApplicationLoader.getInstance(),message,Toast.LENGTH_LONG).show();
+    }
 }
