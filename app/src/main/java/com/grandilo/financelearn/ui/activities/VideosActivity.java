@@ -15,7 +15,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.grandilo.financelearn.R;
 import com.grandilo.financelearn.ui.adapters.VideosAdapter;
+import com.grandilo.financelearn.utils.AppPreferences;
+import com.grandilo.financelearn.utils.FinanceLearningConstants;
 import com.grandilo.financelearn.utils.FirebaseUtils;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +29,7 @@ import java.util.List;
  * @author Ugo
  */
 
+@SuppressWarnings("unchecked")
 public class VideosActivity extends AppCompatActivity {
 
     private List<HashMap<String, Object>> videos = new ArrayList<>();
@@ -33,13 +38,15 @@ public class VideosActivity extends AppCompatActivity {
     private ChildEventListener videosListener;
     private DatabaseReference videosReference;
 
+    private JSONObject signedInUserObject;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_videos);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolbar);
-
+        signedInUserObject = AppPreferences.getSignedInUser(this);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -65,6 +72,16 @@ public class VideosActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public String getResultCategory(float percentage) {
+        if (percentage < 39) {
+            return "Basic";
+        } else if (percentage > 39 && percentage < 69) {
+            return "Intermediate";
+        } else {
+            return "Expert";
+        }
+    }
+
     //Fetch Videos based on the scores of the staff in the pretest
     private void fetchVideos() {
 
@@ -78,10 +95,33 @@ public class VideosActivity extends AppCompatActivity {
                     GenericTypeIndicator<HashMap<String, Object>> hashMapGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>() {
                     };
 
-                    HashMap<String, Object> stringObjectHashMap = dataSnapshot.getValue(hashMapGenericTypeIndicator);
+                    HashMap<String, Object> videoProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
 
-                    if (stringObjectHashMap != null) {
-                        videos.add(stringObjectHashMap);
+                    if (videoProps != null) {
+
+                        HashMap<String, Object> courseDetails = (HashMap<String, Object>) videoProps.get(FinanceLearningConstants.COURSE_DETAILS);
+                        String courseId = (String) courseDetails.get(FinanceLearningConstants.COURSE_ID);
+                        final String expertLevel = (String) videoProps.get(FinanceLearningConstants.EXPERTISE_LEVEL);
+
+                        if (FinanceLearningConstants.pretestCourseMap.containsKey(courseId)) {
+                            //Get percentage on cause
+                            List<JSONObject> rightAnswers = FinanceLearningConstants.pretestRightAnswers.get(courseId);
+                            int totalNoOfQ = signedInUserObject.optInt(FinanceLearningConstants.TOTAL_NO_OF_QS);
+                            if (rightAnswers != null) {
+                                int rightAnswersCount = rightAnswers.size();
+                                float percentAge = rightAnswers.size() * 100 / totalNoOfQ;
+                                if (rightAnswersCount > 0) {
+                                    if (getResultCategory(percentAge).contains(expertLevel)){
+                                        videos.add(videoProps);
+                                    }
+                                }else{
+                                    if (expertLevel.contains("Basic")){
+                                        videos.add(videoProps);
+                                    }
+                                }
+                            }
+                        }
+
                         videosAdapter.notifyDataSetChanged();
                     }
 
