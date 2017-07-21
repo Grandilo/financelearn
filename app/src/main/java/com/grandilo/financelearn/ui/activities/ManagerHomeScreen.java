@@ -46,13 +46,11 @@ public class ManagerHomeScreen extends AppCompatActivity {
 
     private TextView staffToAssignContentView;
 
-    private Toolbar toolbar;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.manager_home_screen);
-        toolbar = (Toolbar)findViewById(R.id.toolbar_actionbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolbar);
         signedInUserProps = AppPreferences.getSignedInUser(this);
         staffRecyclerView = (RecyclerView) findViewById(R.id.staff_recycler_view);

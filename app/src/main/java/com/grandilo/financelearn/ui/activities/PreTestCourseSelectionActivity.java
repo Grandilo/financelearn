@@ -88,6 +88,7 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
                 } else {
                     bottomBar.setVisibility(View.VISIBLE);
                     managerCoursesUnselectedMessageView.setVisibility(View.VISIBLE);
+                    sendNotificationTextView.setVisibility(View.VISIBLE);
                     nextButton.setVisibility(View.GONE);
                 }
             } catch (JSONException e) {
