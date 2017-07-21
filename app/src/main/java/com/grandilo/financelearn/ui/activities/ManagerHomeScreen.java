@@ -125,24 +125,6 @@ public class ManagerHomeScreen extends AppCompatActivity {
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        if (signedInUserProps!=null){
-            MenuItem uploadVideoItem = menu.findItem(R.id.upload_video);
-            try {
-                if (signedInUserProps.get("staff_id").equals("wan")
-                        || signedInUserProps.get("staff_id").equals("cali")
-                        || signedInUserProps.get("staff_id").equals("ugo")){
-                    uploadVideoItem.setVisible(true);
-                    supportInvalidateOptionsMenu();
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_manager, menu);
         return super.onCreateOptionsMenu(menu);

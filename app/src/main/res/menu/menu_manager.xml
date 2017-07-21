@@ -3,7 +3,6 @@
 
     <item
         android:id="@+id/upload_video"
-        android:visible="false"
         android:title="@string/upload_course_video" />
 
     <item
