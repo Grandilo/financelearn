@@ -5,13 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -31,15 +32,20 @@ import java.util.HashMap;
  */
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView loginTypeView;
     private EditText idBox, passwordBox;
     private String loginType;
 
     private String TAG = LoginActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         initViews();
         Bundle intentExtras = getIntent().getExtras();
         if (intentExtras != null) {
@@ -48,12 +54,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void initViews() {
         Button continueButton = (Button) findViewById(R.id.continue_button);
         continueButton.setOnClickListener(this);
         idBox = (EditText) findViewById(R.id.id_box);
         passwordBox = (EditText) findViewById(R.id.password_box);
-        loginTypeView = (TextView) findViewById(R.id.login_type_view);
     }
 
     @Override
@@ -146,11 +160,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void setUpLoginType() {
         switch (loginType) {
             case FinanceLearningConstants.LOGIN_TYPE_EMPLOYEE:
-                loginTypeView.setText(getString(R.string.employee_login));
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle(getString(R.string.employee_login));
+                }
                 idBox.setHint(getString(R.string.your_employee_id));
                 break;
             case FinanceLearningConstants.LOGIN_TYPE_MANAGER:
-                loginTypeView.setText(getString(R.string.manager_login));
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle(getString(R.string.manager_login));
+                }
                 idBox.setHint(getString(R.string.you_id));
                 break;
         }

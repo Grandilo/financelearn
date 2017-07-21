@@ -16,11 +16,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.grandilo.financelearn.R;
-import com.grandilo.financelearn.ui.adapters.PretestQuestionAndAnswersAdapter;
+import com.grandilo.financelearn.ui.adapters.MainTestQuestionAndAnswersAdapter;
 import com.grandilo.financelearn.utils.AppPreferences;
 import com.grandilo.financelearn.utils.FinanceLearningConstants;
 import com.grandilo.financelearn.utils.FirebaseUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -32,57 +34,58 @@ import java.util.List;
  */
 
 @SuppressWarnings("unchecked")
-public class PretestQuestionsActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainTestQuestionsActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView questionsPageCounter, previousQuestion, nextQuestion, questionsFetchProgressMessage;
     private ViewPager questionsViewPager;
-    private PretestQuestionAndAnswersAdapter pretestQuestionAndAnswersAdapter;
+    private MainTestQuestionAndAnswersAdapter mainTestQuestionAndAnswersAdapter;
 
-    private List<String> selectedCoursesForPretest;
+    private List<String> selectedCoursesForMainTest = new ArrayList<>();
+
     private ChildEventListener questionsAndAnswersListener, coursesListener;
-    private DatabaseReference preTestReference, coursesReference;
+    private DatabaseReference mainTestReference, coursesReference;
 
-    private List<JSONObject> pretestQuestions = new ArrayList<>();
+    private List<JSONObject> mainTestQuestions = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pretest);
+        setContentView(R.layout.activity_main_test);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("PreTest");
+            getSupportActionBar().setTitle("Main Test");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        offloadIntent();
+        setupCourseList();
 
         initViews();
 
-        pretestQuestionAndAnswersAdapter = new PretestQuestionAndAnswersAdapter(this, pretestQuestions);
-        questionsViewPager.setAdapter(pretestQuestionAndAnswersAdapter);
+        mainTestQuestionAndAnswersAdapter = new MainTestQuestionAndAnswersAdapter(this, mainTestQuestions);
+        questionsViewPager.setAdapter(mainTestQuestionAndAnswersAdapter);
 
-        preTestReference = FirebaseUtils.getPretestReference();
+        mainTestReference = FirebaseUtils.getMainTestReference();
         coursesReference = FirebaseUtils.getCourses();
 
         fetchQuestionsForSelectedCourses();
         fetchCourseNames();
 
-        checkPretestStatus();
+        checkMainTestStatus();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        checkPretestStatus();
+        checkMainTestStatus();
     }
 
-    private void checkPretestStatus() {
+    private void checkMainTestStatus() {
         JSONObject signedInUser = AppPreferences.getSignedInUser(this);
         if (signedInUser != null) {
-            boolean pretestTaken = signedInUser.optBoolean(FinanceLearningConstants.PRETEST_TAKEN,false);
-            if (pretestTaken){
+            boolean mainTestTaken = signedInUser.optBoolean(FinanceLearningConstants.MAIN_TEST_TAKEN,false);
+            if (mainTestTaken){
                 finish();
             }
         }
@@ -97,21 +100,37 @@ public class PretestQuestionsActivity extends AppCompatActivity implements View.
         return super.onOptionsItemSelected(item);
     }
 
-    private void offloadIntent() {
-        Bundle intentExtras = getIntent().getExtras();
-        selectedCoursesForPretest = intentExtras.getStringArrayList(FinanceLearningConstants.SELECTED_PRE_TEST_COURSES);
+    private void setupCourseList() {
+        JSONObject signedInUser = AppPreferences.getSignedInUser(this);
+        if (signedInUser!=null){
+            String allTestCourses = signedInUser.optString(FinanceLearningConstants.ALL_PRETEST_COURSES);
+            if (allTestCourses!=null){
+                try {
+                    JSONArray coursesArray = new JSONArray(allTestCourses);
+                    for (int i=0;i<coursesArray.length();i++){
+                        String courseId = coursesArray.optString(i);
+                        if (!selectedCoursesForMainTest.contains(courseId)){
+                            selectedCoursesForMainTest.add(courseId);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     private void initViews() {
         questionsPageCounter = (TextView) findViewById(R.id.questions_counter);
         previousQuestion = (TextView) findViewById(R.id.previous_question);
         nextQuestion = (TextView) findViewById(R.id.next_question);
-        questionsViewPager = (ViewPager) findViewById(R.id.pretest_viewpager);
+        questionsViewPager = (ViewPager) findViewById(R.id.main_test_viewpager);
         questionsFetchProgressMessage = (TextView) findViewById(R.id.questions_fetch_progress_message);
         previousQuestion.setOnClickListener(this);
         nextQuestion.setOnClickListener(this);
-        questionsViewPager.setOffscreenPageLimit(pretestQuestions.size() - 1);
+        questionsViewPager.setOffscreenPageLimit(mainTestQuestions.size() - 1);
         questionsViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -119,17 +138,19 @@ public class PretestQuestionsActivity extends AppCompatActivity implements View.
 
             @Override
             public void onPageSelected(int position) {
+
                 if (position == 0) {
                     previousQuestion.setVisibility(View.GONE);
                 } else {
                     previousQuestion.setVisibility(View.VISIBLE);
-                    if (position == pretestQuestions.size() - 1) {
+                    if (position == mainTestQuestions.size() - 1) {
                         nextQuestion.setText(R.string.finish_up);
                     } else {
                         nextQuestion.setText(getString(R.string.action_next));
                     }
                 }
-                questionsPageCounter.setText(questionsViewPager.getCurrentItem() + 1 + " of " + pretestQuestions.size());
+
+                questionsPageCounter.setText(questionsViewPager.getCurrentItem() + 1 + " of " + mainTestQuestions.size());
 
             }
 
@@ -137,7 +158,9 @@ public class PretestQuestionsActivity extends AppCompatActivity implements View.
             public void onPageScrollStateChanged(int state) {
 
             }
+
         });
+
     }
 
     private void fetchQuestionsForSelectedCourses() {
@@ -157,15 +180,15 @@ public class PretestQuestionsActivity extends AppCompatActivity implements View.
 
                     JSONObject preTestJSONObject = new JSONObject(pretestInfo);
                     String courseId = preTestJSONObject.optString(FinanceLearningConstants.COURSE_ID);
-                    if (selectedCoursesForPretest.contains(courseId)) {
-                        pretestQuestions.add(preTestJSONObject);
+                    if (selectedCoursesForMainTest.contains(courseId)) {
+                        mainTestQuestions.add(preTestJSONObject);
                         //NotifyDataSetChanged here
-                        pretestQuestionAndAnswersAdapter.notifyDataSetChanged();
+                        mainTestQuestionAndAnswersAdapter.notifyDataSetChanged();
                     }
 
                 }
 
-                questionsPageCounter.setText(questionsViewPager.getCurrentItem() + 1 + " of " + pretestQuestions.size());
+                questionsPageCounter.setText(questionsViewPager.getCurrentItem() + 1 + " of " + mainTestQuestions.size());
                 nextQuestion.setVisibility(View.VISIBLE);
 
             }
@@ -192,15 +215,15 @@ public class PretestQuestionsActivity extends AppCompatActivity implements View.
 
         };
 
-        preTestReference.addChildEventListener(questionsAndAnswersListener);
+        mainTestReference.addChildEventListener(questionsAndAnswersListener);
 
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (preTestReference != null && questionsAndAnswersListener != null) {
-            preTestReference.removeEventListener(questionsAndAnswersListener);
+        if (mainTestReference != null && questionsAndAnswersListener != null) {
+            mainTestReference.removeEventListener(questionsAndAnswersListener);
         }
         if (coursesReference != null && coursesListener != null) {
             coursesReference.removeEventListener(coursesListener);
@@ -213,13 +236,13 @@ public class PretestQuestionsActivity extends AppCompatActivity implements View.
             case R.id.next_question:
                 if (!nextQuestion.getText().toString().equals(getString(R.string.finish_up))) {
                     int nexItem = questionsViewPager.getCurrentItem() + 1;
-                    if (nexItem <= pretestQuestions.size()) {
+                    if (nexItem <= mainTestQuestions.size()) {
                         questionsViewPager.setCurrentItem(nexItem);
                     }
                 } else {
                     //Finish up here
-                    Intent preTestResultIntent = new Intent(PretestQuestionsActivity.this, PreTestResultActivity.class);
-                    preTestResultIntent.putExtra(FinanceLearningConstants.TOTAL_NO_OF_QS, pretestQuestions.size());
+                    Intent preTestResultIntent = new Intent(MainTestQuestionsActivity.this, MainTestResultActivity.class);
+                    preTestResultIntent.putExtra(FinanceLearningConstants.TOTAL_NO_OF_QS, mainTestQuestions.size());
                     startActivity(preTestResultIntent);
                 }
                 break;
@@ -245,12 +268,13 @@ public class PretestQuestionsActivity extends AppCompatActivity implements View.
                 HashMap<String, String> courseProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
                 String courseKey = dataSnapshot.getKey();
 
-                if (selectedCoursesForPretest.contains(courseKey)) {
+                if (selectedCoursesForMainTest.contains(courseKey)) {
                     if (courseProps != null) {
                         String courseName = courseProps.get(FinanceLearningConstants.COURSE_NAME);
                         FinanceLearningConstants.courseMap.put(dataSnapshot.getKey(), courseName);
                     }
                 }
+
             }
 
             @Override
@@ -276,6 +300,7 @@ public class PretestQuestionsActivity extends AppCompatActivity implements View.
         };
 
         coursesReference.addChildEventListener(coursesListener);
+
     }
 
 }

@@ -31,6 +31,9 @@ public class FirebaseUtils {
         return getRootReference().child(FinanceLearningConstants.PRETEST);
     }
 
+    public static DatabaseReference getMainTestReference(){
+        return getRootReference().child(FinanceLearningConstants.MAIN_TEST);
+    }
     public static DatabaseReference getCourseVideosReference(){
         return getRootReference().child(FinanceLearningConstants.COURSE_VIDEOS);
     }

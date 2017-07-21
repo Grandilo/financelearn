@@ -31,10 +31,10 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * @author Ugo.
+ * @author Ugo
  */
 
-public class PreTestResultActivity extends AppCompatActivity {
+public class MainTestResultActivity extends AppCompatActivity {
 
     private RecyclerView courseResultList;
     private List<String> courseIds = new ArrayList<>();
@@ -43,7 +43,7 @@ public class PreTestResultActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pretest_result);
+        setContentView(R.layout.activity_main_test_result);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolbar);
 
@@ -60,19 +60,21 @@ public class PreTestResultActivity extends AppCompatActivity {
         courseResultList = (RecyclerView) findViewById(R.id.course_result_list);
         TextView continueButton = (TextView) findViewById(R.id.continue_button);
         continueButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-                Intent videosIntent = new Intent(PreTestResultActivity.this,VideosActivity.class);
-                startActivity(videosIntent);
+                Intent recommendationsIntent = new Intent(MainTestResultActivity.this, RecommendedCourseActivity.class);
+                startActivity(recommendationsIntent);
             }
+
         });
         totalNumberOfQs = getIntent().getExtras().getInt(FinanceLearningConstants.TOTAL_NO_OF_QS);
         initResultAdapter();
 
-        updateSignedInUserPretestState();
+        updateSignedInUserMainTestState();
     }
 
-    private void updateSignedInUserPretestState() {
+    private void updateSignedInUserMainTestState() {
 
         JSONObject jsonObject = AppPreferences.getSignedInUser(this);
 
@@ -82,21 +84,20 @@ public class PreTestResultActivity extends AppCompatActivity {
 
             HashMap<String, Object> updatableProps = new HashMap<>();
 
-            if (!FinanceLearningConstants.pretestRightAnswers.isEmpty() || !FinanceLearningConstants.pretestWrongAnswers.isEmpty()) {
+            if (!FinanceLearningConstants.mainTestRightAnswers.isEmpty() || !FinanceLearningConstants.mainTestWrongAnswers.isEmpty()) {
 
-                if (!FinanceLearningConstants.pretestRightAnswers.isEmpty()) {
-                    JSONObject rightAnsJSON = new JSONObject(FinanceLearningConstants.pretestRightAnswers);
-                    updatableProps.put(FinanceLearningConstants.PRETEST_RIGHT_ANSWERS, rightAnsJSON.toString());
+                if (!FinanceLearningConstants.mainTestRightAnswers.isEmpty()) {
+                    JSONObject rightAnsJSON = new JSONObject(FinanceLearningConstants.mainTestRightAnswers);
+                    updatableProps.put(FinanceLearningConstants.MAIN_TEST_RIGHT_ANSWERS, rightAnsJSON.toString());
                 }
 
-                if (!FinanceLearningConstants.pretestWrongAnswers.isEmpty()){
-                    JSONObject wrongAnsJSON = new JSONObject(FinanceLearningConstants.pretestWrongAnswers);
-                    updatableProps.put(FinanceLearningConstants.PRETEST_WRONG_ANSWERS,wrongAnsJSON.toString());
+                if (!FinanceLearningConstants.mainTestWrongAnswers.isEmpty()) {
+                    JSONObject wrongAnsJSON = new JSONObject(FinanceLearningConstants.mainTestWrongAnswers);
+                    updatableProps.put(FinanceLearningConstants.MAIN_TEST_WRONG_ANSWERS, wrongAnsJSON.toString());
                 }
 
-                updatableProps.put(FinanceLearningConstants.PRETEST_TAKEN, true);
-
-                updatableProps.put(FinanceLearningConstants.TOTAL_NO_OF_QS,totalNumberOfQs);
+                updatableProps.put(FinanceLearningConstants.MAIN_TEST_TAKEN, true);
+                updatableProps.put(FinanceLearningConstants.TOTAL_NO_OF_QS, totalNumberOfQs);
 
             }
 
@@ -119,7 +120,7 @@ public class PreTestResultActivity extends AppCompatActivity {
 
                                     HashMap<String, Object> newUserProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
                                     if (newUserProps != null) {
-                                        AppPreferences.saveLoggedInUser(PreTestResultActivity.this, newUserProps);
+                                        AppPreferences.saveLoggedInUser(MainTestResultActivity.this, newUserProps);
                                     }
 
                                 }

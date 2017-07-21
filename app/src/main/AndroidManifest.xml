@@ -53,12 +53,20 @@
             android:configChanges="orientation|screenLayout|screenSize" />
 
         <activity
+            android:name=".ui.activities.MainTestQuestionsActivity"
+            android:configChanges="orientation|screenLayout|screenSize" />
+
+        <activity
             android:name=".ui.activities.UpdatePasswordActivity"
             android:configChanges="orientation|screenLayout|screenSize"
             android:windowSoftInputMode="stateHidden" />
 
         <activity
             android:name=".ui.activities.PreTestResultActivity"
+            android:configChanges="orientation|screenLayout|screenSize" />
+
+        <activity
+            android:name=".ui.activities.MainTestResultActivity"
             android:configChanges="orientation|screenLayout|screenSize" />
 
         <receiver android:name=".receivers.ConnectivityChangedReceiver">
@@ -81,6 +89,10 @@
         <activity
             android:name=".ui.activities.VideoPlaybackActivity"
             android:configChanges="orientation|keyboardHidden|screenLayout|screenSize" />
+
+        <activity
+            android:name=".ui.activities.RecommendedCourseActivity"
+            android:configChanges="orientation|screenLayout|screenSize" />
 
         <service
             android:name=".PushReceptionService"

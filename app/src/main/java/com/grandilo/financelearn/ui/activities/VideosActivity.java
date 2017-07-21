@@ -1,5 +1,6 @@
 package com.grandilo.financelearn.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -52,6 +55,7 @@ public class VideosActivity extends AppCompatActivity {
         }
 
         RecyclerView videosRecyclerView = (RecyclerView) findViewById(R.id.videos_recycler_view);
+        TextView proceedToMainTestView = (TextView) findViewById(R.id.proceed_to_main_test);
 
         videosAdapter = new VideosAdapter(this, videos);
         videosRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -61,6 +65,13 @@ public class VideosActivity extends AppCompatActivity {
 
         fetchVideos();
 
+        proceedToMainTestView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mainTestIntent = new Intent(VideosActivity.this,MainTestQuestionsActivity.class);
+                startActivity(mainTestIntent);
+            }
+        });
     }
 
     @Override
@@ -103,7 +114,7 @@ public class VideosActivity extends AppCompatActivity {
                         String courseId = (String) courseDetails.get(FinanceLearningConstants.COURSE_ID);
                         final String expertLevel = (String) videoProps.get(FinanceLearningConstants.EXPERTISE_LEVEL);
 
-                        if (FinanceLearningConstants.pretestCourseMap.containsKey(courseId)) {
+                        if (FinanceLearningConstants.courseMap.containsKey(courseId)) {
                             //Get percentage on cause
                             List<JSONObject> rightAnswers = FinanceLearningConstants.pretestRightAnswers.get(courseId);
                             int totalNoOfQ = signedInUserObject.optInt(FinanceLearningConstants.TOTAL_NO_OF_QS);

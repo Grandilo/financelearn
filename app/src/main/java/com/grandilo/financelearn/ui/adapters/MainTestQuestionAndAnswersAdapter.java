@@ -29,45 +29,46 @@ import java.util.List;
  * @author Ugo
  */
 
-@SuppressWarnings("FieldCanBeLocal")
-public class PretestQuestionAndAnswersAdapter extends PagerAdapter {
+public class MainTestQuestionAndAnswersAdapter extends PagerAdapter {
 
-    private List<JSONObject> pretestQuestions;
+    private List<JSONObject> mainTestQuestions;
     private LayoutInflater layoutInflater;
 
-    public PretestQuestionAndAnswersAdapter(Context context, List<JSONObject> pretestQuestions) {
-        this.pretestQuestions = pretestQuestions;
+    public MainTestQuestionAndAnswersAdapter(Context context, List<JSONObject> mainTestQuestions) {
+        this.mainTestQuestions = mainTestQuestions;
         layoutInflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return pretestQuestions != null ? pretestQuestions.size() : 0;
+        return mainTestQuestions != null ? mainTestQuestions.size() : 0;
     }
 
     @Override
     public Object instantiateItem(ViewGroup collection, int position) {
-        JSONObject pretestQuestion = pretestQuestions.get(position);
+        JSONObject mainTestQuestion = mainTestQuestions.get(position);
         View convertView = layoutInflater.inflate(R.layout.question_and_answer_item, collection, false);
-        setupViews(convertView, pretestQuestion);
+        setupViews(convertView, mainTestQuestion);
         collection.addView(convertView);
         return convertView;
     }
 
-    private void setupViews(View parentView, JSONObject pretestItem) {
+    private void setupViews(View parentView, JSONObject mainTestItem) {
+
         TextView questionView = parentView.findViewById(R.id.question);
         ViewFlipper optionsFlipper = parentView.findViewById(R.id.options_flipper);
 
         //Setup Questions
-        String question = pretestItem.optString(FinanceLearningConstants.QUESTION);
+        String question = mainTestItem.optString(FinanceLearningConstants.QUESTION);
         questionView.setText(question);
 
         //Setup Options
-        JSONArray optionsArray = pretestItem.optJSONArray(FinanceLearningConstants.OPTIONS);
-        String answer = pretestItem.optString(FinanceLearningConstants.ANSWER);
-        String courseId = pretestItem.optString(FinanceLearningConstants.COURSE_ID);
+        JSONArray optionsArray = mainTestItem.optJSONArray(FinanceLearningConstants.OPTIONS);
+        String answer = mainTestItem.optString(FinanceLearningConstants.ANSWER);
+        String courseId = mainTestItem.optString(FinanceLearningConstants.COURSE_ID);
 
         String[] answers = answer.split("\\*");
+
         if (answers.length > 1) {
             setupMultiChoiceQuestions(parentView, optionsFlipper, question, courseId, answers, optionsArray);
         } else {
@@ -79,7 +80,6 @@ public class PretestQuestionAndAnswersAdapter extends PagerAdapter {
     private void setupMultiChoiceQuestions(View parentView, ViewFlipper optionsFlipper, final String question, final String courseId, final String[] answers, JSONArray options) {
 
         optionsFlipper.setDisplayedChild(1);
-
         RadioGroup multiChoiceRadioGroup = parentView.findViewById(R.id.multi_select_radio_group);
 
         for (int i = 0; i < options.length(); i++) {
@@ -108,19 +108,19 @@ public class PretestQuestionAndAnswersAdapter extends PagerAdapter {
                                     e.printStackTrace();
                                 }
 
-                                if (FinanceLearningConstants.pretestRightAnswers.containsKey(courseId)) {
-                                    List<JSONObject> rightAnswers = FinanceLearningConstants.pretestRightAnswers.get(courseId);
+                                if (FinanceLearningConstants.mainTestRightAnswers.containsKey(courseId)) {
+                                    List<JSONObject> rightAnswers = FinanceLearningConstants.mainTestRightAnswers.get(courseId);
                                     if (!rightAnswers.contains(correctObject)) {
                                         rightAnswers.add(correctObject);
                                     }
-                                    FinanceLearningConstants.pretestRightAnswers.put(courseId, rightAnswers);
+                                    FinanceLearningConstants.mainTestRightAnswers.put(courseId, rightAnswers);
                                 } else {
                                     List<JSONObject> rightAnswers = new ArrayList<>();
                                     rightAnswers.add(correctObject);
-                                    FinanceLearningConstants.pretestRightAnswers.put(courseId, rightAnswers);
+                                    FinanceLearningConstants.mainTestRightAnswers.put(courseId, rightAnswers);
                                 }
 
-                                Log.d("AnswerLog", "Right Answers Map = " + FinanceLearningConstants.pretestRightAnswers.toString());
+                                Log.d("AnswerLog", "Right Answers Map = " + FinanceLearningConstants.mainTestRightAnswers.toString());
 
                             } else {
 
@@ -133,12 +133,12 @@ public class PretestQuestionAndAnswersAdapter extends PagerAdapter {
                                     e.printStackTrace();
                                 }
 
-                                if (FinanceLearningConstants.pretestRightAnswers.containsKey(courseId)) {
-                                    List<JSONObject> rightAnswers = FinanceLearningConstants.pretestRightAnswers.get(courseId);
+                                if (FinanceLearningConstants.mainTestRightAnswers.containsKey(courseId)) {
+                                    List<JSONObject> rightAnswers = FinanceLearningConstants.mainTestRightAnswers.get(courseId);
                                     if (rightAnswers.contains(rightObject)) {
                                         rightAnswers.remove(rightObject);
                                     }
-                                    FinanceLearningConstants.pretestRightAnswers.put(courseId, rightAnswers);
+                                    FinanceLearningConstants.mainTestRightAnswers.put(courseId, rightAnswers);
                                 }
 
                                 JSONObject wrongObject = new JSONObject();
@@ -148,30 +148,32 @@ public class PretestQuestionAndAnswersAdapter extends PagerAdapter {
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-                                if (FinanceLearningConstants.pretestWrongAnswers.containsKey(courseId)) {
-                                    List<JSONObject> wrongAnswers = FinanceLearningConstants.pretestWrongAnswers.get(courseId);
+                                if (FinanceLearningConstants.mainTestWrongAnswers.containsKey(courseId)) {
+                                    List<JSONObject> wrongAnswers = FinanceLearningConstants.mainTestWrongAnswers.get(courseId);
                                     if (!wrongAnswers.contains(wrongObject)) {
                                         wrongAnswers.add(wrongObject);
                                     }
-                                    FinanceLearningConstants.pretestWrongAnswers.put(courseId, wrongAnswers);
+                                    FinanceLearningConstants.mainTestWrongAnswers.put(courseId, wrongAnswers);
                                 } else {
                                     List<JSONObject> wrongAnswers = new ArrayList<>();
                                     wrongAnswers.add(wrongObject);
-                                    FinanceLearningConstants.pretestWrongAnswers.put(courseId, wrongAnswers);
+                                    FinanceLearningConstants.mainTestWrongAnswers.put(courseId, wrongAnswers);
                                 }
-                                Log.d("AnswerLog", "Wrong Answers Map = " + FinanceLearningConstants.pretestWrongAnswers.toString());
+                                Log.d("AnswerLog", "Wrong Answers Map = " + FinanceLearningConstants.mainTestWrongAnswers.toString());
                             }
                         }
                     }
+
                 });
+
             }
+
         }
 
     }
 
     private void setupSingleChoiceQuestions(View parentView, ViewFlipper optionsFlipper, final String question, final String answer, final String courseId, JSONArray options) {
 
-        Log.d("CourseId",courseId);
         optionsFlipper.setDisplayedChild(0);
         RadioGroup singleSelectRadioGroup = parentView.findViewById(R.id.single_select_radio_group);
 
@@ -196,19 +198,19 @@ public class PretestQuestionAndAnswersAdapter extends PagerAdapter {
                                     e.printStackTrace();
                                 }
 
-                                if (FinanceLearningConstants.pretestRightAnswers.containsKey(courseId)) {
-                                    List<JSONObject> rightAnswers = FinanceLearningConstants.pretestRightAnswers.get(courseId);
+                                if (FinanceLearningConstants.mainTestRightAnswers.containsKey(courseId)) {
+                                    List<JSONObject> rightAnswers = FinanceLearningConstants.mainTestRightAnswers.get(courseId);
                                     if (!rightAnswers.contains(correctObject)) {
                                         rightAnswers.add(correctObject);
                                     }
-                                    FinanceLearningConstants.pretestRightAnswers.put(courseId, rightAnswers);
+                                    FinanceLearningConstants.mainTestRightAnswers.put(courseId, rightAnswers);
                                 } else {
                                     List<JSONObject> rightAnswers = new ArrayList<>();
                                     rightAnswers.add(correctObject);
-                                    FinanceLearningConstants.pretestRightAnswers.put(courseId, rightAnswers);
+                                    FinanceLearningConstants.mainTestRightAnswers.put(courseId, rightAnswers);
                                 }
 
-                                Log.d("AnswerLog", "Right Answers Map = " + FinanceLearningConstants.pretestRightAnswers.toString());
+                                Log.d("AnswerLog", "Right Answers Map = " + FinanceLearningConstants.mainTestRightAnswers.toString());
 
                             } else {
 
@@ -222,12 +224,12 @@ public class PretestQuestionAndAnswersAdapter extends PagerAdapter {
                                     e.printStackTrace();
                                 }
 
-                                if (FinanceLearningConstants.pretestRightAnswers.containsKey(courseId)) {
-                                    List<JSONObject> rightAnswers = FinanceLearningConstants.pretestRightAnswers.get(courseId);
+                                if (FinanceLearningConstants.mainTestRightAnswers.containsKey(courseId)) {
+                                    List<JSONObject> rightAnswers = FinanceLearningConstants.mainTestRightAnswers.get(courseId);
                                     if (rightAnswers.contains(rightObject)) {
                                         rightAnswers.remove(rightObject);
                                     }
-                                    FinanceLearningConstants.pretestRightAnswers.put(courseId, rightAnswers);
+                                    FinanceLearningConstants.mainTestRightAnswers.put(courseId, rightAnswers);
                                 }
 
                                 JSONObject wrongObject = new JSONObject();
@@ -238,18 +240,18 @@ public class PretestQuestionAndAnswersAdapter extends PagerAdapter {
                                     e.printStackTrace();
                                 }
 
-                                if (FinanceLearningConstants.pretestWrongAnswers.containsKey(courseId)){
-                                    List<JSONObject> wrongAnswers = FinanceLearningConstants.pretestWrongAnswers.get(courseId);
+                                if (FinanceLearningConstants.mainTestWrongAnswers.containsKey(courseId)){
+                                    List<JSONObject> wrongAnswers = FinanceLearningConstants.mainTestWrongAnswers.get(courseId);
                                     if (!wrongAnswers.contains(wrongObject)) {
                                         wrongAnswers.add(wrongObject);
                                     }
-                                    FinanceLearningConstants.pretestWrongAnswers.put(courseId, wrongAnswers);
+                                    FinanceLearningConstants.mainTestWrongAnswers.put(courseId, wrongAnswers);
                                 }else{
                                     List<JSONObject>wrongAnswers = new ArrayList<>();
                                     wrongAnswers.add(wrongObject);
-                                    FinanceLearningConstants.pretestWrongAnswers.put(courseId, wrongAnswers);
+                                    FinanceLearningConstants.mainTestWrongAnswers.put(courseId, wrongAnswers);
                                 }
-                                Log.d("AnswerLog", "Wrong Answers Map = " + FinanceLearningConstants.pretestWrongAnswers.toString());
+                                Log.d("AnswerLog", "Wrong Answers Map = " + FinanceLearningConstants.mainTestWrongAnswers.toString());
 
                             }
 

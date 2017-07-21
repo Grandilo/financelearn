@@ -34,6 +34,10 @@ public class FinanceLearningConstants {
     public static final String PRETEST_WRONG_ANSWERS = "pretest_wrong_answers";
     public static final java.lang.String VIDEO_URL = "video_url";
     public static final java.lang.String VIDEO_NAME = "video_name";
+    public static final String MAIN_TEST = "main_test";
+
+    public static final String MAIN_TEST_RIGHT_ANSWERS = "main_test_right_answers";
+    public static final String MAIN_TEST_WRONG_ANSWERS  = "main_test_wrong_answers";
 
     public static String COURSE_VIDEOS = "course_videos";
 
@@ -59,7 +63,7 @@ public class FinanceLearningConstants {
     public static final String CATEGORY_COURSES_ASSIGNED_TO_ME_JUST_NOW = "courses_assigned_to_me_just_now";
     public static final java.lang.String SOURCE_ACTIVITY = "source_activity";
     public static final String NOTIFICATIONS_TARGET = "notification_target";
-     public static final String SELECTED_PRE_TEST_COURSES = "selected_pre_test_courses";
+    public static final String SELECTED_PRE_TEST_COURSES = "selected_pre_test_courses";
     public static final String PRETEST = "pre_test";
 
     public static final java.lang.String QUESTION = "question";
@@ -79,16 +83,23 @@ public class FinanceLearningConstants {
     public static final String FINANCE_LEARN_FILES_BUCKET = "gs://financelearn-dffeb.appspot.com";
 
     //////PRETEST COURSE MAP/////
-    public static HashMap<String, String> pretestCourseMap = new HashMap<>();
+    public static HashMap<String, String> courseMap = new HashMap<>();
 
     ///////PRETEST RESULT MAP//////////
+
     //<CourseId, Right Answers Map>
     public static HashMap<String, List<JSONObject>> pretestRightAnswers = new HashMap<>();
+    public static HashMap<String, List<JSONObject>> mainTestRightAnswers = new HashMap<>();
+
     //<CourseId, Wrong Answers Map>
     public static HashMap<String, List<JSONObject>> pretestWrongAnswers = new HashMap<>();
+    public static HashMap<String, List<JSONObject>> mainTestWrongAnswers = new HashMap<>();
 
     public static ArrayList<String> coursesToTest = new ArrayList<>();
     public static ArrayList<String> coursesToAssign = new ArrayList<>();
+
     public static SparseArray<UploadTask> taskQueue = new SparseArray<>();
+
+    public static HashMap<String, Float> mainTestScoresMap = new HashMap<>();
 
 }

@@ -55,6 +55,7 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
 
         allPretestCourses = signedInUserProps.optString(FinanceLearningConstants.ALL_PRETEST_COURSES);
         String rightPretestAnswers = signedInUserProps.optString(FinanceLearningConstants.PRETEST_RIGHT_ANSWERS);
+        String mainTestRightAnswers = signedInUserProps.optString(FinanceLearningConstants.MAIN_TEST_RIGHT_ANSWERS);
 
         if (allPretestCourses != null) {
             Log.d("ResultTag", "AllPretest Courses are not null");
@@ -81,9 +82,27 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
             }.getType();
 
             Gson gson = new Gson();
-            FinanceLearningConstants.pretestRightAnswers = gson.fromJson(rightPretestAnswers,hasType);
+            HashMap<String, List<JSONObject>> rightAnswersMap = gson.fromJson(rightPretestAnswers, hasType);
+            if (rightAnswersMap != null) {
+                FinanceLearningConstants.pretestRightAnswers.putAll(rightAnswersMap);
+            }
 
         }
+
+        if (mainTestRightAnswers != null) {
+
+            Type hasType = new TypeToken<HashMap<String, Object>>() {
+            }.getType();
+
+            Gson gson = new Gson();
+            HashMap<String,List<JSONObject>>mainTestRightAnswersMap = gson.fromJson(mainTestRightAnswers, hasType);
+
+            if (mainTestRightAnswersMap!=null){
+                FinanceLearningConstants.mainTestRightAnswers.putAll(mainTestRightAnswersMap);
+            }
+
+        }
+
         courseReference = FirebaseUtils.getCourses();
         fetchCourses();
         fetchUpdatedUserInfo();
@@ -192,6 +211,10 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
                         Intent preTestIntent = new Intent(EmployeeHomeScreen.this, PreTestCourseSelectionActivity.class);
                         startActivity(preTestIntent);
                     }
+                } else {
+                    Intent mainTestResultIntent = new Intent(EmployeeHomeScreen.this, MainTestResultActivity.class);
+                    mainTestResultIntent.putExtra(FinanceLearningConstants.TOTAL_NO_OF_QS, signedInUserProps.optInt(FinanceLearningConstants.TOTAL_NO_OF_QS));
+                    startActivity(mainTestResultIntent);
                 }
                 break;
         }
@@ -232,7 +255,7 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
                 if (pretestCourseList.contains(courseKey)) {
                     if (courseProps != null) {
                         String courseName = courseProps.get(FinanceLearningConstants.COURSE_NAME);
-                        FinanceLearningConstants.pretestCourseMap.put(dataSnapshot.getKey(), courseName);
+                        FinanceLearningConstants.courseMap.put(dataSnapshot.getKey(), courseName);
                     }
                 }
             }
