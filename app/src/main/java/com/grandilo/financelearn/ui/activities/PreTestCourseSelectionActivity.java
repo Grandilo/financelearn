@@ -81,12 +81,19 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
 
         if (signedInUser != null) {
             try {
-                assignedCourses = new JSONArray(signedInUser.getString(FinanceLearningConstants.COURSES_ASSIGNED));
-                if (assignedCourses.length() > 0) {
-                    managerCoursesUnselectedMessageView.setVisibility(View.GONE);
-                    sendNotificationTextView.setVisibility(View.GONE);
-                    bottomBar.setVisibility(View.GONE);
-                } else {
+                if (assignedCourses!=null){
+                    assignedCourses = new JSONArray(signedInUser.getString(FinanceLearningConstants.COURSES_ASSIGNED));
+                    if (assignedCourses.length() > 0) {
+                        managerCoursesUnselectedMessageView.setVisibility(View.GONE);
+                        sendNotificationTextView.setVisibility(View.GONE);
+                        bottomBar.setVisibility(View.GONE);
+                    } else {
+                        bottomBar.setVisibility(View.VISIBLE);
+                        managerCoursesUnselectedMessageView.setVisibility(View.VISIBLE);
+                        sendNotificationTextView.setVisibility(View.VISIBLE);
+                        nextButton.setVisibility(View.GONE);
+                    }
+                }else{
                     bottomBar.setVisibility(View.VISIBLE);
                     managerCoursesUnselectedMessageView.setVisibility(View.VISIBLE);
                     sendNotificationTextView.setVisibility(View.VISIBLE);
