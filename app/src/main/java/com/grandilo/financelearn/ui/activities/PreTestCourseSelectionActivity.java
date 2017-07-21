@@ -54,6 +54,7 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
     private JSONObject signedInUser;
 
     private static LinearLayout bottomBar;
+    private static JSONArray assignedCourses;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolbar);
 
-        if (getSupportActionBar()!=null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
@@ -80,7 +81,7 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
 
         if (signedInUser != null) {
             try {
-                JSONArray assignedCourses = new JSONArray(signedInUser.getString(FinanceLearningConstants.COURSES_ASSIGNED));
+                assignedCourses = new JSONArray(signedInUser.getString(FinanceLearningConstants.COURSES_ASSIGNED));
                 if (assignedCourses.length() > 0) {
                     managerCoursesUnselectedMessageView.setVisibility(View.GONE);
                     sendNotificationTextView.setVisibility(View.GONE);
@@ -106,7 +107,7 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId()==android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -114,7 +115,7 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
 
     public static void reviewSelections() {
         int selectedCoursesCount = FinanceLearningConstants.coursesToTest.size();
-        if (selectedCoursesCount == 4) {
+        if (selectedCoursesCount == 4 && assignedCourses != null && assignedCourses.length() > 0) {
             bottomBar.setVisibility(View.VISIBLE);
             nextButton.setVisibility(View.VISIBLE);
         } else {
@@ -238,11 +239,12 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
                     FirebaseUtils.getStaffReference().child(signedInUser.optString("staff_id")).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot!=null){
-                                GenericTypeIndicator<HashMap<String,Object>>hashMapGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>(){};
-                                HashMap<String,Object>newUserProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
-                                if (newUserProps!=null){
-                                    AppPreferences.saveLoggedInUser(PreTestCourseSelectionActivity.this,newUserProps);
+                            if (dataSnapshot != null) {
+                                GenericTypeIndicator<HashMap<String, Object>> hashMapGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>() {
+                                };
+                                HashMap<String, Object> newUserProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
+                                if (newUserProps != null) {
+                                    AppPreferences.saveLoggedInUser(PreTestCourseSelectionActivity.this, newUserProps);
                                 }
                             }
                         }
