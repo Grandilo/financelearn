@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,10 +46,14 @@ public class ManagerHomeScreen extends AppCompatActivity {
 
     private TextView staffToAssignContentView;
 
+    private Toolbar toolbar;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.manager_home_screen);
+        toolbar = (Toolbar)findViewById(R.id.toolbar_actionbar);
+        setSupportActionBar(toolbar);
         signedInUserProps = AppPreferences.getSignedInUser(this);
         staffRecyclerView = (RecyclerView) findViewById(R.id.staff_recycler_view);
         staffToAssignContentView = (TextView) findViewById(R.id.content_empty_view);
@@ -139,7 +144,7 @@ public class ManagerHomeScreen extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_employee, menu);
+        getMenuInflater().inflate(R.menu.menu_manager, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
