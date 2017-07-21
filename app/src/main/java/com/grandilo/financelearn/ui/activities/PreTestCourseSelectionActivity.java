@@ -81,7 +81,7 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
 
         if (signedInUser != null) {
             try {
-                if (assignedCourses!=null){
+                if (signedInUser.getString(FinanceLearningConstants.COURSES_ASSIGNED) != null) {
                     assignedCourses = new JSONArray(signedInUser.getString(FinanceLearningConstants.COURSES_ASSIGNED));
                     if (assignedCourses.length() > 0) {
                         managerCoursesUnselectedMessageView.setVisibility(View.GONE);
@@ -93,7 +93,7 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
                         sendNotificationTextView.setVisibility(View.VISIBLE);
                         nextButton.setVisibility(View.GONE);
                     }
-                }else{
+                } else {
                     bottomBar.setVisibility(View.VISIBLE);
                     managerCoursesUnselectedMessageView.setVisibility(View.VISIBLE);
                     sendNotificationTextView.setVisibility(View.VISIBLE);
@@ -104,6 +104,7 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
                 nextButton.setVisibility(View.GONE);
             }
         }
+
         initViews();
         initCoursesAdapter();
         courseReference = FirebaseUtils.getCourses();
