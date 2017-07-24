@@ -33,6 +33,7 @@ import com.grandilo.financelearn.utils.MediaUploadUtils;
 
 import net.alhazmy13.mediapicker.Video.VideoPicker;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -238,6 +239,10 @@ public class UploadCourseVideoActivity extends AppCompatActivity implements View
         if (requestCode == VideoPicker.VIDEO_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
             final String pickedVideoPath = data.getStringExtra(VideoPicker.EXTRA_VIDEO_PATH);
             if (!TextUtils.isEmpty(pickedVideoPath)) {
+
+                File filePath = new File(pickedVideoPath);
+
+                Log.d("PickedFile",filePath.getName());
 
                 HashMap<String, Object> pickedVideoProps = new HashMap<>();
                 pickedVideoProps.put(FinanceLearningConstants.MEDIA_LOCAL_URL, pickedVideoPath);

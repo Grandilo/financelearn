@@ -35,6 +35,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Ugo
@@ -47,7 +48,7 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
 
     private static TextView nextButton;
     private RecyclerView coursesRecyclerView;
-    private List<HashMap<String, String>> courses = new ArrayList<>();
+    private List<HashMap<String, Object>> courses = new ArrayList<>();
     private ChildEventListener coursesEventListener;
     private DatabaseReference courseReference;
     private static PreTestCourseSelectionAdapter preTestCourseSelectionAdapter;
@@ -154,10 +155,10 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                GenericTypeIndicator<HashMap<String, String>> hashMapGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, String>>() {
+                GenericTypeIndicator<HashMap<String, Object>> hashMapGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>() {
                 };
 
-                HashMap<String, String> courseProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
+                HashMap<String, Object> courseProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
                 if (courseProps != null) {
                     courseProps.put(FinanceLearningConstants.COURSE_ID, dataSnapshot.getKey());
                 }

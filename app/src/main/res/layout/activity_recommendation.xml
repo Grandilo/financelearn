@@ -23,11 +23,27 @@
         android:id="@+id/recommendations_result_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center"
+        android:layout_below="@+id/appbar"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
         android:lineSpacingMultiplier="1.2"
         android:padding="16dp"
-        android:textSize="19sp" />
+        android:text="Recommended courses for you based on your test results"
+        android:textSize="15sp" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/recommendations_result_view"
+        android:background="@android:color/darker_gray" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recommended_courses_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/divider"
+        android:padding="12dp" />
 
 </RelativeLayout>

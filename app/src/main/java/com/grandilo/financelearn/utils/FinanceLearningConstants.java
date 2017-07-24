@@ -37,7 +37,7 @@ public class FinanceLearningConstants {
     public static final String MAIN_TEST = "main_test";
 
     public static final String MAIN_TEST_RIGHT_ANSWERS = "main_test_right_answers";
-    public static final String MAIN_TEST_WRONG_ANSWERS  = "main_test_wrong_answers";
+    public static final String MAIN_TEST_WRONG_ANSWERS = "main_test_wrong_answers";
 
     public static String COURSE_VIDEOS = "course_videos";
 
@@ -76,14 +76,13 @@ public class FinanceLearningConstants {
     public static final String THUMB_NAIL = "thumb_nail_url";
 
     public static String NOTIFICATIONS_NODE = "Notifications";
-
     public static String NOTIFICATION_CATEGORY = "notification_category";
 
     public static String COURSES_ASSIGNED = "courses_assigned";
     public static final String FINANCE_LEARN_FILES_BUCKET = "gs://financelearn-dffeb.appspot.com";
 
-    //////PRETEST COURSE MAP/////
-    public static HashMap<String, String> courseMap = new HashMap<>();
+    public static HashMap<String, String> courseIdNameMap = new HashMap<>();
+    public static HashMap<String, HashMap<String, Object>> fullCourseDetailsMap = new HashMap<>();
 
     ///////PRETEST RESULT MAP//////////
 
@@ -99,7 +98,17 @@ public class FinanceLearningConstants {
     public static ArrayList<String> coursesToAssign = new ArrayList<>();
 
     public static SparseArray<UploadTask> taskQueue = new SparseArray<>();
-
     public static HashMap<String, Float> mainTestScoresMap = new HashMap<>();
+
+    public static String PRETEST_PROFICIENCY_LEVEL_BASIC = "basic";
+    public static String PRETEST_PROFICIENCY_LEVEL_INTERMEDIATE = "intermediate";
+    public static String PRETEST_PROFICIENCY_LEVEL_EXPERT = "expert";
+
+    public static String MAIN_PROFICIENCY_LEVEL_BELOW_AVERAGE = "below_average";
+    public static String MAIN_PROFICIENCY_LEVEL_AVERAGE = "average";
+    public static String MAIN_PROFICIENCY_LEVEL_GOOD = "good";
+
+    public static HashMap<String, ArrayList<String>> recommendationsMap = new HashMap<>();
+
 
 }

@@ -246,16 +246,17 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                GenericTypeIndicator<HashMap<String, String>> hashMapGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, String>>() {
+                GenericTypeIndicator<HashMap<String, Object>> hashMapGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>() {
                 };
 
-                HashMap<String, String> courseProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
+                HashMap<String, Object> courseProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
                 String courseKey = dataSnapshot.getKey();
 
                 if (pretestCourseList.contains(courseKey)) {
                     if (courseProps != null) {
-                        String courseName = courseProps.get(FinanceLearningConstants.COURSE_NAME);
-                        FinanceLearningConstants.courseMap.put(dataSnapshot.getKey(), courseName);
+                        String courseName = (String) courseProps.get(FinanceLearningConstants.COURSE_NAME);
+                        FinanceLearningConstants.courseIdNameMap.put(dataSnapshot.getKey(), courseName);
+                        FinanceLearningConstants.fullCourseDetailsMap.put(dataSnapshot.getKey(),courseProps);
                     }
                 }
             }

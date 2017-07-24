@@ -51,7 +51,7 @@ public class MainTestResultActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        for (String key : FinanceLearningConstants.courseMap.keySet()) {
+        for (String key : FinanceLearningConstants.courseIdNameMap.keySet()) {
             courseIds.add(key);
         }
 
@@ -65,6 +65,7 @@ public class MainTestResultActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent recommendationsIntent = new Intent(MainTestResultActivity.this, RecommendedCourseActivity.class);
                 startActivity(recommendationsIntent);
+                finish();
             }
 
         });
@@ -96,7 +97,6 @@ public class MainTestResultActivity extends AppCompatActivity {
                     updatableProps.put(FinanceLearningConstants.MAIN_TEST_WRONG_ANSWERS, wrongAnsJSON.toString());
                 }
 
-                updatableProps.put(FinanceLearningConstants.MAIN_TEST_TAKEN, true);
                 updatableProps.put(FinanceLearningConstants.TOTAL_NO_OF_QS, totalNumberOfQs);
 
             }

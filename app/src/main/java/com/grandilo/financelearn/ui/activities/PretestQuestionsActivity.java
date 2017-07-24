@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Ugo
@@ -239,16 +240,18 @@ public class PretestQuestionsActivity extends AppCompatActivity implements View.
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                GenericTypeIndicator<HashMap<String, String>> hashMapGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, String>>() {
+                GenericTypeIndicator<HashMap<String, Object>> hashMapGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>() {
                 };
 
-                HashMap<String, String> courseProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
+                HashMap<String, Object> courseProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
                 String courseKey = dataSnapshot.getKey();
 
                 if (selectedCoursesForPretest.contains(courseKey)) {
                     if (courseProps != null) {
-                        String courseName = courseProps.get(FinanceLearningConstants.COURSE_NAME);
-                        FinanceLearningConstants.courseMap.put(dataSnapshot.getKey(), courseName);
+                        String courseName = (String) courseProps.get(FinanceLearningConstants.COURSE_NAME);
+                        FinanceLearningConstants.courseIdNameMap.put(dataSnapshot.getKey(), courseName);
+                        FinanceLearningConstants.fullCourseDetailsMap.put(dataSnapshot.getKey(), courseProps);
+
                     }
                 }
             }
