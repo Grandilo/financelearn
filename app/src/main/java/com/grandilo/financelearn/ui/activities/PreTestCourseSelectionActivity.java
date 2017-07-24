@@ -80,6 +80,7 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
         signedInUser = AppPreferences.getSignedInUser(this);
 
         if (signedInUser != null) {
+
             try {
                 if (signedInUser.getString(FinanceLearningConstants.COURSES_ASSIGNED) != null) {
                     assignedCourses = new JSONArray(signedInUser.getString(FinanceLearningConstants.COURSES_ASSIGNED));
@@ -103,14 +104,15 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
                 e.printStackTrace();
                 nextButton.setVisibility(View.GONE);
             }
+
         }
 
         initViews();
         initCoursesAdapter();
         courseReference = FirebaseUtils.getCourses();
         fetchCourses();
-
         clearAllNotificationsForCurrentStaff();
+
     }
 
     @Override
