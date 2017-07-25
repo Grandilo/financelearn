@@ -38,6 +38,7 @@ public class FinanceLearningConstants {
 
     public static final String MAIN_TEST_RIGHT_ANSWERS = "main_test_right_answers";
     public static final String MAIN_TEST_WRONG_ANSWERS = "main_test_wrong_answers";
+    public static final String EMAIL_SENT = "email_sent";
 
     public static String COURSE_VIDEOS = "course_videos";
 

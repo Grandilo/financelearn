@@ -20,6 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.grandilo.financelearn.R;
 import com.grandilo.financelearn.ui.adapters.RecommendationsAdapter;
 import com.grandilo.financelearn.utils.AppPreferences;
+import com.grandilo.financelearn.utils.EmailUtils;
 import com.grandilo.financelearn.utils.FinanceLearningConstants;
 import com.grandilo.financelearn.utils.FirebaseUtils;
 
@@ -79,10 +80,10 @@ public class RecommendedCourseActivity extends AppCompatActivity {
                                     if (!recommendedCourses.contains(recommendation)) {
                                         recommendedCourses.add(recommendation);
                                     }
-                                }else{
-                                    updatableUserProps.put("go_back_to_videos","go_back_to_videos");
-                                    Toast.makeText(RecommendedCourseActivity.this,"You didn't do well in some courses. Please revisit the videos",Toast.LENGTH_LONG).show();
-                                    Intent videosIntent = new Intent(RecommendedCourseActivity.this,VideosActivity.class);
+                                } else {
+                                    updatableUserProps.put("go_back_to_videos", "go_back_to_videos");
+                                    Toast.makeText(RecommendedCourseActivity.this, "You didn't do well in some courses. Please revisit the videos", Toast.LENGTH_LONG).show();
+                                    Intent videosIntent = new Intent(RecommendedCourseActivity.this, VideosActivity.class);
                                     startActivity(videosIntent);
                                     finish();
                                 }
@@ -92,20 +93,30 @@ public class RecommendedCourseActivity extends AppCompatActivity {
                 }
             }
         }
+
         new Handler().postDelayed(new Runnable() {
+
             @Override
             public void run() {
-                if (!updatableUserProps.containsKey("go_back_to_videos")){
+                if (!updatableUserProps.containsKey("go_back_to_videos")) {
                     updateUserState();
                 }
             }
-        },500);
+
+        }, 500);
+
+
+        boolean hasEmailBeingSent = AppPreferences.hasEmailBeingSent();
+
+        if (!hasEmailBeingSent) {
+            EmailUtils.sendEmail(RecommendedCourseActivity.this, recommendedCourses);
+        }
 
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId()==android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
         }
@@ -130,29 +141,29 @@ public class RecommendedCourseActivity extends AppCompatActivity {
                     FirebaseUtils.getStaffReference().child(signedInUserProps.optString("staff_id")).
                             addListenerForSingleValueEvent(new ValueEventListener() {
 
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
 
-                            if (dataSnapshot != null) {
+                                    if (dataSnapshot != null) {
 
-                                GenericTypeIndicator<HashMap<String, Object>> hashMapGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>() {
-                                };
+                                        GenericTypeIndicator<HashMap<String, Object>> hashMapGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>() {
+                                        };
 
-                                HashMap<String, Object> newUserProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
-                                if (newUserProps != null) {
-                                    AppPreferences.saveLoggedInUser(RecommendedCourseActivity.this, newUserProps);
+                                        HashMap<String, Object> newUserProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
+                                        if (newUserProps != null) {
+                                            AppPreferences.saveLoggedInUser(RecommendedCourseActivity.this, newUserProps);
+                                        }
+
+                                    }
+
                                 }
 
-                            }
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
 
-                        }
+                                }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-
-                    });
+                            });
 
                 }
 
