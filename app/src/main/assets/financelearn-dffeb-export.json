@@ -3,31 +3,108 @@
     null,
     {
       "name": "E business",
-      "course_id": "1"
+      "course_id": "1",
+      "recommendation": {
+        "basic_below_average": "EBUSINESS SUPPORT OFFICER",
+        "basic_average": "CREDIT CARDS DEVELOPMENT",
+        "basic_good": "WEB/COMMERCE DEVELOPMENT",
+        "intermediate_below_average": "EBUSINESS SUPPORT",
+        "intermediate_average": "PREPAID CARD DEVELOPMENT",
+        "intermediate_good": "EBUSINESS ASSURANCE AND COMPLIANCE",
+        "expert_blow_average": "go_back_to_videos",
+        "expert_average": "PRODUCT DEVELOPMENT",
+        "expert_good": "BUSINESS INTELLIGENCE"
+      }
     },
     {
       "name": "Information Security",
-      "course_id": "2"
+      "course_id": "2",
+      "recommendation": {
+        "basic_below_average": "INFORMATION SECURITY SUPPORT",
+        "basic_average": "CHANNEL MONITORING",
+        "basic_good": "OPERATIONS ANALYSIS",
+        "intermediate_below_average": "INFORMATION SECURITY SUPPORT",
+        "intermediate_average": "SYSTEM MONITORING",
+        "intermediate_good": "SECURITY OPERATIONS",
+        "expert_blow_average": "go_back_to_videos",
+        "expert_average": "BUSINESS COMPLIANCE",
+        "expert_good": "INFORMATION RISK ANALYSIS"
+      }
     },
     {
       "name": "Retail Banking",
-      "course_id": "3"
+      "course_id": "3",
+      "recommendation": {
+        "basic_below_average": "CUSTOMER SERVICE SUPPORT",
+        "basic_average": "FINANCIAL SERVICES SUPPORT",
+        "basic_good": "RELATIONSHIP MANAGEMENT",
+        "intermediate_below_average": "CUSTOMER SERVICE SUPPORT",
+        "intermediate_average": "BRANCH SERVICES MANAGEMENT",
+        "intermediate_good": "BRANCH BUSINESS MANAGEMENT",
+        "expert_blow_average": "go_back_to_videos",
+        "expert_average": "AREA BUSINESS DEVELOPMENT",
+        "expert_good": "REGIONAL BUSINESS DEVELOPMENT"
+      }
     },
     {
       "name": "Compliance",
-      "course_id": "4"
+      "course_id": "4",
+      "recommendation": {
+        "basic_below_average": "COMPLIANCE SUPPORT",
+        "basic_average": "COMPLIANCE MONITORING",
+        "basic_good": "SYSTEM SUPPORT",
+        "intermediate_below_average": "COMPLIANCE RETAIL  SUPPORT",
+        "intermediate_average": "COMPLIANCE SUPPORT",
+        "intermediate_good": "RISK ASSESSMENT",
+        "expert_blow_average": "go_back_to_videos",
+        "expert_average": "RISK ASSESSMENT",
+        "expert_good": "BUSINESS ASSURANCE"
+      }
     },
     {
       "name": "Foreign banking services",
-      "course_id": "5"
+      "course_id": "5",
+      "recommendation": {
+        "basic_below_average": "FOREIGN BANKING SUPPORT",
+        "basic_average": "FOREIGN BANKING COMPLIANCE",
+        "basic_good": "TRADE SERVICES",
+        "intermediate_below_average": "FOREIGN BANKING SUPPORT",
+        "intermediate_average": "FUNDS TRANSFER",
+        "intermediate_good": "RECONCILIATION",
+        "expert_blow_average": "go_back_to_videos",
+        "expert_average": "FUNDS TRANSFER",
+        "expert_good": "RECONCILIATION"
+      }
     },
     {
       "name": "Transaction banking",
-      "course_id": "6"
+      "course_id": "6",
+      "recommendation": {
+        "basic_below_average": "BRANCH TRANSACTION SUPPORT",
+        "basic_average": "TRANSACTION SUPPORT",
+        "basic_good": "DEMAND MANAGEMENT",
+        "intermediate_below_average": "TRANSACTION SUPPORT",
+        "intermediate_average": "DEMAND MANAGEMENT",
+        "intermediate_good": "TRANSACTION BANKING RECONCILIATION",
+        "expert_blow_average": "go_back_to_videos",
+        "expert_average": "TECHNICAL SALES",
+        "expert_good": "BUSINESS ANALYSIS"
+      }
     },
     {
       "name": "Money Transfer",
-      "course_id": "7"
+      "course_id": "7",
+      "recommendation": {
+        "basic_below_average": "FOREIGN BANKING SUPPORT",
+        "basic_average": "FOREIGN BANKING COMPLIANCE",
+        "basic_good": "TRADE SERVICES",
+        "intermediate_below_average": "FOREIGN BANKING SUPPORT",
+        "intermediate_average": "FUNDS TRANSFER",
+        "intermediate_good": "RECONCILIATION",
+        "expert_blow_average": "go_back_to_videos",
+        "expert_average": "FUNDS TRANSFER",
+        "expert_good": "RECONCILIATION"
+      }
     }
   ],
   "pre_test": [

@@ -31,12 +31,12 @@ import java.util.List;
 public class PreTestCourseSelectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private LayoutInflater layoutInflater;
-    private List<HashMap<String, String>> courses;
+    private List<HashMap<String, Object>> courses;
     private Context context;
 
     private static JSONObject signedInUser;
 
-    public PreTestCourseSelectionAdapter(Context context, List<HashMap<String, String>> courses) {
+    public PreTestCourseSelectionAdapter(Context context, List<HashMap<String, Object>> courses) {
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
         this.courses = courses;
@@ -52,7 +52,7 @@ public class PreTestCourseSelectionAdapter extends RecyclerView.Adapter<Recycler
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         CourseItemHolder courseItemHolder = (CourseItemHolder) holder;
-        HashMap<String, String> courseItem = courses.get(position);
+        HashMap<String, Object> courseItem = courses.get(position);
         if (courseItem != null) {
             courseItemHolder.bindCourse(context, courseItem);
         }
@@ -77,10 +77,10 @@ public class PreTestCourseSelectionAdapter extends RecyclerView.Adapter<Recycler
             checkBox = (CheckBox) itemView.findViewById(R.id.checkbox);
         }
 
-        void bindCourse(final Context context, HashMap<String, String> courseItem) {
+        void bindCourse(final Context context, HashMap<String, Object> courseItem) {
 
             final String courseAssigned = signedInUser.optString(FinanceLearningConstants.COURSES_ASSIGNED);
-            final String courseId = courseItem.get(FinanceLearningConstants.COURSE_ID);
+            final String courseId = (String) courseItem.get(FinanceLearningConstants.COURSE_ID);
             Log.d("CheckedCourses", "User Props=" + signedInUser.toString());
             if (courseAssigned != null) {
                 Log.d("CheckedCourses", "Course String =" + courseAssigned);
@@ -104,7 +104,7 @@ public class PreTestCourseSelectionAdapter extends RecyclerView.Adapter<Recycler
                 Log.d("CheckedCourses", "Courses are null");
             }
 
-            String courseItemTitle = courseItem.get(FinanceLearningConstants.COURSE_NAME);
+            String courseItemTitle = (String) courseItem.get(FinanceLearningConstants.COURSE_NAME);
             courseItemTitleView.setText(courseItemTitle);
             Log.d("CheckedCourses", "Course Id = " + courseId);
 

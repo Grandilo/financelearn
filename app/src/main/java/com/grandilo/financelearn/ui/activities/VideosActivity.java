@@ -114,7 +114,7 @@ public class VideosActivity extends AppCompatActivity {
                         String courseId = (String) courseDetails.get(FinanceLearningConstants.COURSE_ID);
                         final String expertLevel = (String) videoProps.get(FinanceLearningConstants.EXPERTISE_LEVEL);
 
-                        if (FinanceLearningConstants.courseMap.containsKey(courseId)) {
+                        if (FinanceLearningConstants.courseIdNameMap.containsKey(courseId)) {
                             //Get percentage on cause
                             List<JSONObject> rightAnswers = FinanceLearningConstants.pretestRightAnswers.get(courseId);
                             int totalNoOfQ = signedInUserObject.optInt(FinanceLearningConstants.TOTAL_NO_OF_QS);

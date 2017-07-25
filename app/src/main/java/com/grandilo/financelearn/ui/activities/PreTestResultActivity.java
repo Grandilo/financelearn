@@ -51,7 +51,7 @@ public class PreTestResultActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        for (String key : FinanceLearningConstants.courseMap.keySet()) {
+        for (String key : FinanceLearningConstants.courseIdNameMap.keySet()) {
             courseIds.add(key);
         }
 

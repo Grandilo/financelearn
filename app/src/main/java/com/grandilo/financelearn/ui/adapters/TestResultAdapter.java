@@ -3,17 +3,21 @@ package com.grandilo.financelearn.ui.adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.grandilo.financelearn.R;
+import com.grandilo.financelearn.ui.activities.MainTestResultActivity;
 import com.grandilo.financelearn.ui.activities.PreTestResultActivity;
 import com.grandilo.financelearn.utils.FinanceLearningConstants;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,13 +65,25 @@ public class TestResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             percentageView = itemView.findViewById(R.id.percentage_score);
         }
 
-        public String getResultCategory(float percentage) {
+        public String getResultCategory(Context context, float percentage, boolean format) {
             if (percentage < 39) {
-                return "Basic";
+                if (format) {
+                    return context instanceof PreTestResultActivity ? FinanceLearningConstants.PRETEST_PROFICIENCY_LEVEL_BASIC : FinanceLearningConstants.MAIN_PROFICIENCY_LEVEL_BELOW_AVERAGE;
+                } else {
+                    return FinanceLearningConstants.PRETEST_PROFICIENCY_LEVEL_BASIC;
+                }
             } else if (percentage > 39 && percentage < 69) {
-                return "Intermediate";
+                if (format) {
+                    return context instanceof PreTestResultActivity ? FinanceLearningConstants.PRETEST_PROFICIENCY_LEVEL_INTERMEDIATE : FinanceLearningConstants.MAIN_PROFICIENCY_LEVEL_AVERAGE;
+                } else {
+                    return FinanceLearningConstants.PRETEST_PROFICIENCY_LEVEL_INTERMEDIATE;
+                }
             } else {
-                return "Expert";
+                if (format) {
+                    return context instanceof PreTestResultActivity ? FinanceLearningConstants.PRETEST_PROFICIENCY_LEVEL_EXPERT : FinanceLearningConstants.MAIN_PROFICIENCY_LEVEL_GOOD;
+                } else {
+                    return FinanceLearningConstants.PRETEST_PROFICIENCY_LEVEL_EXPERT;
+                }
             }
         }
 
@@ -83,31 +99,71 @@ public class TestResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     rightAnswers = FinanceLearningConstants.mainTestRightAnswers.get(courseId);
                 }
 
-                resultItem.setText(FinanceLearningConstants.courseMap.get(courseId));
+                resultItem.setText(FinanceLearningConstants.courseIdNameMap.get(courseId));
 
                 if (rightAnswers != null) {
                     int rightAnswersCount = rightAnswers.size();
                     float percentAge = rightAnswers.size() * 100 / totalNoOfQ;
                     FinanceLearningConstants.mainTestScoresMap.put(courseId, percentAge);
                     if (rightAnswersCount > 0) {
-                        percentageView.setText(percentAge + " % (" + getResultCategory(percentAge) + ")");
-                        if (getResultCategory(percentAge).contains("Basic")) {
+                        percentageView.setText(percentAge + " % (" + getResultCategory(context, percentAge, true).replace("_", " ") + ")");
+                        if (getResultCategory(context, percentAge, true).contains(context instanceof PreTestResultActivity ? FinanceLearningConstants.PRETEST_PROFICIENCY_LEVEL_BASIC : FinanceLearningConstants.MAIN_PROFICIENCY_LEVEL_BELOW_AVERAGE)) {
                             percentageView.setTextColor(Color.RED);
-                        } else if (getResultCategory(percentAge).contains("Intermediate")) {
+                        } else if (getResultCategory(context, percentAge, true).contains(context instanceof PreTestResultActivity ? FinanceLearningConstants.PRETEST_PROFICIENCY_LEVEL_INTERMEDIATE : FinanceLearningConstants.MAIN_PROFICIENCY_LEVEL_AVERAGE)) {
                             percentageView.setTextColor(Color.BLUE);
                         } else {
                             percentageView.setTextColor(Color.GREEN);
                         }
                     } else {
-                        percentageView.setText("0 % (Basic)");
+                        percentageView.setText("0 % (" + (context instanceof PreTestResultActivity ? FinanceLearningConstants.PRETEST_PROFICIENCY_LEVEL_BASIC.replace("_", " ") : FinanceLearningConstants.MAIN_PROFICIENCY_LEVEL_BELOW_AVERAGE.replace("_", " ")) + ")");
                         percentageView.setTextColor(Color.RED);
                     }
                 } else {
-                    percentageView.setText("0 % (Basic)");
+                    percentageView.setText("0 % (" + (context instanceof PreTestResultActivity ? FinanceLearningConstants.PRETEST_PROFICIENCY_LEVEL_BASIC.replace("_", " ") : FinanceLearningConstants.MAIN_PROFICIENCY_LEVEL_BELOW_AVERAGE.replace("_", " ")) + ")");
                     percentageView.setTextColor(Color.RED);
                 }
 
+                injectCourseRecommendations(context, courseId, totalNoOfQ);
+
             } catch (NullPointerException ignore) {
+
+            }
+
+
+        }
+
+        private void injectCourseRecommendations(Context context, String courseId, int totalNoOfQ) {
+
+            if (context instanceof MainTestResultActivity) {
+
+                List<JSONObject> pretestRightAnswersList = FinanceLearningConstants.pretestRightAnswers.get(courseId);
+                List<JSONObject> mainTestRightAnswers = FinanceLearningConstants.mainTestRightAnswers.get(courseId);
+
+                ArrayList<String> recommendationKeys = new ArrayList<>();
+
+                String pretestCategory;
+
+                if (pretestRightAnswersList != null) {
+                    float pretestRightAnswer = pretestRightAnswersList.size() * 100 / totalNoOfQ;
+                    pretestCategory = getResultCategory(context, pretestRightAnswer, false);
+                } else {
+                    pretestCategory = getResultCategory(context, 0, false);
+                }
+
+                String mainTestCategory;
+                if (mainTestRightAnswers != null) {
+                    float mainTestRightAnswer = mainTestRightAnswers.size() * 100 / totalNoOfQ;
+                    mainTestCategory = getResultCategory(context, mainTestRightAnswer, true);
+                }else{
+                    mainTestCategory = getResultCategory(context, 0, true);
+                }
+
+                recommendationKeys.add(pretestCategory);
+                recommendationKeys.add(mainTestCategory);
+
+                FinanceLearningConstants.recommendationsMap.put(courseId, recommendationKeys);
+
+                Log.d("ListJoin", "CourseId= " + courseId + "and rec key=" + TextUtils.join(",", recommendationKeys));
 
             }
 

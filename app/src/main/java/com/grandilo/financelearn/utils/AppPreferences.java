@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 
+import com.grandilo.financelearn.ui.ApplicationLoader;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -64,6 +66,15 @@ public class AppPreferences {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @SuppressLint("ApplySharedPref")
+    public static void saveEmailSentStatus(boolean b) {
+        ApplicationLoader.getInstance().getSharedPreferences(FinanceLearningConstants.SHARED_PREFS,Context.MODE_PRIVATE).edit().putBoolean(FinanceLearningConstants.EMAIL_SENT,b).commit();
+    }
+
+    public static boolean hasEmailBeingSent(){
+        return ApplicationLoader.getInstance().getSharedPreferences(FinanceLearningConstants.SHARED_PREFS,Context.MODE_PRIVATE).getBoolean(FinanceLearningConstants.EMAIL_SENT,false);
     }
 
 }
