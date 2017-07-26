@@ -18,11 +18,12 @@ public class EmailUtils {
 
     private static String TAG = EmailUtils.class.getSimpleName();
 
-    public static void sendEmail(Context context, List<String> recommendedCourses) {
+    public static void sendEmail(Context context, final String recipient, List<String> recommendedCourses) {
 
         JSONObject signedInUserProps = AppPreferences.getSignedInUser(context);
 
         if (signedInUserProps != null) {
+
             String lastName = signedInUserProps.optString(FinanceLearningConstants.LAST_NAME);
             String surname = signedInUserProps.optString(FinanceLearningConstants.SURNAME);
 
@@ -31,7 +32,7 @@ public class EmailUtils {
             BackgroundMail.newBuilder(context)
                     .withUsername("financelearnacademy@gmail.com")
                     .withPassword("ugochukwu100%")
-                    .withMailto("wannclem@gmail.com")
+                    .withMailto(recipient)
                     .withType(BackgroundMail.TYPE_PLAIN)
                     .withSubject("FinanceLearn Recommended Courses for " + name)
                     .withBody("Haven completed the Pretest and Main Test in partial fulfilment of the requirements for FinanceLearn, here are the courses recommended for the candidate " + name.toUpperCase() + "\n\n" + TextUtils.join(", ", recommendedCourses))
@@ -39,7 +40,7 @@ public class EmailUtils {
                         @Override
                         public void onSuccess() {
                             //do some magic
-                            AppPreferences.saveEmailSentStatus(true);
+                            AppPreferences.saveEmailSentStatus(recipient,true);
                             Log.d(TAG,"Email Sent Successfully");
                         }
                     })
@@ -47,11 +48,12 @@ public class EmailUtils {
                         @Override
                         public void onFail() {
                             //do some magic
-                            AppPreferences.saveEmailSentStatus(true);
+                            AppPreferences.saveEmailSentStatus(recipient,false);
                             Log.d(TAG,"Failed to send email");
                         }
                     })
                     .send();
+
         }
 
     }
