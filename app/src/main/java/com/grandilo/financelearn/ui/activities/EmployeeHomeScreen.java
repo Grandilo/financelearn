@@ -286,6 +286,7 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
     }
 
     public void fetchUpdatedUserInfo() {
+
         if (signedInUserProps != null) {
             FirebaseUtils.getStaffReference().child(signedInUserProps.optString("staff_id")).addValueEventListener(new ValueEventListener() {
                 @Override
@@ -304,7 +305,11 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
                 public void onCancelled(DatabaseError databaseError) {
 
                 }
+
             });
+
         }
+
     }
+
 }

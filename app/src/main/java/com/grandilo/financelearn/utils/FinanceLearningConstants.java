@@ -39,6 +39,9 @@ public class FinanceLearningConstants {
     public static final String MAIN_TEST_RIGHT_ANSWERS = "main_test_right_answers";
     public static final String MAIN_TEST_WRONG_ANSWERS = "main_test_wrong_answers";
     public static final String EMAIL_SENT = "email_sent";
+    public static final java.lang.String STAFF_HR_ID = "staff_hr_id";
+    public static final java.lang.String STAFF_MANAGER_ID = "staff_manager_id";
+    public static final java.lang.String LOGGED_IN_STATUS = "logged_in";
 
     public static String COURSE_VIDEOS = "course_videos";
 

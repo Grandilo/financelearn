@@ -106,11 +106,77 @@ public class RecommendedCourseActivity extends AppCompatActivity {
         }, 500);
 
 
-        boolean hasEmailBeingSent = AppPreferences.hasEmailBeingSent();
+        String staffHrId = signedInUserProps.optString(FinanceLearningConstants.STAFF_HR_ID);
+        String staffManagerId = signedInUserProps.optString(FinanceLearningConstants.STAFF_MANAGER_ID);
 
-        if (!hasEmailBeingSent) {
-            EmailUtils.sendEmail(RecommendedCourseActivity.this, recommendedCourses);
+        if (!TextUtils.isEmpty(staffHrId)) {
+            FirebaseUtils.getStaffReference().orderByChild(staffHrId).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    if (dataSnapshot != null) {
+
+                        GenericTypeIndicator<HashMap<String, Object>> hashMapGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>() {
+                        };
+
+                        HashMap<String, Object> hrProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
+
+                        if (hrProps != null) {
+                            String email = (String) hrProps.get("email");
+                            if (email != null) {
+                                if (!AppPreferences.hasEmailBeingSent(email)) {
+                                    EmailUtils.sendEmail(RecommendedCourseActivity.this, email, recommendedCourses);
+                                }
+                            }
+                        }
+
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
+
+        if (!TextUtils.isEmpty(staffManagerId)) {
+
+            FirebaseUtils.getStaffReference().orderByChild(staffManagerId).addListenerForSingleValueEvent(new ValueEventListener() {
+
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    if (dataSnapshot != null) {
+
+                        GenericTypeIndicator<HashMap<String, Object>> hashMapGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>() {
+                        };
+
+                        HashMap<String, Object> managerProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
+
+                        if (managerProps != null) {
+                            String email = (String) managerProps.get("email");
+                            if (email != null) {
+                                if (!AppPreferences.hasEmailBeingSent(email)) {
+                                    EmailUtils.sendEmail(RecommendedCourseActivity.this, email, recommendedCourses);
+                                }
+                            }
+                        }
+
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+
+            });
+
+        }
+
 
     }
 
@@ -172,4 +238,5 @@ public class RecommendedCourseActivity extends AppCompatActivity {
         });
 
     }
+
 }

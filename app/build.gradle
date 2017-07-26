@@ -42,7 +42,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.afollestad:easyvideoplayer:0.3.0'
     compile 'com.github.yesidlazaro:GmailBackground:1.2.0'
-
+    compile 'com.jenzz.appstate:appstate:3.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -69,12 +69,12 @@ public class AppPreferences {
     }
 
     @SuppressLint("ApplySharedPref")
-    public static void saveEmailSentStatus(boolean b) {
-        ApplicationLoader.getInstance().getSharedPreferences(FinanceLearningConstants.SHARED_PREFS,Context.MODE_PRIVATE).edit().putBoolean(FinanceLearningConstants.EMAIL_SENT,b).commit();
+    public static void saveEmailSentStatus(String email,boolean b) {
+        ApplicationLoader.getInstance().getSharedPreferences(FinanceLearningConstants.SHARED_PREFS,Context.MODE_PRIVATE).edit().putBoolean(email,b).commit();
     }
 
-    public static boolean hasEmailBeingSent(){
-        return ApplicationLoader.getInstance().getSharedPreferences(FinanceLearningConstants.SHARED_PREFS,Context.MODE_PRIVATE).getBoolean(FinanceLearningConstants.EMAIL_SENT,false);
+    public static boolean hasEmailBeingSent(String email){
+        return ApplicationLoader.getInstance().getSharedPreferences(FinanceLearningConstants.SHARED_PREFS,Context.MODE_PRIVATE).getBoolean(email,false);
     }
 
 }
