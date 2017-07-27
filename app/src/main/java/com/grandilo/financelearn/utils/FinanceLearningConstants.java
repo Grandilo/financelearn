@@ -42,6 +42,8 @@ public class FinanceLearningConstants {
     public static final java.lang.String STAFF_HR_ID = "staff_hr_id";
     public static final java.lang.String STAFF_MANAGER_ID = "staff_manager_id";
     public static final java.lang.String LOGGED_IN_STATUS = "logged_in";
+    public static final String LOGGED_IN = "logged_in";
+    public static final String LOGIN_TYPE_GUEST = "log_in_type_guest";
 
     public static String COURSE_VIDEOS = "course_videos";
 

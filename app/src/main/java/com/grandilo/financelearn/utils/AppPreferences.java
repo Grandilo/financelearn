@@ -46,7 +46,7 @@ public class AppPreferences {
                 }
             }
             context.getSharedPreferences(FinanceLearningConstants.SHARED_PREFS, Context.MODE_PRIVATE).edit().putString(FinanceLearningConstants.LOGGED_IN_USER, jsonObject.toString()).commit();
-            Log.d("NewUserProps",jsonObject.toString());
+            Log.d("NewUserProps", jsonObject.toString());
         } else {
             context.getSharedPreferences(FinanceLearningConstants.SHARED_PREFS, Context.MODE_PRIVATE).edit().putString(FinanceLearningConstants.LOGGED_IN_USER, null).commit();
         }
@@ -69,12 +69,25 @@ public class AppPreferences {
     }
 
     @SuppressLint("ApplySharedPref")
-    public static void saveEmailSentStatus(String email,boolean b) {
-        ApplicationLoader.getInstance().getSharedPreferences(FinanceLearningConstants.SHARED_PREFS,Context.MODE_PRIVATE).edit().putBoolean(email,b).commit();
+    static void saveEmailSentStatus(String email, boolean b) {
+        ApplicationLoader.getInstance().getSharedPreferences(FinanceLearningConstants.SHARED_PREFS, Context.MODE_PRIVATE).edit().putBoolean(email, b).commit();
     }
 
-    public static boolean hasEmailBeingSent(String email){
-        return ApplicationLoader.getInstance().getSharedPreferences(FinanceLearningConstants.SHARED_PREFS,Context.MODE_PRIVATE).getBoolean(email,false);
+    public static boolean hasEmailBeingSent(String email) {
+        return ApplicationLoader.getInstance().getSharedPreferences(FinanceLearningConstants.SHARED_PREFS, Context.MODE_PRIVATE).getBoolean(email, false);
+    }
+
+    public static boolean isFirstTime() {
+        return ApplicationLoader.getInstance()
+                .getSharedPreferences(FinanceLearningConstants.SHARED_PREFS, Context.MODE_PRIVATE)
+                .getBoolean(FinanceLearningConstants.LOGGED_IN, true);
+    }
+
+    public static void saveNotFirstLogIn() {
+        ApplicationLoader.getInstance()
+                .getSharedPreferences(FinanceLearningConstants.SHARED_PREFS, Context.MODE_PRIVATE)
+                .edit()
+                .putBoolean(FinanceLearningConstants.LOGGED_IN, false).apply();
     }
 
 }

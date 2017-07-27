@@ -47,8 +47,11 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
     private void initViews() {
         Button staffLoginButton = (Button) findViewById(R.id.employee_login);
         Button managerLoginButton = (Button) findViewById(R.id.manager_login);
+        Button guestLogingButton = (Button)findViewById(R.id.guest_login);
+
         staffLoginButton.setOnClickListener(this);
         managerLoginButton.setOnClickListener(this);
+        guestLogingButton.setOnClickListener(this);
     }
 
     @Override
@@ -59,6 +62,9 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
                 break;
             case R.id.manager_login:
                 launchLoginActivity(FinanceLearningConstants.LOGIN_TYPE_MANAGER);
+                break;
+            case R.id.guest_login:
+                launchLoginActivity(FinanceLearningConstants.LOGIN_TYPE_GUEST);
                 break;
         }
     }

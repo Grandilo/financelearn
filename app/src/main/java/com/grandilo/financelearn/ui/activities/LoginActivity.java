@@ -36,6 +36,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private String loginType;
 
     private String TAG = LoginActivity.class.getSimpleName();
+    private Button continueButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,7 +51,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Bundle intentExtras = getIntent().getExtras();
         if (intentExtras != null) {
             loginType = intentExtras.getString(FinanceLearningConstants.LOGIN_TYPE);
-            setUpLoginType();
+            if (loginType != null) {
+                if (loginType.equals(FinanceLearningConstants.LOGIN_TYPE_GUEST)) {
+                    if (getSupportActionBar() != null) {
+                        getSupportActionBar().setTitle("Guest Login");
+                    }
+                    idBox.setText("guest");
+                    passwordBox.setText("guest");
+                    loginType = FinanceLearningConstants.LOGIN_TYPE_EMPLOYEE;
+                    continueButton.performClick();
+                } else {
+                    setUpLoginType();
+                }
+            }
         }
     }
 
@@ -64,7 +77,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initViews() {
-        Button continueButton = (Button) findViewById(R.id.continue_button);
+        continueButton = (Button) findViewById(R.id.continue_button);
         continueButton.setOnClickListener(this);
         idBox = (EditText) findViewById(R.id.id_box);
         passwordBox = (EditText) findViewById(R.id.password_box);
@@ -170,6 +183,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     getSupportActionBar().setTitle(getString(R.string.manager_login));
                 }
                 idBox.setHint(getString(R.string.you_id));
+                break;
+            case FinanceLearningConstants.LOGIN_TYPE_GUEST:
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle("Guest Login");
+                }
                 break;
         }
     }
