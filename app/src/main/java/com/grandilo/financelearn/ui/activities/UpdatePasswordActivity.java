@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.grandilo.financelearn.R;
+import com.grandilo.financelearn.utils.AppPreferences;
 import com.grandilo.financelearn.utils.UiUtils;
 
 public class UpdatePasswordActivity extends AppCompatActivity implements View.OnClickListener {
@@ -74,6 +75,7 @@ public class UpdatePasswordActivity extends AppCompatActivity implements View.On
                                 public void run() {
                                     UiUtils.dismissProgressDialog();
                                     Toast.makeText(UpdatePasswordActivity.this, "Your password has being updated successfully!", Toast.LENGTH_LONG).show();
+                                    AppPreferences.saveNotFirstLogIn();
                                     finish();
                                 }
                             });

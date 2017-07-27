@@ -79,6 +79,14 @@
             android:text="@string/manager"
             android:theme="@style/Widget.Button.Login.Normal" />
 
+        <Button
+            android:id="@+id/guest_login"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/guest"
+            android:theme="@style/Widget.Button.Login.Normal" />
+
     </LinearLayout>
 
 </RelativeLayout>

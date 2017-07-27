@@ -95,9 +95,9 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
             }.getType();
 
             Gson gson = new Gson();
-            HashMap<String,List<JSONObject>>mainTestRightAnswersMap = gson.fromJson(mainTestRightAnswers, hasType);
+            HashMap<String, List<JSONObject>> mainTestRightAnswersMap = gson.fromJson(mainTestRightAnswers, hasType);
 
-            if (mainTestRightAnswersMap!=null){
+            if (mainTestRightAnswersMap != null) {
                 FinanceLearningConstants.mainTestRightAnswers.putAll(mainTestRightAnswersMap);
             }
 
@@ -138,8 +138,21 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
 
             String lastName = signedInUserProps.optString(FinanceLearningConstants.LAST_NAME);
             String surname = signedInUserProps.optString(FinanceLearningConstants.SURNAME);
-            if (getSupportActionBar() != null) {
-                getSupportActionBar().setTitle(Html.fromHtml("Welcome, <b>" + surname + " " + lastName + "</b>"));
+            String userId = signedInUserProps.optString("staff_id");
+
+            if (userId.equals("guest")) {
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle("Welcome, Guest");
+                }
+            } else {
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle(Html.fromHtml("Welcome, <b>" + surname + " " + lastName + "</b>"));
+                }
+            }
+            boolean isFirstLoggedIn = AppPreferences.isFirstTime();
+            if (isFirstLoggedIn && !userId.equals("guest")) {
+                Intent updatePasswordIntent = new Intent(EmployeeHomeScreen.this, UpdatePasswordActivity.class);
+                startActivity(updatePasswordIntent);
             }
         }
     }
@@ -256,7 +269,7 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
                     if (courseProps != null) {
                         String courseName = (String) courseProps.get(FinanceLearningConstants.COURSE_NAME);
                         FinanceLearningConstants.courseIdNameMap.put(dataSnapshot.getKey(), courseName);
-                        FinanceLearningConstants.fullCourseDetailsMap.put(dataSnapshot.getKey(),courseProps);
+                        FinanceLearningConstants.fullCourseDetailsMap.put(dataSnapshot.getKey(), courseProps);
                     }
                 }
             }

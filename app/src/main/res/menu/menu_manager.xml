@@ -10,6 +10,10 @@
         android:title="@string/update_my_password" />
 
     <item
+        android:id="@+id/reset_tests_for_a_staff"
+        android:title="Reset test for staff" />
+
+    <item
         android:id="@+id/sign_out"
         android:title="@string/sign_out" />
 

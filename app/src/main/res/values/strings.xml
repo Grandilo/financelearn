@@ -49,5 +49,6 @@
     <string name="recommendation">Recommendation</string>
     <string name="welcome">Welcome!</string>
     <string name="login">Login</string>
+    <string name="guest">Guest</string>
 
 </resources>

@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,7 +37,6 @@ public class ApplicationLoader extends Application {
     public void onCreate() {
         super.onCreate();
         _INSTANCE = this;
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         FirebaseDatabase.getInstance().setLogLevel(Logger.Level.INFO);
 
         final JSONObject signedInUserProps = AppPreferences.getSignedInUser(ApplicationLoader.this);
@@ -47,26 +47,19 @@ public class ApplicationLoader extends Application {
             @Override
             public void onAppDidEnterForeground() {
 
-                if (signedInUserProps!=null){
-                    boolean loggedIn = signedInUserProps.optBoolean(FinanceLearningConstants.LOGGED_IN_STATUS,false);
-                    if (loggedIn){
-                        AlertDialog.Builder builder = new AlertDialog.Builder(ApplicationLoader.getInstance());
-                        builder.setMessage("Another instance of this account is already logged in.");
-                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                android.os.Process.killProcess(android.os.Process.myPid());
-                            }
-                        });
-                        builder.create().show();
-                    }else{
+                if (signedInUserProps != null) {
+                    boolean loggedIn = signedInUserProps.optBoolean(FinanceLearningConstants.LOGGED_IN_STATUS, false);
+                    if (loggedIn) {
+                        Toast.makeText(ApplicationLoader.this,"Another instance of this account is already logged in.",Toast.LENGTH_LONG).show();
+                        android.os.Process.killProcess(android.os.Process.myPid());
+                    } else {
                         String staffId = signedInUserProps.optString("staff_id");
-                        HashMap<String,Object>updatableProps = new HashMap<>();
-                        updatableProps.put(FinanceLearningConstants.LOGGED_IN_STATUS,true);
+                        HashMap<String, Object> updatableProps = new HashMap<>();
+                        updatableProps.put(FinanceLearningConstants.LOGGED_IN_STATUS, true);
                         FirebaseUtils.getStaffReference().child(staffId).updateChildren(updatableProps, new DatabaseReference.CompletionListener() {
                             @Override
                             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                if (databaseError==null){
+                                if (databaseError == null) {
                                     FirebaseUtils.getStaffReference().child(signedInUserProps.optString("staff_id")).addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -98,37 +91,41 @@ public class ApplicationLoader extends Application {
 
             @Override
             public void onAppDidEnterBackground() {
-                if (signedInUserProps!=null){
-                    String staffId = signedInUserProps.optString("staff_id");
-                    HashMap<String,Object>updatableProps = new HashMap<>();
-                    updatableProps.put(FinanceLearningConstants.LOGGED_IN_STATUS,false);
-                    FirebaseUtils.getStaffReference().child(staffId).updateChildren(updatableProps, new DatabaseReference.CompletionListener() {
-                        @Override
-                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                            if (databaseError==null){
-                                FirebaseUtils.getStaffReference().child(signedInUserProps.optString("staff_id")).addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        if (dataSnapshot != null) {
-                                            GenericTypeIndicator<HashMap<String, Object>> hashMapGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>() {
-                                            };
-                                            HashMap<String, Object> newUserProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
-                                            if (newUserProps != null) {
-                                                AppPreferences.saveLoggedInUser(ApplicationLoader.this, newUserProps);
+                if (signedInUserProps != null) {
+
+                    boolean loggedIn = signedInUserProps.optBoolean(FinanceLearningConstants.LOGGED_IN_STATUS, false);
+                    if (loggedIn) {
+                        String staffId = signedInUserProps.optString("staff_id");
+                        HashMap<String, Object> updatableProps = new HashMap<>();
+                        updatableProps.put(FinanceLearningConstants.LOGGED_IN_STATUS, false);
+                        FirebaseUtils.getStaffReference().child(staffId).updateChildren(updatableProps, new DatabaseReference.CompletionListener() {
+                            @Override
+                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                if (databaseError == null) {
+                                    FirebaseUtils.getStaffReference().child(signedInUserProps.optString("staff_id")).addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            if (dataSnapshot != null) {
+                                                GenericTypeIndicator<HashMap<String, Object>> hashMapGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>() {
+                                                };
+                                                HashMap<String, Object> newUserProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
+                                                if (newUserProps != null) {
+                                                    AppPreferences.saveLoggedInUser(ApplicationLoader.this, newUserProps);
+                                                }
                                             }
                                         }
-                                    }
 
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
 
-                                    }
+                                        }
 
-                                });
+                                    });
 
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
             }
 

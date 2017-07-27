@@ -1,8 +1,10 @@
 package com.grandilo.financelearn.ui.activities;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -13,11 +15,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 import com.grandilo.financelearn.R;
 import com.grandilo.financelearn.ui.UploadCourseVideoActivity;
 import com.grandilo.financelearn.ui.adapters.StaffListAdapter;
@@ -25,7 +30,6 @@ import com.grandilo.financelearn.utils.AppPreferences;
 import com.grandilo.financelearn.utils.FinanceLearningConstants;
 import com.grandilo.financelearn.utils.FirebaseUtils;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -46,6 +50,10 @@ public class ManagerHomeScreen extends AppCompatActivity {
 
     private TextView staffToAssignContentView;
 
+    private ProgressDialog progressDialog;
+
+    private List<String> staffListIds = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +63,9 @@ public class ManagerHomeScreen extends AppCompatActivity {
         signedInUserProps = AppPreferences.getSignedInUser(this);
         staffRecyclerView = (RecyclerView) findViewById(R.id.staff_recycler_view);
         staffToAssignContentView = (TextView) findViewById(R.id.content_empty_view);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Loading staff list...");
         initStaffAdapter();
         fetchAllStaffToAssignCourses();
     }
@@ -139,9 +150,12 @@ public class ManagerHomeScreen extends AppCompatActivity {
         } else if (item.getItemId() == R.id.sign_out) {
             AppPreferences.saveLoggedInUser(ManagerHomeScreen.this, null);
             finishLogOut();
-        }else if (item.getItemId()==R.id.upload_video){
+        } else if (item.getItemId() == R.id.upload_video) {
             Intent uploadVideoIntent = new Intent(this, UploadCourseVideoActivity.class);
             startActivity(uploadVideoIntent);
+        } else if (item.getItemId() == R.id.reset_tests_for_a_staff) {
+            progressDialog.show();
+            loadAllStaff();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -151,6 +165,7 @@ public class ManagerHomeScreen extends AppCompatActivity {
         Intent splashScreenIntent = new Intent(ManagerHomeScreen.this, SplashActivity.class);
         startActivity(splashScreenIntent);
     }
+
     private void initPasswordResetDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Update Your Password");
@@ -169,4 +184,98 @@ public class ManagerHomeScreen extends AppCompatActivity {
         });
         builder.create().show();
     }
+
+    public void loadAllStaff() {
+        FirebaseUtils.getStaffReference().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (snapshot != null) {
+                        GenericTypeIndicator<HashMap<String, Object>> notifGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>() {
+                        };
+                        HashMap<String, Object> staffProps = snapshot.getValue(notifGenericTypeIndicator);
+                        if (staffProps != null) {
+                            String staffId = (String) staffProps.get("staff_id");
+                            if (staffId != null) {
+                                String category = (String) staffProps.get("category");
+                                if (category.equals("employee")) {
+                                    if (!staffListIds.contains(staffId)) {
+                                        staffListIds.add(staffId);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
+        });
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initStaffListDialog();
+            }
+        }, 1000);
+
+    }
+
+
+    private void initStaffListDialog() {
+        progressDialog.dismiss();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select staff to reset test for");
+        builder.setItems(staffListIds.toArray(new CharSequence[staffListIds.size()]), new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                HashMap<String, Object> updatableProps = new HashMap<>();
+
+                updatableProps.put(FinanceLearningConstants.PRETEST_TAKEN, null);
+                updatableProps.put(FinanceLearningConstants.PRETEST_RIGHT_ANSWERS, null);
+                updatableProps.put(FinanceLearningConstants.PRETEST_WRONG_ANSWERS, null);
+
+                updatableProps.put(FinanceLearningConstants.MAIN_TEST_TAKEN, null);
+                updatableProps.put(FinanceLearningConstants.MAIN_TEST_WRONG_ANSWERS, null);
+                updatableProps.put(FinanceLearningConstants.MAIN_TEST_RIGHT_ANSWERS, null);
+
+                updatableProps.put(FinanceLearningConstants.TOTAL_NO_OF_QS, null);
+                updatableProps.put(FinanceLearningConstants.ALL_PRETEST_COURSES, null);
+
+                progressDialog.setMessage("Resetting tests, please wait...");
+                progressDialog.show();
+
+                FirebaseUtils.getStaffReference().child(staffListIds.get(i)).updateChildren(updatableProps, new DatabaseReference.CompletionListener() {
+
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                        progressDialog.dismiss();
+
+                        if (databaseError == null) {
+                            Toast.makeText(ManagerHomeScreen.this, "Tests reset successfully. The staff may retake the tests now", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(ManagerHomeScreen.this, "Error during test reset. Please try again.", Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+
+                });
+
+            }
+
+        });
+
+        builder.create();
+        builder.show();
+
+    }
+
 }
