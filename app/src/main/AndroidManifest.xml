@@ -94,6 +94,8 @@
             android:name=".ui.activities.RecommendedCourseActivity"
             android:configChanges="orientation|screenLayout|screenSize" />
 
+        <activity android:name=".ui.activities.PDFLibrariesRecyclerActivity"/>
+
         <service
             android:name=".PushReceptionService"
             android:enabled="true" />

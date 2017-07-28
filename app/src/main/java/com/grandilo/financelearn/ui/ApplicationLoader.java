@@ -49,8 +49,8 @@ public class ApplicationLoader extends Application {
 
                 if (signedInUserProps != null) {
                     boolean loggedIn = signedInUserProps.optBoolean(FinanceLearningConstants.LOGGED_IN_STATUS, false);
-                    if (loggedIn) {
-                        Toast.makeText(ApplicationLoader.this,"Another instance of this account is already logged in.",Toast.LENGTH_LONG).show();
+                    if (loggedIn && !signedInUserProps.optString("staff_id").equals("guest")) {
+                        Toast.makeText(ApplicationLoader.this, "Another instance of this account is already logged in.", Toast.LENGTH_LONG).show();
                         android.os.Process.killProcess(android.os.Process.myPid());
                     } else {
                         String staffId = signedInUserProps.optString("staff_id");

@@ -45,6 +45,9 @@ public class FinanceLearningConstants {
     public static final String LOGGED_IN = "logged_in";
     public static final String LOGIN_TYPE_GUEST = "log_in_type_guest";
 
+    public static final String FILE_NAME = "file_name";
+    public static final String FILE_PATH = "file_path";
+
     public static String COURSE_VIDEOS = "course_videos";
 
     public static final String LOGIN_TYPE = "login_type";
