@@ -80,14 +80,14 @@ public class UpdatePasswordActivity extends AppCompatActivity implements View.On
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if (databaseError != null) {
+                                    if (databaseError == null) {
                                         UiUtils.dismissProgressDialog();
                                         Toast.makeText(UpdatePasswordActivity.this, "Your password has being updated successfully!", Toast.LENGTH_LONG).show();
                                         AppPreferences.saveNotFirstLogIn();
                                         finish();
                                     } else {
                                         UiUtils.dismissProgressDialog();
-                                        Toast.makeText(UpdatePasswordActivity.this, "An error occurred while updating your password. Please try again.", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(UpdatePasswordActivity.this, "An error occurred while updating your password. "+databaseError.getMessage(), Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
