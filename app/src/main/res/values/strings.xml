@@ -50,5 +50,6 @@
     <string name="welcome">Welcome!</string>
     <string name="login">Login</string>
     <string name="guest">Guest</string>
+    <string name="libraries">Libraries</string>
 
 </resources>

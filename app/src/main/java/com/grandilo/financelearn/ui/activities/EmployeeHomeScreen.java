@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -46,6 +47,9 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
     String allPretestCourses;
     List<String> pretestCourseList = new ArrayList<>();
 
+    private TextView librariesView;
+    private View myCoursesView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +57,10 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
         initViews();
         populateSignedInUserProps();
 
+        String signedInUserId = signedInUserProps.optString("staff_id");
+        if (signedInUserId.equals("guest")) {
+            myCoursesView.setVisibility(View.GONE);
+        }
         allPretestCourses = signedInUserProps.optString(FinanceLearningConstants.ALL_PRETEST_COURSES);
         String rightPretestAnswers = signedInUserProps.optString(FinanceLearningConstants.PRETEST_RIGHT_ANSWERS);
         String mainTestRightAnswers = signedInUserProps.optString(FinanceLearningConstants.MAIN_TEST_RIGHT_ANSWERS);
@@ -163,8 +171,18 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        View myCoursesView = findViewById(R.id.my_courses_view);
+
+        myCoursesView = findViewById(R.id.my_courses_view);
         myCoursesView.setOnClickListener(this);
+        librariesView = (TextView) findViewById(R.id.libraries);
+        View requestDemoView = findViewById(R.id.request_demo_view);
+        requestDemoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent librariesIntent = new Intent(EmployeeHomeScreen.this,PDFLibrariesRecyclerActivity.class);
+                startActivity(librariesIntent);
+            }
+        });
     }
 
     @Override
