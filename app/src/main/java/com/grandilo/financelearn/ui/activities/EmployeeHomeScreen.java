@@ -44,10 +44,8 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
     private ChildEventListener coursesEventListener;
     private DatabaseReference courseReference;
 
-    String allPretestCourses;
-    List<String> pretestCourseList = new ArrayList<>();
-
-    private TextView librariesView;
+    private String allPretestCourses;
+    private List<String> pretestCourseList = new ArrayList<>();
     private View myCoursesView;
 
     @Override
@@ -174,12 +172,11 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
 
         myCoursesView = findViewById(R.id.my_courses_view);
         myCoursesView.setOnClickListener(this);
-        librariesView = (TextView) findViewById(R.id.libraries);
         View requestDemoView = findViewById(R.id.request_demo_view);
         requestDemoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent librariesIntent = new Intent(EmployeeHomeScreen.this,PDFLibrariesRecyclerActivity.class);
+                Intent librariesIntent = new Intent(EmployeeHomeScreen.this, GuestVideosActivity.class);
                 startActivity(librariesIntent);
             }
         });
