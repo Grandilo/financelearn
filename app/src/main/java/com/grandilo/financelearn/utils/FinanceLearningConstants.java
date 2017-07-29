@@ -124,7 +124,4 @@ public class FinanceLearningConstants {
     public static final int STORAGE_PERMISSION_REQUEST_CODE = 0x10;
     public static HashMap<String, String> lastDownloadableFileMap = new HashMap<>();
     public static String lastDownloadableFileName;
-
-    public static LongSparseArray<String> downloadRefIds = new LongSparseArray<>();
-
 }

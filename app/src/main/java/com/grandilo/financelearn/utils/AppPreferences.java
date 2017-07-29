@@ -90,4 +90,13 @@ public class AppPreferences {
                 .putBoolean(FinanceLearningConstants.LOGGED_IN, false).apply();
     }
 
+    @SuppressLint("ApplySharedPref")
+    public static void saveDownloadReference(long refId, String fileName) {
+        ApplicationLoader.getInstance().getSharedPreferences(FinanceLearningConstants.SHARED_PREFS, Context.MODE_PRIVATE).edit().putString("_" + refId, fileName).commit();
+    }
+
+    public static String getDownloadReference(long refId) {
+        return ApplicationLoader.getInstance().getSharedPreferences(FinanceLearningConstants.SHARED_PREFS, Context.MODE_PRIVATE).getString("_" + refId, "file");
+    }
+
 }

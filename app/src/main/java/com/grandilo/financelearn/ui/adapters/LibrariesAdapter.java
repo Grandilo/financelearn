@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.grandilo.financelearn.R;
+import com.grandilo.financelearn.utils.AppPreferences;
 import com.grandilo.financelearn.utils.FinanceLearningConstants;
 import com.grandilo.financelearn.utils.UiUtils;
 
@@ -149,7 +150,7 @@ public class LibrariesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         // get download service and enqueue file
         DownloadManager manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         long refId = manager.enqueue(request);
-        FinanceLearningConstants.downloadRefIds.put(refId, fileName);
+        AppPreferences.saveDownloadReference(refId, fileName);
     }
 
 }

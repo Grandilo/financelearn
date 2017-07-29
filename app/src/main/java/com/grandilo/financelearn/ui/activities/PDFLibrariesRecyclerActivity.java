@@ -26,6 +26,7 @@ import android.view.View;
 
 import com.grandilo.financelearn.R;
 import com.grandilo.financelearn.ui.adapters.LibrariesAdapter;
+import com.grandilo.financelearn.utils.AppPreferences;
 import com.grandilo.financelearn.utils.FinanceLearningConstants;
 
 import java.io.File;
@@ -53,10 +54,10 @@ public class PDFLibrariesRecyclerActivity extends AppCompatActivity implements A
                     new NotificationCompat.Builder(PDFLibrariesRecyclerActivity.this)
                             .setSmallIcon(R.mipmap.ic_launcher)
                             .setContentTitle("FinanceLearn PDF Libraries")
-                            .setContentText(FinanceLearningConstants.downloadRefIds.get(referenceId) + " Download Completed");
+                            .setContentText(AppPreferences.getDownloadReference(referenceId) + " Download Completed");
 
             PendingIntent pendingIntent = null;
-            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/FinanceLearn/Libraries/" + FinanceLearningConstants.downloadRefIds.get(referenceId) + ".pdf");
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/FinanceLearn/Libraries/" + AppPreferences.getDownloadReference(referenceId) + ".pdf");
             if (file.exists()) {
                 Intent launcherIntent = new Intent(Intent.ACTION_VIEW);
                 launcherIntent.setDataAndType(Uri.fromFile(file), "application/pdf");
@@ -69,7 +70,7 @@ public class PDFLibrariesRecyclerActivity extends AppCompatActivity implements A
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(455, mBuilder.build());
 
-            String downloadedFile = FinanceLearningConstants.downloadRefIds.get(referenceId);
+            String downloadedFile = AppPreferences.getDownloadReference(referenceId);
             snackDownloadedFile(referenceId, downloadedFile);
         }
 
@@ -80,12 +81,12 @@ public class PDFLibrariesRecyclerActivity extends AppCompatActivity implements A
             @Override
             public void onClick(View view) {
                 tryOpenFile(fileName);
-                FinanceLearningConstants.downloadRefIds.remove(referenceId);
+                AppPreferences.saveDownloadReference(referenceId,null);
             }
         }).setAction("NOT NOW", new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FinanceLearningConstants.downloadRefIds.remove(referenceId);
+                AppPreferences.saveDownloadReference(referenceId,null);
             }
         }).show();
     }
