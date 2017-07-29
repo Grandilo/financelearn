@@ -95,6 +95,8 @@
 
         <activity android:name=".ui.activities.PDFLibrariesRecyclerActivity"/>
 
+        <activity android:name=".ui.activities.GuestVideosActivity" android:configChanges="orientation|screenLayout|screenSize"/>
+
         <service
             android:name=".PushReceptionService"
             android:enabled="true" />
