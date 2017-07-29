@@ -135,6 +135,7 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
         AppPreferences.saveLoggedInType(EmployeeHomeScreen.this, null);
         Intent splashScreenIntent = new Intent(EmployeeHomeScreen.this, SplashActivity.class);
         startActivity(splashScreenIntent);
+        finish();
     }
 
     private void populateSignedInUserProps() {
