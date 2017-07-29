@@ -1,6 +1,8 @@
 package com.grandilo.financelearn.utils;
 
+import android.util.LongSparseArray;
 import android.util.SparseArray;
+import android.util.SparseBooleanArray;
 
 import com.google.firebase.storage.UploadTask;
 
@@ -119,5 +121,10 @@ public class FinanceLearningConstants {
 
     public static HashMap<String, ArrayList<String>> recommendationsMap = new HashMap<>();
 
+    public static final int STORAGE_PERMISSION_REQUEST_CODE = 0x10;
+    public static HashMap<String, String> lastDownloadableFileMap = new HashMap<>();
+    public static String lastDownloadableFileName;
+
+    public static LongSparseArray<String> downloadRefIds = new LongSparseArray<>();
 
 }

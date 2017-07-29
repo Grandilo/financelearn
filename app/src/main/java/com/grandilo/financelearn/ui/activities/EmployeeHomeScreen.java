@@ -44,9 +44,9 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
     private ChildEventListener coursesEventListener;
     private DatabaseReference courseReference;
 
-    private String allPretestCourses;
     private List<String> pretestCourseList = new ArrayList<>();
     private View myCoursesView;
+    private TextView librariesOrVideoDemosTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +56,15 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
         populateSignedInUserProps();
 
         String signedInUserId = signedInUserProps.optString("staff_id");
+
         if (signedInUserId.equals("guest")) {
             myCoursesView.setVisibility(View.GONE);
+            librariesOrVideoDemosTextView.setText("DEMO VIDEOS");
+        } else {
+            librariesOrVideoDemosTextView.setText("LIBRARIES");
         }
-        allPretestCourses = signedInUserProps.optString(FinanceLearningConstants.ALL_PRETEST_COURSES);
+
+        String allPretestCourses = signedInUserProps.optString(FinanceLearningConstants.ALL_PRETEST_COURSES);
         String rightPretestAnswers = signedInUserProps.optString(FinanceLearningConstants.PRETEST_RIGHT_ANSWERS);
         String mainTestRightAnswers = signedInUserProps.optString(FinanceLearningConstants.MAIN_TEST_RIGHT_ANSWERS);
 
@@ -170,15 +175,21 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
+        librariesOrVideoDemosTextView = (TextView) findViewById(R.id.libraries);
         myCoursesView = findViewById(R.id.my_courses_view);
         myCoursesView.setOnClickListener(this);
         View requestDemoView = findViewById(R.id.request_demo_view);
         requestDemoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent librariesIntent = new Intent(EmployeeHomeScreen.this, GuestVideosActivity.class);
-                startActivity(librariesIntent);
+                String staffId = signedInUserProps.optString("staff_id");
+                if (staffId.equals("guest")) {
+                    Intent guestVideosIntent = new Intent(EmployeeHomeScreen.this, GuestVideosActivity.class);
+                    startActivity(guestVideosIntent);
+                } else {
+                    Intent librariesIntent = new Intent(EmployeeHomeScreen.this, PDFLibrariesRecyclerActivity.class);
+                    startActivity(librariesIntent);
+                }
             }
         });
     }
