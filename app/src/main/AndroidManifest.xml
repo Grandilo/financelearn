@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.grandilo.financelearn">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".ui.ApplicationLoader"
         android:allowBackup="true"
@@ -94,9 +98,11 @@
             android:name=".ui.activities.RecommendedCourseActivity"
             android:configChanges="orientation|screenLayout|screenSize" />
 
-        <activity android:name=".ui.activities.PDFLibrariesRecyclerActivity"/>
+        <activity android:name=".ui.activities.PDFLibrariesRecyclerActivity" />
 
-        <activity android:name=".ui.activities.GuestVideosActivity" android:configChanges="orientation|screenLayout|screenSize"/>
+        <activity
+            android:name=".ui.activities.GuestVideosActivity"
+            android:configChanges="orientation|screenLayout|screenSize" />
 
         <service
             android:name=".PushReceptionService"
