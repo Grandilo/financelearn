@@ -164,6 +164,7 @@ public class ManagerHomeScreen extends AppCompatActivity {
         AppPreferences.saveLoggedInType(ManagerHomeScreen.this, null);
         Intent splashScreenIntent = new Intent(ManagerHomeScreen.this, SplashActivity.class);
         startActivity(splashScreenIntent);
+        finish();
     }
 
     private void initPasswordResetDialog() {
