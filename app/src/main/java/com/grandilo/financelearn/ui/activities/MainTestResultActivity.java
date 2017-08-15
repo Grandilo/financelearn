@@ -1,7 +1,9 @@
 package com.grandilo.financelearn.ui.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Process;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,7 +13,9 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,6 +28,7 @@ import com.grandilo.financelearn.utils.AppPreferences;
 import com.grandilo.financelearn.utils.FinanceLearningConstants;
 import com.grandilo.financelearn.utils.FirebaseUtils;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -40,12 +45,16 @@ public class MainTestResultActivity extends AppCompatActivity {
     private List<String> courseIds = new ArrayList<>();
     private int totalNumberOfQs;
 
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_test_result);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolbar);
+
+        progressDialog = new ProgressDialog(this);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -141,6 +150,42 @@ public class MainTestResultActivity extends AppCompatActivity {
 
             });
 
+        }
+
+    }
+
+    private void resetTest() {
+        JSONObject signedInUserProps = AppPreferences.getSignedInUser(this);
+        if (signedInUserProps != null) {
+            HashMap<String, Object> updatableProps = new HashMap<>();
+
+            updatableProps.put(FinanceLearningConstants.PRETEST_TAKEN, null);
+            updatableProps.put(FinanceLearningConstants.PRETEST_RIGHT_ANSWERS, null);
+            updatableProps.put(FinanceLearningConstants.PRETEST_WRONG_ANSWERS, null);
+
+            updatableProps.put(FinanceLearningConstants.MAIN_TEST_TAKEN, null);
+            updatableProps.put(FinanceLearningConstants.MAIN_TEST_WRONG_ANSWERS, null);
+            updatableProps.put(FinanceLearningConstants.MAIN_TEST_RIGHT_ANSWERS, null);
+
+            updatableProps.put(FinanceLearningConstants.TOTAL_NO_OF_QS, null);
+            updatableProps.put(FinanceLearningConstants.ALL_PRETEST_COURSES, null);
+
+            progressDialog.setMessage("Preparing for retake, please wait...");
+            progressDialog.show();
+
+            FirebaseUtils.getStaffReference().child(signedInUserProps.optString("staff_id")).updateChildren(updatableProps, new DatabaseReference.CompletionListener() {
+                @Override
+                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                    progressDialog.dismiss();
+                    if (databaseError == null) {
+                        Toast.makeText(MainTestResultActivity.this, "You can retake the test.", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(MainTestResultActivity.this, "Error performing retake. Please try again.", Toast.LENGTH_LONG).show();
+                    }
+
+                }
+
+            });
         }
 
     }
