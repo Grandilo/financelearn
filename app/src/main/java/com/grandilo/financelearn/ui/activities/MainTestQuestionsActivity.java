@@ -28,7 +28,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author Ugo
@@ -74,6 +73,30 @@ public class MainTestQuestionsActivity extends AppCompatActivity implements View
         fetchCourseNames();
 
         checkMainTestStatus();
+        questionsViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position != 0) {
+                    JSONObject previousQuestion = mainTestQuestions.get(position - 1);
+                    if (previousQuestion != null) {
+                        String previousTestQuestion = previousQuestion.optString(FinanceLearningConstants.QUESTION);
+                        if (previousTestQuestion != null && !FinanceLearningConstants.pickedOptions.containsKey(previousTestQuestion)) {
+                            questionsViewPager.setCurrentItem(position - 1);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
@@ -85,8 +108,8 @@ public class MainTestQuestionsActivity extends AppCompatActivity implements View
     private void checkMainTestStatus() {
         JSONObject signedInUser = AppPreferences.getSignedInUser(this);
         if (signedInUser != null) {
-            boolean mainTestTaken = signedInUser.optBoolean(FinanceLearningConstants.MAIN_TEST_TAKEN,false);
-            if (mainTestTaken){
+            boolean mainTestTaken = signedInUser.optBoolean(FinanceLearningConstants.MAIN_TEST_TAKEN, false);
+            if (mainTestTaken) {
                 finish();
             }
         }
@@ -103,14 +126,14 @@ public class MainTestQuestionsActivity extends AppCompatActivity implements View
 
     private void setupCourseList() {
         JSONObject signedInUser = AppPreferences.getSignedInUser(this);
-        if (signedInUser!=null){
+        if (signedInUser != null) {
             String allTestCourses = signedInUser.optString(FinanceLearningConstants.ALL_PRETEST_COURSES);
-            if (allTestCourses!=null){
+            if (allTestCourses != null) {
                 try {
                     JSONArray coursesArray = new JSONArray(allTestCourses);
-                    for (int i=0;i<coursesArray.length();i++){
+                    for (int i = 0; i < coursesArray.length(); i++) {
                         String courseId = coursesArray.optString(i);
-                        if (!selectedCoursesForMainTest.contains(courseId)){
+                        if (!selectedCoursesForMainTest.contains(courseId)) {
                             selectedCoursesForMainTest.add(courseId);
                         }
                     }
@@ -245,6 +268,7 @@ public class MainTestQuestionsActivity extends AppCompatActivity implements View
                     Intent preTestResultIntent = new Intent(MainTestQuestionsActivity.this, MainTestResultActivity.class);
                     preTestResultIntent.putExtra(FinanceLearningConstants.TOTAL_NO_OF_QS, mainTestQuestions.size());
                     startActivity(preTestResultIntent);
+                    finish();
                 }
                 break;
             case R.id.previous_question:

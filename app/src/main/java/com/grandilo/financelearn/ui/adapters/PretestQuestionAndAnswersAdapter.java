@@ -162,6 +162,9 @@ public class PretestQuestionAndAnswersAdapter extends PagerAdapter {
                                 Log.d("AnswerLog", "Wrong Answers Map = " + FinanceLearningConstants.pretestWrongAnswers.toString());
                             }
                         }
+
+                        FinanceLearningConstants.pickedOptions.put(question,true);
+
                     }
                 });
             }
@@ -254,6 +257,8 @@ public class PretestQuestionAndAnswersAdapter extends PagerAdapter {
                             }
 
                         }
+
+                        FinanceLearningConstants.pickedOptions.put(question,true);
 
                     }
 

@@ -103,7 +103,7 @@ public class TestResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
                 if (rightAnswers != null) {
                     int rightAnswersCount = rightAnswers.size();
-                    float percentAge = rightAnswers.size() * 100 / totalNoOfQ;
+                    float percentAge = (rightAnswers.size() * 100) / totalNoOfQ;
                     FinanceLearningConstants.mainTestScoresMap.put(courseId, percentAge);
                     if (rightAnswersCount > 0) {
                         percentageView.setText(percentAge + " % (" + getResultCategory(context, percentAge, true).replace("_", " ") + ")");

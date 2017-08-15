@@ -122,7 +122,6 @@ public class PDFLibrariesRecyclerActivity extends AppCompatActivity implements A
                 "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/Libraries%2FEMEAAP%20AC%20-%20Complaince%20Agent%20training%20-%20EN%20V1%20(2).pdf?alt=media&token=32fa54d4-8cc4-4be4-a218-dd5a8081fc1f");
 
         HashMap<String, String> loansAndCredit = new HashMap<>();
-        loansAndCredit.put(FinanceLearningConstants.FILE_NAME, "Loans and Credit");
         loansAndCredit.put("Loans and Credit",
                 "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/Libraries%2FLoans%20and%20Credit.pdf?alt=media&token=3d2e016b-f4cf-4891-9db7-0d22c7603115");
 

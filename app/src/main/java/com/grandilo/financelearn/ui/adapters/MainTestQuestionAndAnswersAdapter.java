@@ -162,6 +162,7 @@ public class MainTestQuestionAndAnswersAdapter extends PagerAdapter {
                                 Log.d("AnswerLog", "Wrong Answers Map = " + FinanceLearningConstants.mainTestWrongAnswers.toString());
                             }
                         }
+                        FinanceLearningConstants.pickedOptions.put(question,true);
                     }
 
                 });
@@ -256,6 +257,8 @@ public class MainTestQuestionAndAnswersAdapter extends PagerAdapter {
                             }
 
                         }
+
+                        FinanceLearningConstants.pickedOptions.put(question,true);
 
                     }
 

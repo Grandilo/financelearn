@@ -105,6 +105,8 @@ public class FinanceLearningConstants {
     public static HashMap<String, List<JSONObject>> pretestWrongAnswers = new HashMap<>();
     public static HashMap<String, List<JSONObject>> mainTestWrongAnswers = new HashMap<>();
 
+    public static HashMap<String, Boolean> pickedOptions = new HashMap<>();
+
     public static ArrayList<String> coursesToTest = new ArrayList<>();
     public static ArrayList<String> coursesToAssign = new ArrayList<>();
 

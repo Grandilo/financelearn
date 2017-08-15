@@ -73,6 +73,7 @@ public class MainTestResultActivity extends AppCompatActivity {
         initResultAdapter();
 
         updateSignedInUserMainTestState();
+        FinanceLearningConstants.pickedOptions.clear();
     }
 
     private void updateSignedInUserMainTestState() {

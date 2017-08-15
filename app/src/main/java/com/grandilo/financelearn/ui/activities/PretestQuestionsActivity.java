@@ -71,6 +71,31 @@ public class PretestQuestionsActivity extends AppCompatActivity implements View.
         fetchCourseNames();
 
         checkPretestStatus();
+        questionsViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position != 0) {
+                    JSONObject previousQuestion = pretestQuestions.get(position - 1);
+                    if (previousQuestion != null) {
+                        String previousTestQuestion = previousQuestion.optString(FinanceLearningConstants.QUESTION);
+                        if (previousTestQuestion != null && !FinanceLearningConstants.pickedOptions.containsKey(previousTestQuestion)) {
+                            questionsViewPager.setCurrentItem(position - 1);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
     }
 
     @Override
