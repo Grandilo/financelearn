@@ -14,6 +14,7 @@ import com.grandilo.financelearn.R;
 import com.grandilo.financelearn.ui.activities.MainTestResultActivity;
 import com.grandilo.financelearn.ui.activities.PreTestResultActivity;
 import com.grandilo.financelearn.utils.FinanceLearningConstants;
+import com.grandilo.financelearn.utils.UiUtils;
 
 import org.json.JSONObject;
 
@@ -103,7 +104,7 @@ public class TestResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
                 if (rightAnswers != null) {
                     int rightAnswersCount = rightAnswers.size();
-                    float percentAge = (rightAnswers.size() * 100) / totalNoOfQ;
+                    float percentAge = (100 * rightAnswers.size()) / 5;
                     FinanceLearningConstants.mainTestScoresMap.put(courseId, percentAge);
                     if (rightAnswersCount > 0) {
                         percentageView.setText(percentAge + " % (" + getResultCategory(context, percentAge, true).replace("_", " ") + ")");
@@ -129,7 +130,6 @@ public class TestResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             }
 
-
         }
 
         private void injectCourseRecommendations(Context context, String courseId, int totalNoOfQ) {
@@ -154,7 +154,7 @@ public class TestResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 if (mainTestRightAnswers != null) {
                     float mainTestRightAnswer = mainTestRightAnswers.size() * 100 / totalNoOfQ;
                     mainTestCategory = getResultCategory(context, mainTestRightAnswer, true);
-                }else{
+                } else {
                     mainTestCategory = getResultCategory(context, 0, true);
                 }
 
