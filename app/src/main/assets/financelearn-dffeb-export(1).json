@@ -1,0 +1,670 @@
+{
+  "course_videos" : {
+    "-Kpo6-JOPTSjO0T366p6" : {
+      "course_details" : {
+        "course_id" : "1",
+        "name" : "E business"
+      },
+      "course_video" : {
+        "media_local_url" : "/storage/emulated/0/Course Videos/ebanking basic.mp4",
+        "remote_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/Videos%2Febanking%20basic.mp4?alt=media&token=2a61ba67-d29a-4454-9a0e-b8a8ad45bd53",
+        "thumb_nail_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/VideoThumbnails%2F1500891574490_.png?alt=media&token=82fc6476-d5df-47f2-99ca-0449627d8d44"
+      },
+      "expertise_level" : "Basic"
+    },
+    "-Kpo93y9DOc2MO-9XgHs" : {
+      "course_details" : {
+        "course_id" : "1",
+        "name" : "E business"
+      },
+      "course_video" : {
+        "media_local_url" : "/storage/emulated/0/Course Videos/ebusiness expert.mp4",
+        "remote_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/Videos%2Febusiness%20expert.mp4?alt=media&token=299fc7ae-b8b5-4962-a0b0-c441eb51a7f8",
+        "thumb_nail_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/VideoThumbnails%2F1500892379556_.png?alt=media&token=06dfd023-4d3f-4448-b384-bf183bde835f"
+      },
+      "expertise_level" : "Expert"
+    },
+    "-Kpo9YJWRl1h73mtK7y3" : {
+      "course_details" : {
+        "course_id" : "1",
+        "name" : "E business"
+      },
+      "course_video" : {
+        "media_local_url" : "/storage/emulated/0/Course Videos/ebusiness intermediate.mp4",
+        "remote_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/Videos%2Febusiness%20intermediate.mp4?alt=media&token=e6ccb6df-2c3e-4ad9-9e85-e0f56ddd80e3",
+        "thumb_nail_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/VideoThumbnails%2F1500892504979_.png?alt=media&token=6e0a16a1-f1e4-47e9-9531-034a5f1a0940"
+      },
+      "expertise_level" : "Intermediate"
+    },
+    "-KpoAGC3M6ay2uF4M6Bq" : {
+      "course_details" : {
+        "course_id" : "2",
+        "name" : "Information Security"
+      },
+      "course_video" : {
+        "media_local_url" : "/storage/emulated/0/Course Videos/information security-basic.mp4",
+        "remote_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/Videos%2Finformation%20security-basic.mp4?alt=media&token=dccdc431-fa4f-41ad-8860-9b11f4203d0b",
+        "thumb_nail_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/VideoThumbnails%2F1500892689830_.png?alt=media&token=263d1e8e-bbb6-4771-8033-abecb689fc79"
+      },
+      "expertise_level" : "Basic"
+    },
+    "-KpoB1mzBBsrPYl6Qt7C" : {
+      "course_details" : {
+        "course_id" : "2",
+        "name" : "Information Security"
+      },
+      "course_video" : {
+        "media_local_url" : "/storage/emulated/0/Course Videos/information security intermediate.mp4",
+        "remote_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/Videos%2Finformation%20security%20intermediate.mp4?alt=media&token=dee53459-f348-4510-82a5-2ce6136ae6b8",
+        "thumb_nail_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/VideoThumbnails%2F1500892893941_.png?alt=media&token=c3929853-1a32-4f98-9618-4657808eabde"
+      },
+      "expertise_level" : "Intermediate"
+    },
+    "-KpoBdJGEVcQ2j3T70It" : {
+      "course_details" : {
+        "course_id" : "2",
+        "name" : "Information Security"
+      },
+      "course_video" : {
+        "media_local_url" : "/storage/emulated/0/Course Videos/information security-expert.mp4",
+        "remote_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/Videos%2Finformation%20security-expert.mp4?alt=media&token=36889aa4-99f4-4936-8e8e-b8a5b03d0bb5",
+        "thumb_nail_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/VideoThumbnails%2F1500893052637_.png?alt=media&token=d5c03ff1-f5f5-4a79-b0dd-ec7cf602d40f"
+      },
+      "expertise_level" : "Expert"
+    },
+    "-KpoCKgQn4U1GfPbsH5g" : {
+      "course_details" : {
+        "course_id" : "3",
+        "name" : "Retail Banking"
+      },
+      "course_video" : {
+        "media_local_url" : "/storage/emulated/0/Course Videos/retail banking-basic.mp4",
+        "remote_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/Videos%2Fretail%20banking-basic.mp4?alt=media&token=2ccd5f24-b213-4137-bde6-303dcd281ce8",
+        "thumb_nail_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/VideoThumbnails%2F1500893235755_.png?alt=media&token=fac4ea9c-d834-49c5-a424-2b8317dc589a"
+      },
+      "expertise_level" : "Basic"
+    },
+    "-KpoCs8CjfNYJkwA4WIa" : {
+      "course_details" : {
+        "course_id" : "3",
+        "name" : "Retail Banking"
+      },
+      "course_video" : {
+        "media_local_url" : "/storage/emulated/0/Course Videos/retail banking-intermediate.mp4",
+        "remote_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/Videos%2Fretail%20banking-intermediate.mp4?alt=media&token=18c00822-7643-4913-b0ea-00a3f1265648",
+        "thumb_nail_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/VideoThumbnails%2F1500893375659_.png?alt=media&token=f01a092c-689c-4447-80ab-ac81e65485f4"
+      },
+      "expertise_level" : "Intermediate"
+    },
+    "-KpoDoBQzT3l6vOoFzPh" : {
+      "course_details" : {
+        "course_id" : "3",
+        "name" : "Retail Banking"
+      },
+      "course_video" : {
+        "media_local_url" : "/storage/emulated/0/Course Videos/retail baking-expert.mp4",
+        "remote_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/Videos%2Fretail%20baking-expert.mp4?alt=media&token=5bce783b-05be-4b37-a81d-7e24587181bf",
+        "thumb_nail_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/VideoThumbnails%2F1500893623145_.png?alt=media&token=358d4abb-4ba4-4daa-9329-77f38d687bb8"
+      },
+      "expertise_level" : "Expert"
+    },
+    "-KpoEIUavtm9DwMjkuzY" : {
+      "course_details" : {
+        "course_id" : "4",
+        "name" : "Compliance"
+      },
+      "course_video" : {
+        "media_local_url" : "/storage/emulated/0/Course Videos/compliance-basic.mp4",
+        "remote_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/Videos%2Fcompliance-basic.mp4?alt=media&token=d309c4dd-f72c-4638-b724-f479daac72f7",
+        "thumb_nail_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/VideoThumbnails%2F1500893751700_.png?alt=media&token=5e1b5c05-6c56-4f34-ba36-f8e5b05cd425"
+      },
+      "expertise_level" : "Basic"
+    },
+    "-KpoFFKw8Ow6BJzgLO4F" : {
+      "course_details" : {
+        "course_id" : "4",
+        "name" : "Compliance"
+      },
+      "course_video" : {
+        "media_local_url" : "/storage/emulated/0/Course Videos/compliance-intermediate.mp4",
+        "remote_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/Videos%2Fcompliance-intermediate.mp4?alt=media&token=094f22d2-2735-4374-8209-48b982a9495a",
+        "thumb_nail_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/VideoThumbnails%2F1500894001129_.png?alt=media&token=977b15d7-c4d1-4b8c-bd3c-6736a1003b69"
+      },
+      "expertise_level" : "Intermediate"
+    },
+    "-KpoG9BJ3R4CU-MinYrO" : {
+      "course_details" : {
+        "course_id" : "4",
+        "name" : "Compliance"
+      },
+      "course_video" : {
+        "media_local_url" : "/storage/emulated/0/Course Videos/compliace-expert.mp4",
+        "remote_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/Videos%2Fcompliace-expert.mp4?alt=media&token=c79d87a7-b700-4a03-8675-e2c2c5fcee99",
+        "thumb_nail_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/VideoThumbnails%2F1500894237933_.png?alt=media&token=02c345ce-bf28-4713-bfd2-1981936ec7a3"
+      },
+      "expertise_level" : "Expert"
+    },
+    "-KpoGiemA9SlRsmloYm5" : {
+      "course_details" : {
+        "course_id" : "6",
+        "name" : "Transaction banking"
+      },
+      "course_video" : {
+        "media_local_url" : "/storage/emulated/0/Course Videos/transaction banking-basic.mp4",
+        "remote_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/Videos%2Ftransaction%20banking-basic.mp4?alt=media&token=965f6f86-5ad9-40ac-b528-3589cb7cf79d",
+        "thumb_nail_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/VideoThumbnails%2F1500894386900_.png?alt=media&token=0ca54367-e884-451e-ad10-ed89a63f2029"
+      },
+      "expertise_level" : "Basic"
+    },
+    "-KpoJeUnZ7K9NvsYeYor" : {
+      "course_details" : {
+        "course_id" : "6",
+        "name" : "Transaction banking"
+      },
+      "course_video" : {
+        "media_local_url" : "/storage/emulated/0/Course Videos/transaction banking intemediate.mp4",
+        "remote_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/Videos%2Ftransaction%20banking%20intemediate.mp4?alt=media&token=07935be4-28f5-466c-a8df-51818c1e6a7e",
+        "thumb_nail_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/VideoThumbnails%2F1500895156073_.png?alt=media&token=e08f8f4d-b348-4aeb-b557-e695cd0e0be9"
+      },
+      "expertise_level" : "Intermediate"
+    },
+    "-KpoKnwa17WTnCoWxI_y" : {
+      "course_details" : {
+        "course_id" : "6",
+        "name" : "Transaction banking"
+      },
+      "course_video" : {
+        "media_local_url" : "/storage/emulated/0/Course Videos/transaction baking-expert.mp4",
+        "remote_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/Videos%2Ftransaction%20baking-expert.mp4?alt=media&token=24ddcda1-966b-4d12-aeed-cf3413289882",
+        "thumb_nail_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/VideoThumbnails%2F1500895456234_.png?alt=media&token=d05e5cfd-eac4-4c50-ad8c-e1154a49161c"
+      },
+      "expertise_level" : "Expert"
+    },
+    "-KpoLdyilc-R5-SFYxrD" : {
+      "course_details" : {
+        "course_id" : "7",
+        "name" : "Money Transfer"
+      },
+      "course_video" : {
+        "media_local_url" : "/storage/emulated/0/Course Videos/moneytranfer-basic.mp4",
+        "remote_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/Videos%2Fmoneytranfer-basic.mp4?alt=media&token=b57964c8-342e-4740-b6c9-693f9de35f2e",
+        "thumb_nail_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/VideoThumbnails%2F1500895674149_.png?alt=media&token=a8447586-9d54-4616-b21c-66a96c00bc3c"
+      },
+      "expertise_level" : "Basic"
+    },
+    "-KpoMN8KxgudJf2l505w" : {
+      "course_details" : {
+        "course_id" : "7",
+        "name" : "Money Transfer"
+      },
+      "course_video" : {
+        "media_local_url" : "/storage/emulated/0/Course Videos/money transfer-intermediate.mp4",
+        "remote_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/Videos%2Fmoney%20transfer-intermediate.mp4?alt=media&token=f0538fd7-b015-4438-bc0f-1295469a195a",
+        "thumb_nail_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/VideoThumbnails%2F1500895865018_.png?alt=media&token=8931633c-f3f5-4676-8611-b496b7a5d472"
+      },
+      "expertise_level" : "Intermediate"
+    },
+    "-KpoNpRtcqHUjKkei8Mx" : {
+      "course_details" : {
+        "course_id" : "7",
+        "name" : "Money Transfer"
+      },
+      "course_video" : {
+        "media_local_url" : "/storage/emulated/0/Course Videos/moneytransfer-expert.mp4",
+        "remote_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/Videos%2Fmoneytransfer-expert.mp4?alt=media&token=44df3e9c-9dbb-41e2-8ec4-2428d6bdc60b",
+        "thumb_nail_url" : "https://firebasestorage.googleapis.com/v0/b/financelearn-dffeb.appspot.com/o/VideoThumbnails%2F1500896247614_.png?alt=media&token=5d8c1a9f-5f10-4f8a-ac2c-75378f2bb68c"
+      },
+      "expertise_level" : "Expert"
+    }
+  },
+  "courses" : [ null, {
+    "course_id" : "1",
+    "name" : "E business",
+    "recommendation" : {
+      "basic_average" : "CREDIT CARDS DEVELOPMENT",
+      "basic_below_average" : "EBUSINESS SUPPORT OFFICER",
+      "basic_good" : "WEB/COMMERCE DEVELOPMENT",
+      "expert_average" : "PRODUCT DEVELOPMENT",
+      "expert_blow_average" : "go_back_to_videos",
+      "expert_good" : "BUSINESS INTELLIGENCE",
+      "intermediate_average" : "PREPAID CARD DEVELOPMENT",
+      "intermediate_below_average" : "EBUSINESS SUPPORT",
+      "intermediate_good" : "EBUSINESS ASSURANCE AND COMPLIANCE"
+    }
+  }, {
+    "course_id" : "2",
+    "name" : "Information Security",
+    "recommendation" : {
+      "basic_average" : "CHANNEL MONITORING",
+      "basic_below_average" : "INFORMATION SECURITY SUPPORT",
+      "basic_good" : "OPERATIONS ANALYSIS",
+      "expert_average" : "BUSINESS COMPLIANCE",
+      "expert_blow_average" : "go_back_to_videos",
+      "expert_good" : "INFORMATION RISK ANALYSIS",
+      "intermediate_average" : "SYSTEM MONITORING",
+      "intermediate_below_average" : "INFORMATION SECURITY SUPPORT",
+      "intermediate_good" : "SECURITY OPERATIONS"
+    }
+  }, {
+    "course_id" : "3",
+    "name" : "Retail Banking",
+    "recommendation" : {
+      "basic_average" : "FINANCIAL SERVICES SUPPORT",
+      "basic_below_average" : "CUSTOMER SERVICE SUPPORT",
+      "basic_good" : "RELATIONSHIP MANAGEMENT",
+      "expert_average" : "AREA BUSINESS DEVELOPMENT",
+      "expert_blow_average" : "go_back_to_videos",
+      "expert_good" : "REGIONAL BUSINESS DEVELOPMENT",
+      "intermediate_average" : "BRANCH SERVICES MANAGEMENT",
+      "intermediate_below_average" : "CUSTOMER SERVICE SUPPORT",
+      "intermediate_good" : "BRANCH BUSINESS MANAGEMENT"
+    }
+  }, {
+    "course_id" : "4",
+    "name" : "Compliance",
+    "recommendation" : {
+      "basic_average" : "COMPLIANCE MONITORING",
+      "basic_below_average" : "COMPLIANCE SUPPORT",
+      "basic_good" : "SYSTEM SUPPORT",
+      "expert_average" : "RISK ASSESSMENT",
+      "expert_blow_average" : "go_back_to_videos",
+      "expert_good" : "BUSINESS ASSURANCE",
+      "intermediate_average" : "COMPLIANCE SUPPORT",
+      "intermediate_below_average" : "COMPLIANCE RETAIL  SUPPORT",
+      "intermediate_good" : "RISK ASSESSMENT"
+    }
+  }, null, {
+    "course_id" : "6",
+    "name" : "Transaction banking",
+    "recommendation" : {
+      "basic_average" : "TRANSACTION SUPPORT",
+      "basic_below_average" : "BRANCH TRANSACTION SUPPORT",
+      "basic_good" : "DEMAND MANAGEMENT",
+      "expert_average" : "TECHNICAL SALES",
+      "expert_blow_average" : "go_back_to_videos",
+      "expert_good" : "BUSINESS ANALYSIS",
+      "intermediate_average" : "DEMAND MANAGEMENT",
+      "intermediate_below_average" : "TRANSACTION SUPPORT",
+      "intermediate_good" : "TRANSACTION BANKING RECONCILIATION"
+    }
+  }, {
+    "course_id" : "7",
+    "name" : "Money Transfer",
+    "recommendation" : {
+      "basic_average" : "FOREIGN BANKING COMPLIANCE",
+      "basic_below_average" : "FOREIGN BANKING SUPPORT",
+      "basic_good" : "TRADE SERVICES",
+      "expert_average" : "FUNDS TRANSFER",
+      "expert_blow_average" : "go_back_to_videos",
+      "expert_good" : "RECONCILIATION",
+      "intermediate_average" : "FUNDS TRANSFER",
+      "intermediate_below_average" : "FOREIGN BANKING SUPPORT",
+      "intermediate_good" : "RECONCILIATION"
+    }
+  } ],
+  "main_test" : [ {
+    "answer" : "Moneygram",
+    "course_id" : "7",
+    "options" : [ "RIA", "Western Union", "Moneygram", "transfast" ],
+    "question" : "A customer with 54678923 as the MTCN is likely going to use ------?"
+  }, {
+    "answer" : "Purged transfer",
+    "course_id" : "7",
+    "options" : [ "Purged transfer", "Stale Transfer", "Inactive Transfer", "Unreinstated transfer" ],
+    "question" : "Transfers older than 90days on Western Union Platform are called-----"
+  }, {
+    "answer" : "Transfer viewed but not paid due to discrepancies * Transfer is locked to the agent location and must be paid there",
+    "course_id" : "7",
+    "options" : [ "Transfer viewed but not paid due to discrepancies", "The transaction is inconsistent but can be paid", "Transfer is locked to the agent location and must be paid there", "The platform is inactive" ],
+    "question" : "What does a locked transaction in Moneygram imply?(click all that applies)"
+  }, {
+    "answer" : "Workplace ID",
+    "course_id" : "7",
+    "options" : [ "Voter’s card", "International passport", "Bank Verification Number(BVN)", "Workplace ID%" ],
+    "question" : "Which of these is not an acceptable Identification card for Money Transfer?"
+  }, {
+    "answer" : "10%",
+    "course_id" : "7",
+    "options" : [ "10%", "6%", "15%", "5%" ],
+    "question" : "The accepted percentage error for Inbound transaction is"
+  }, {
+    "answer" : "%ugo14Chukwu",
+    "course_id" : "2",
+    "options" : [ "%ugo14Chukwu", "Ugochukwu", "Ugochukwu12", "Ugo3$" ],
+    "question" : "Which of these will you consider a strong password?"
+  }, {
+    "answer" : "Secret, Confidential, Internal use, Public",
+    "course_id" : "2",
+    "options" : [ "Secret, Confidential, Internal use, Public", "Served, Confidential, Internal use, private", "Secret, Confidential, Internal use, Private", "Secret, Conserved, Internal , Private" ],
+    "question" : "One of these is a way of classifying documents in financial organizations"
+  }, {
+    "answer" : "Provide links to useful information",
+    "course_id" : "2",
+    "options" : [ "Capture and send sensitive information from your workstation to the hacker (key loggers)", "Download other malware", "Provide links to useful information", "Crash your workstation" ],
+    "question" : "What Can Malware not Do?"
+  }, {
+    "answer" : "People, Process and technology",
+    "course_id" : "2",
+    "options" : [ "Intellect, Technology and Policies", "Skills, Technology and Policies", "People, Process and technology", "Employees, training and Policies" ],
+    "question" : "The three keys to successful information security are  --------."
+  }, {
+    "answer" : "Risk",
+    "course_id" : "2",
+    "options" : [ "Theft", "Risk", "Vulnerability", "Threat" ],
+    "question" : "A possibility that a threat exploits a vulnerability in an asset and causes damage or loss to the asset."
+  }, {
+    "answer" : "Information about the reporting entity * Details about the person conducting or attempting to conduct the transaction * Details of the transaction itself",
+    "course_id" : "4",
+    "options" : [ "Information about the reporting entity", "Details about the person conducting or attempting to conduct the transaction", "Details of the transaction itself", "Details of transactions of the customer’s relations for the past ten years." ],
+    "question" : "What are the information to report for a suspicious transaction?(Select all that Applies)"
+  }, {
+    "answer" : "Student",
+    "course_id" : "4",
+    "options" : [ "Dealer on jewellery", "Foreign  Financial company", "Supermarket", "Student" ],
+    "question" : "A simplied Due diligence will be done for a?"
+  }, {
+    "answer" : "A financial institution checks the identity of a customer * A financial institution checks the background of a customer * A financial institution checks source of funds of potential and existing customers",
+    "course_id" : "4",
+    "options" : [ "A financial institution checks the identity of a customer", "A financial institution checks the background of a customer", "A financial institution reports all customers that want to start a business relationship.", "A financial institution checks source of funds of potential and existing customers" ],
+    "question" : "What does KYC imply?(Select all that applies)"
+  }, {
+    "answer" : "A customer that does not have a primary Identification card",
+    "course_id" : "4",
+    "options" : [ "A customer that is reluctant to provide information", "A customer that does not have a primary Identification card", "Customers providing conflicting information", "Opening account with variations of the same name." ],
+    "question" : "Which of these is not a KYC red flag?"
+  }, {
+    "answer" : "High risk customers",
+    "course_id" : "4",
+    "options" : [ "Medium risk customers", "High risk customers", "Bank Verification Number(BVN)", "Low risk customers" ],
+    "question" : "Enhanced due diligence should be done for"
+  }, {
+    "answer" : "Transfer form",
+    "course_id" : "1",
+    "options" : [ "Internet banking", "Transfer form", "Automated telephone", "ATM network" ],
+    "question" : "Which of these is not an electronic channel"
+  }, {
+    "answer" : "Remote-on-us transaction",
+    "course_id" : "1",
+    "options" : [ "ON us transaction", "Remote-on-us transaction", "Not-on-us transaction", "Bank on us transaction" ],
+    "question" : "A firstbank card used on another bank’s terminal is regarded by the issuing bank as"
+  }, {
+    "answer" : "Withdraw money",
+    "course_id" : "1",
+    "options" : [ "Withdraw money", "Transfer money", "Perform trade securities", "View account balance" ],
+    "question" : "Internet banking cannot be used to"
+  }, {
+    "answer" : "Spoofing * Data alteration * Eavesdropping",
+    "course_id" : "1",
+    "options" : [ "Spoofing", "Data alteration", "Second - level authentication", "Eavesdropping" ],
+    "question" : "Select problems that could be encountered when logging on internet banking platform"
+  }, {
+    "answer" : "Bankcard",
+    "course_id" : "1",
+    "options" : [ "Mastercard", "Visacard", "Bankcard", "Vervecard" ],
+    "question" : "One of these is not a type of ATM card"
+  }, {
+    "answer" : "INVOICE DISCOUNTING FACILITY",
+    "course_id" : "3",
+    "options" : [ "INVOICE DISCOUNTING FACILITY", "LPO", "Overdraft", "Personal Loan" ],
+    "question" : "A credit facility designed to allow the customer access to funds whilst awaiting payment inflow from the Principal is called ----"
+  }, {
+    "answer" : "Value addition",
+    "course_id" : "3",
+    "options" : [ "Additional details", "Due diligence", "Value addition", "Financing" ],
+    "question" : "The difference between a CFF and LPO is that the former requires"
+  }, {
+    "answer" : "Advanced Payment Gurantee",
+    "course_id" : "3",
+    "options" : [ "CFF", "LPP", "Advanced Payment Gurantee", "Personal Loan" ],
+    "question" : "Bank provides guarantees to approved Contractors for advance payments received for execution of contracts for…….."
+  }, {
+    "answer" : "Value bond",
+    "course_id" : "3",
+    "options" : [ "Performance bond", "Tender bond", "Custom bond", "Value bond" ],
+    "question" : "One of these is not a type of bond:"
+  }, {
+    "answer" : "Personal Loan against salary",
+    "course_id" : "3",
+    "options" : [ "CFF", "LPP", "Advanced Payment Gurantee", "Personal Loan against salary" ],
+    "question" : "Which facility will you recommend against a customer's salary to meet his or her personal needs?"
+  }, {
+    "answer" : "Transaction banking",
+    "course_id" : "6",
+    "options" : [ "Retail banking", "Transaction banking", "Electronic banking", "Cash banking" ],
+    "question" : "A set of services that a financial institution  offers to customers to enhance their ability to execute transactions such as the exchanges of good (Trade) and management of monetary flows can best be described as:"
+  }, {
+    "answer" : "Google",
+    "course_id" : "6",
+    "options" : [ "Autoreg", "Remitta", "Google", "Interswitch" ],
+    "question" : "Which of these is not a collection platform"
+  }, {
+    "answer" : "Escalate the issue",
+    "course_id" : "6",
+    "options" : [ "Reverse the transaction", "Escalate the issue", "Cancel the transaction", "Reinitiate the transaction." ],
+    "question" : "A teller has done an error while processing an FIRS transaction which impacted on the till account but does not discover the error till 11am the following day. What is the best approach to resolving the problem?"
+  }, {
+    "answer" : "Systemspecs and interswitch repectively",
+    "course_id" : "6",
+    "options" : [ "Systemspecs", "Interswitch", "Systemspecs and interswitch repectively", "Interswitch and systemspecs respectively" ],
+    "question" : "Which companies manages Remitta and Autoreg?"
+  }, {
+    "answer" : "Lead bank",
+    "course_id" : "6",
+    "options" : [ "Lead bank", "Issuing bank", "Collecting bank", "Transaction bank" ],
+    "question" : "A bank which funds collected from the collection banks are swept and warehoused is ….."
+  } ],
+  "pre_test" : [ {
+    "answer" : "Finacle",
+    "course_id" : "7",
+    "options" : [ "RIA", "Western Union", "Finacle", "Moneygram" ],
+    "question" : "Which of these platforms are not used for Money transfer transactions?"
+  }, {
+    "answer" : "Money Transfer Control Number",
+    "course_id" : "7",
+    "options" : [ "Money Transfer Control Number", "Money Transaction Concurrency Nomenclature", "Money Transfer Concurrency Number", "Main Transfer Control Nomenclature" ],
+    "question" : "MTCN stands for"
+  }, {
+    "answer" : "Student ID card",
+    "course_id" : "7",
+    "options" : [ "Voter’s card", "International passport", "Student ID card", "Bank Verification Number(BVN)" ],
+    "question" : "Which of these is not an acceptable Identification card for Money Transfer?"
+  }, {
+    "answer" : "10%",
+    "course_id" : "7",
+    "options" : [ "5%", "6%", "15%", "10%" ],
+    "question" : "The accepted percentage error for Inbound transaction is"
+  }, {
+    "answer" : "US, Mexico, Canada",
+    "course_id" : "7",
+    "options" : [ "UK, China , Vietnnam", "US, Mexico, Canada", "US,UK, Kenya", "US,Canada,South Africa" ],
+    "question" : "Which countries must you the country and state when doing outbound transaction?(Choose the best option)"
+  }, {
+    "answer" : "Secret, Confidential, Internal use, Public",
+    "course_id" : "2",
+    "options" : [ "Secret, Confidential, Internal use, Public", "Served, Confidential, Internal use, private", "Secret, Confidential, Internal use, Private", "Secret, Conserved, Internal , Private" ],
+    "question" : "One of these is a way of classifying documents in financial organizations."
+  }, {
+    "answer" : "Provide links to useful information",
+    "course_id" : "2",
+    "options" : [ "Capture and send sensitive information from your workstation to the hacker (key loggers)", "Download other malware", "Crash your workstation", "Provide links to useful information" ],
+    "question" : "What Can Malware not Do?"
+  }, {
+    "answer" : "Hacking",
+    "course_id" : "2",
+    "options" : [ "Theft", "Malware", "Hacking", "Phishing" ],
+    "question" : "Unauthorized and/or illegal computer trespass executed locally or remotely is called --------."
+  }, {
+    "answer" : "Social Engineering",
+    "course_id" : "2",
+    "options" : [ "Theft", "Social Engineering", "Malware", "Hacking" ],
+    "question" : "Tricking people to give out sensitive information is known as---"
+  }, {
+    "answer" : "%ugo14Chukwu",
+    "course_id" : "2",
+    "options" : [ "Ugochukwu", "Ugochukwu12", "%ugo14Chukwu", "Ugo3$" ],
+    "question" : "Which of these will you consider a strong password?"
+  }, {
+    "answer" : "Know your customer",
+    "course_id" : "4",
+    "options" : [ "Kernel yardstick Compliance", "Know your compliance", "Know your customer", "Know your controls" ],
+    "question" : "What is the full meaning of KYC?"
+  }, {
+    "answer" : "Workplace ID",
+    "course_id" : "4",
+    "options" : [ "Voter’s card", "International passport", "Bank Verification Number(BVN)", "Workplace ID" ],
+    "question" : "Which of the ID cards pay require a third party identification?"
+  }, {
+    "answer" : "A financial institution checks the identity of a customer * A financial institution checks the background of a customer * A financial institution checks source of funds of potential and existing customers",
+    "course_id" : "4",
+    "options" : [ "A financial institution checks the identity of a customer", "A financial institution checks the background of a customer", "A financial institution reports all customers that want to start a business relationship.", "A financial institution checks source of funds of potential and existing customers" ],
+    "question" : "What does KYC imply?(Select all that applies)"
+  }, {
+    "answer" : "A customer that does not have a primary Identification card",
+    "course_id" : "4",
+    "options" : [ "A customer that is reluctant to provide information", "A customer that does not have a primary Identification card", "Customers providing conflicting information", "Opening account with variations of the same name." ],
+    "question" : "Which of these is not a KYC red flag?"
+  }, {
+    "answer" : "High risk customers",
+    "course_id" : "4",
+    "options" : [ "Medium risk customers", "High risk customers", "Bank Verification Number(BVN)", "Low risk customers" ],
+    "question" : "Enhanced due diligence should be done for"
+  }, {
+    "answer" : "Transfer form",
+    "course_id" : "1",
+    "options" : [ "Internet banking", "Transfer form", "Automated telephone", "ATM network" ],
+    "question" : "Which of these is not an electronic channel"
+  }, {
+    "answer" : "Withdraw money",
+    "course_id" : "1",
+    "options" : [ "Withdraw money", "Transfer money", "Perform trade securities", "View account balance" ],
+    "question" : "Internet banking cannot be used to"
+  }, {
+    "answer" : "Spoofing * Data alteration * Eavesdropping",
+    "course_id" : "1",
+    "options" : [ "Spoofing", "Data alteration", "Second - level authentication", "Eavesdropping" ],
+    "question" : "Select problems that could be encountered when logging on internet banking platform"
+  }, {
+    "answer" : "Bankcard",
+    "course_id" : "1",
+    "options" : [ "Mastercard", "Visacard", "Bankcard", "Vervecard" ],
+    "question" : "One of these is not a type of ATM card"
+  }, {
+    "answer" : "Remote-on-us transaction",
+    "course_id" : "1",
+    "options" : [ "ON us transaction", "Remote-on-us transaction", "Not-on-us transaction", "Bank on us transaction" ],
+    "question" : "A firstbank card used on another bank’s terminal is regarded by the issuing bank as"
+  }, {
+    "answer" : "Advanced Payment Gurantee",
+    "course_id" : "3",
+    "options" : [ "CFF", "LPP", "Advanced Payment Gurantee", "Personal Loan" ],
+    "question" : "Bank provides guarantees to approved Contractors for advance payments received for execution of contracts for…….."
+  }, {
+    "answer" : "INVOICE DISCOUNTING FACILITY",
+    "course_id" : "3",
+    "options" : [ "LPO", "Overdraft", "Personal Loan", "INVOICE DISCOUNTING FACILITY" ],
+    "question" : "A credit facility designed to allow the customer access to funds whilst awaiting payment inflow from the Principal is called ----"
+  }, {
+    "answer" : "Value addition",
+    "course_id" : "3",
+    "options" : [ "Additional details", "Due diligence", "Value addition", "Financing" ],
+    "question" : "The difference between a CFF and LPO is that the former requires"
+  }, {
+    "answer" : "Repayment * Diversion * Termination of employment",
+    "course_id" : "3",
+    "options" : [ "Repayment", "Diversion", "Termination of employment", "Insurance" ],
+    "question" : "Alex is a relationship manager in a financial institution. Choose the risks he should watch out for when giving personal loan against salary."
+  }, {
+    "answer" : "Value bond",
+    "course_id" : "3",
+    "options" : [ "Performance bond", "Tender bond", "Custom bond", "Value bond" ],
+    "question" : "One of these is not a type of bond:"
+  }, {
+    "answer" : "Transaction banking",
+    "course_id" : "6",
+    "options" : [ "Retail banking", "Transaction banking", "Electronic banking", "Cash banking" ],
+    "question" : "A set of services that a financial institution  offers to customers to enhance their ability to execute transactions such as the exchanges of good (Trade) and management of monetary flows can best be described as:"
+  }, {
+    "answer" : "Google",
+    "course_id" : "6",
+    "options" : [ "Autoreg", "Remitta", "Google", "Interswitch" ],
+    "question" : "Which of these is not a collection platform"
+  }, {
+    "answer" : "Escalate the issue",
+    "course_id" : "6",
+    "options" : [ "Reverse the transaction", "Escalate the issue", "Cancel the transaction", "Reinitiate the transaction." ],
+    "question" : "A teller has done an error while processing an FIRS transaction which impacted on the till account but does not discover the error till 11am the following day. What is the best approach to resolving the problem?"
+  }, {
+    "answer" : "Systemspecs and interswitch repectively",
+    "course_id" : "6",
+    "options" : [ "Systemspecs", "Interswitch", "Systemspecs and interswitch repectively", "Interswitch and systemspecs respectively" ],
+    "question" : "Which companies manages Remitta and Autoreg?"
+  }, {
+    "answer" : "Collecting bank",
+    "course_id" : "6",
+    "options" : [ "Lead bank", "Issuing bank", "Collecting bank", "Transaction bank" ],
+    "question" : "A bank that is authorized to collect revenue on behalf of the biller is …."
+  } ],
+  "staff" : {
+    "cali" : {
+      "all_pretest_courses" : [ "1", "3", "2", "4" ],
+      "category" : "employee",
+      "courses_assigned" : [ "1", "3" ],
+      "lastname" : "Cali",
+      "logged_in" : true,
+      "no_of_qs" : 20,
+      "password" : "12345",
+      "pretest_right_answers" : "{\"3\":[{\"answer\":\"Advanced Payment Gurantee\",\"question\":\"Bank provides guarantees to approved Contractors for advance payments received for execution of contracts for……..\"},{\"answer\":\"INVOICE DISCOUNTING FACILITY\",\"question\":\"A credit facility designed to allow the customer access to funds whilst awaiting payment inflow from the Principal is called ----\"},{\"answer\":\"Value addition\",\"question\":\"The difference between a CFF and LPO is that the former requires\"},{\"answer\":\"Value bond\",\"question\":\"One of these is not a type of bond:\"},{\"answer\":\"Advanced Payment Gurantee\",\"question\":\"Bank provides guarantees to approved Contractors for advance payments received for execution of contracts for……..\"},{\"answer\":\"INVOICE DISCOUNTING FACILITY\",\"question\":\"A credit facility designed to allow the customer access to funds whilst awaiting payment inflow from the Principal is called ----\"},{\"answer\":\"Value addition\",\"question\":\"The difference between a CFF and LPO is that the former requires\"},{\"answer\":\"Value bond\",\"question\":\"One of these is not a type of bond:\"},{\"answer\":\"Advanced Payment Gurantee\",\"question\":\"Bank provides guarantees to approved Contractors for advance payments received for execution of contracts for……..\"},{\"answer\":\"INVOICE DISCOUNTING FACILITY\",\"question\":\"A credit facility designed to allow the customer access to funds whilst awaiting payment inflow from the Principal is called ----\"},{\"answer\":\"Value addition\",\"question\":\"The difference between a CFF and LPO is that the former requires\"},{\"answer\":\"Value bond\",\"question\":\"One of these is not a type of bond:\"}],\"2\":[{\"answer\":\"Secret, Confidential, Internal use, Public\",\"question\":\"One of these is a way of classifying documents in financial organizations.\"},{\"answer\":\"Provide links to useful information\",\"question\":\"What Can Malware not Do?\"},{\"answer\":\"Hacking\",\"question\":\"Unauthorized and\\/or illegal computer trespass executed locally or remotely is called --------.\"},{\"answer\":\"Social Engineering\",\"question\":\"Tricking people to give out sensitive information is known as---\"},{\"answer\":\"%ugo14Chukwu\",\"question\":\"Which of these will you consider a strong password?\"},{\"answer\":\"Secret, Confidential, Internal use, Public\",\"question\":\"One of these is a way of classifying documents in financial organizations.\"},{\"answer\":\"Provide links to useful information\",\"question\":\"What Can Malware not Do?\"},{\"answer\":\"Hacking\",\"question\":\"Unauthorized and\\/or illegal computer trespass executed locally or remotely is called --------.\"},{\"answer\":\"Social Engineering\",\"question\":\"Tricking people to give out sensitive information is known as---\"},{\"answer\":\"%ugo14Chukwu\",\"question\":\"Which of these will you consider a strong password?\"},{\"answer\":\"Secret, Confidential, Internal use, Public\",\"question\":\"One of these is a way of classifying documents in financial organizations.\"},{\"answer\":\"Provide links to useful information\",\"question\":\"What Can Malware not Do?\"},{\"answer\":\"Hacking\",\"question\":\"Unauthorized and\\/or illegal computer trespass executed locally or remotely is called --------.\"},{\"answer\":\"Social Engineering\",\"question\":\"Tricking people to give out sensitive information is known as---\"},{\"answer\":\"%ugo14Chukwu\",\"question\":\"Which of these will you consider a strong password?\"}],\"1\":[{\"answer\":\"Transfer form\",\"question\":\"Which of these is not an electronic channel\"},{\"answer\":\"Withdraw money\",\"question\":\"Internet banking cannot be used to\"},{\"answer\":\"Bankcard\",\"question\":\"One of these is not a type of ATM card\"},{\"answer\":\"Remote-on-us transaction\",\"question\":\"A firstbank card used on another bank’s terminal is regarded by the issuing bank as\"},{\"answer\":\"Transfer form\",\"question\":\"Which of these is not an electronic channel\"},{\"answer\":\"Withdraw money\",\"question\":\"Internet banking cannot be used to\"},{\"answer\":\"Bankcard\",\"question\":\"One of these is not a type of ATM card\"},{\"answer\":\"Remote-on-us transaction\",\"question\":\"A firstbank card used on another bank’s terminal is regarded by the issuing bank as\"},{\"answer\":\"Transfer form\",\"question\":\"Which of these is not an electronic channel\"},{\"answer\":\"Withdraw money\",\"question\":\"Internet banking cannot be used to\"},{\"answer\":\"Bankcard\",\"question\":\"One of these is not a type of ATM card\"},{\"answer\":\"Remote-on-us transaction\",\"question\":\"A firstbank card used on another bank’s terminal is regarded by the issuing bank as\"}],\"4\":[{\"answer\":\"Know your customer\",\"question\":\"What is the full meaning of KYC?\"},{\"answer\":\"Workplace ID\",\"question\":\"Which of the ID cards pay require a third party identification?\"},{\"answer\":\"A customer that does not have a primary Identification card\",\"question\":\"Which of these is not a KYC red flag?\"},{\"answer\":\"High risk customers\",\"question\":\"Enhanced due diligence should be done for\"},{\"answer\":\"Know your customer\",\"question\":\"What is the full meaning of KYC?\"},{\"answer\":\"Workplace ID\",\"question\":\"Which of the ID cards pay require a third party identification?\"},{\"answer\":\"A customer that does not have a primary Identification card\",\"question\":\"Which of these is not a KYC red flag?\"},{\"answer\":\"High risk customers\",\"question\":\"Enhanced due diligence should be done for\"},{\"answer\":\"Know your customer\",\"question\":\"What is the full meaning of KYC?\"},{\"answer\":\"A customer that does not have a primary Identification card\",\"question\":\"Which of these is not a KYC red flag?\"},{\"answer\":\"High risk customers\",\"question\":\"Enhanced due diligence should be done for\"}]}",
+      "pretest_taken" : true,
+      "pretest_wrong_answers" : "{\"3\":[{\"answer\":\"Diversion\",\"question\":\"Alex is a relationship manager in a financial institution. Choose the risks he should watch out for when giving personal loan against salary.\"},{\"answer\":\"Repayment\",\"question\":\"Alex is a relationship manager in a financial institution. Choose the risks he should watch out for when giving personal loan against salary.\"},{\"answer\":\"Termination of employment\",\"question\":\"Alex is a relationship manager in a financial institution. Choose the risks he should watch out for when giving personal loan against salary.\"},{\"answer\":\"Termination of employment\",\"question\":\"Alex is a relationship manager in a financial institution. Choose the risks he should watch out for when giving personal loan against salary.\"},{\"answer\":\"Diversion\",\"question\":\"Alex is a relationship manager in a financial institution. Choose the risks he should watch out for when giving personal loan against salary.\"},{\"answer\":\"Repayment\",\"question\":\"Alex is a relationship manager in a financial institution. Choose the risks he should watch out for when giving personal loan against salary.\"}],\"2\":[{\"answer\":\"Theft\",\"question\":\"Unauthorized and\\/or illegal computer trespass executed locally or remotely is called --------.\"}],\"1\":[{\"answer\":\"Data alteration\",\"question\":\"Select problems that could be encountered when logging on internet banking platform\"},{\"answer\":\"Spoofing\",\"question\":\"Select problems that could be encountered when logging on internet banking platform\"},{\"answer\":\"Eavesdropping\",\"question\":\"Select problems that could be encountered when logging on internet banking platform\"},{\"answer\":\"Not-on-us transaction\",\"question\":\"A firstbank card used on another bank’s terminal is regarded by the issuing bank as\"},{\"answer\":\"Transfer money\",\"question\":\"Internet banking cannot be used to\"},{\"answer\":\"Spoofing\",\"question\":\"Select problems that could be encountered when logging on internet banking platform\"},{\"answer\":\"Data alteration\",\"question\":\"Select problems that could be encountered when logging on internet banking platform\"},{\"answer\":\"Eavesdropping\",\"question\":\"Select problems that could be encountered when logging on internet banking platform\"}],\"4\":[{\"answer\":\"A financial institution checks the identity of a customer\",\"question\":\"What does KYC imply?(Select all that applies)\"},{\"answer\":\"A financial institution checks the background of a customer\",\"question\":\"What does KYC imply?(Select all that applies)\"},{\"answer\":\"A financial institution checks source of funds of potential and existing customers\",\"question\":\"What does KYC imply?(Select all that applies)\"},{\"answer\":\"Bank Verification Number(BVN)\",\"question\":\"Which of the ID cards pay require a third party identification?\"},{\"answer\":\"A financial institution checks source of funds of potential and existing customers\",\"question\":\"What does KYC imply?(Select all that applies)\"},{\"answer\":\"A financial institution checks the background of a customer\",\"question\":\"What does KYC imply?(Select all that applies)\"},{\"answer\":\"A financial institution checks the identity of a customer\",\"question\":\"What does KYC imply?(Select all that applies)\"}]}",
+      "staff_id" : "cali",
+      "staff_manager_id" : "specter",
+      "surname" : "Ilo"
+    },
+    "guest" : {
+      "category" : "employee",
+      "courses_assigned" : [ "1", "2" ],
+      "lastname" : "Guest",
+      "logged_in" : true,
+      "password" : "guest",
+      "staff_id" : "guest",
+      "staff_manager_id" : "jessica",
+      "surname" : "..."
+    },
+    "jessica" : {
+      "category" : "manager",
+      "lastname" : "Jessica",
+      "password" : "12345",
+      "staff_id" : "jessica",
+      "surname" : "Pearson"
+    },
+    "john" : {
+      "category" : "manager",
+      "lastname" : "Emeka",
+      "password" : "1234",
+      "staff_id" : "john",
+      "surname" : "John"
+    },
+    "specter" : {
+      "category" : "manager",
+      "lastname" : "Harvey",
+      "password" : "12345",
+      "staff_id" : "specter",
+      "surname" : "Specter"
+    },
+    "wan" : {
+      "all_pretest_courses" : [ "1", "2", "3", "4" ],
+      "category" : "employee",
+      "courses_assigned" : [ "1", "2" ],
+      "lastname" : "Doglas",
+      "logged_in" : true,
+      "no_of_qs" : 20,
+      "password" : "12345",
+      "pretest_right_answers" : "{\"4\":[{\"question\":\"What is the full meaning of KYC?\",\"answer\":\"Know your customer\"},{\"question\":\"Which of the ID cards pay require a third party identification?\",\"answer\":\"Workplace ID\"},{\"question\":\"Which of these is not a KYC red flag?\",\"answer\":\"A customer that does not have a primary Identification card\"},{\"question\":\"Enhanced due diligence should be done for\",\"answer\":\"High risk customers\"}],\"1\":[{\"question\":\"Which of these is not an electronic channel\",\"answer\":\"Transfer form\"},{\"question\":\"Internet banking cannot be used to\",\"answer\":\"Withdraw money\"},{\"question\":\"One of these is not a type of ATM card\",\"answer\":\"Bankcard\"},{\"question\":\"A firstbank card used on another bank’s terminal is regarded by the issuing bank as\",\"answer\":\"Remote-on-us transaction\"}],\"2\":[{\"question\":\"One of these is a way of classifying documents in financial organizations.\",\"answer\":\"Secret, Confidential, Internal use, Public\"},{\"question\":\"What Can Malware not Do?\",\"answer\":\"Provide links to useful information\"},{\"question\":\"Unauthorized and\\/or illegal computer trespass executed locally or remotely is called --------.\",\"answer\":\"Hacking\"},{\"question\":\"Tricking people to give out sensitive information is known as---\",\"answer\":\"Social Engineering\"},{\"question\":\"Which of these will you consider a strong password?\",\"answer\":\"%ugo14Chukwu\"}],\"3\":[{\"question\":\"Bank provides guarantees to approved Contractors for advance payments received for execution of contracts for……..\",\"answer\":\"Advanced Payment Gurantee\"},{\"question\":\"A credit facility designed to allow the customer access to funds whilst awaiting payment inflow from the Principal is called ----\",\"answer\":\"INVOICE DISCOUNTING FACILITY\"},{\"question\":\"The difference between a CFF and LPO is that the former requires\",\"answer\":\"Value addition\"},{\"question\":\"One of these is not a type of bond:\",\"answer\":\"Value bond\"}]}",
+      "pretest_taken" : true,
+      "pretest_wrong_answers" : "{\"4\":[{\"question\":\"What does KYC imply?(Select all that applies)\",\"answer\":\"A financial institution checks the identity of a customer\"}],\"1\":[{\"question\":\"Select problems that could be encountered when logging on internet banking platform\",\"answer\":\"Spoofing\"},{\"question\":\"Select problems that could be encountered when logging on internet banking platform\",\"answer\":\"Data alteration\"},{\"question\":\"Select problems that could be encountered when logging on internet banking platform\",\"answer\":\"Eavesdropping\"}],\"3\":[{\"question\":\"Alex is a relationship manager in a financial institution. Choose the risks he should watch out for when giving personal loan against salary.\",\"answer\":\"Repayment\"},{\"question\":\"Alex is a relationship manager in a financial institution. Choose the risks he should watch out for when giving personal loan against salary.\",\"answer\":\"Diversion\"},{\"question\":\"Alex is a relationship manager in a financial institution. Choose the risks he should watch out for when giving personal loan against salary.\",\"answer\":\"Termination of employment\"}]}",
+      "staff_id" : "wan",
+      "staff_manager_id" : "jessica",
+      "surname" : "John"
+    }
+  }
+}

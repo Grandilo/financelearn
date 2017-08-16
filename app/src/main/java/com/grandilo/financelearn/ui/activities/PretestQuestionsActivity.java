@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.grandilo.financelearn.ui.adapters.PretestQuestionAndAnswersAdapter;
 import com.grandilo.financelearn.utils.AppPreferences;
 import com.grandilo.financelearn.utils.FinanceLearningConstants;
 import com.grandilo.financelearn.utils.FirebaseUtils;
+import com.grandilo.financelearn.utils.UiUtils;
 
 import org.json.JSONObject;
 
@@ -155,6 +157,7 @@ public class PretestQuestionsActivity extends AppCompatActivity implements View.
                         nextQuestion.setText(getString(R.string.action_next));
                     }
                 }
+
                 questionsPageCounter.setText(questionsViewPager.getCurrentItem() + 1 + " of " + pretestQuestions.size());
 
             }
@@ -163,7 +166,9 @@ public class PretestQuestionsActivity extends AppCompatActivity implements View.
             public void onPageScrollStateChanged(int state) {
 
             }
+
         });
+
     }
 
     private void fetchQuestionsForSelectedCourses() {

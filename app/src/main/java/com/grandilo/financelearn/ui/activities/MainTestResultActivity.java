@@ -174,6 +174,7 @@ public class MainTestResultActivity extends AppCompatActivity {
             progressDialog.show();
 
             FirebaseUtils.getStaffReference().child(signedInUserProps.optString("staff_id")).updateChildren(updatableProps, new DatabaseReference.CompletionListener() {
+
                 @Override
                 public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                     progressDialog.dismiss();
@@ -182,7 +183,6 @@ public class MainTestResultActivity extends AppCompatActivity {
                     } else {
                         Toast.makeText(MainTestResultActivity.this, "Error performing retake. Please try again.", Toast.LENGTH_LONG).show();
                     }
-
                 }
 
             });

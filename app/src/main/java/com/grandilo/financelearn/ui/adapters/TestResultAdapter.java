@@ -14,7 +14,6 @@ import com.grandilo.financelearn.R;
 import com.grandilo.financelearn.ui.activities.MainTestResultActivity;
 import com.grandilo.financelearn.ui.activities.PreTestResultActivity;
 import com.grandilo.financelearn.utils.FinanceLearningConstants;
-import com.grandilo.financelearn.utils.UiUtils;
 
 import org.json.JSONObject;
 
@@ -107,7 +106,7 @@ public class TestResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     float percentAge = (100 * rightAnswers.size()) / 5;
                     FinanceLearningConstants.mainTestScoresMap.put(courseId, percentAge);
                     if (rightAnswersCount > 0) {
-                        percentageView.setText(percentAge + " % (" + getResultCategory(context, percentAge, true).replace("_", " ") + ")");
+                        percentageView.setText((percentAge == 80 ? 100 : (percentAge > 100 ? 100 : percentAge)) + " % (" + getResultCategory(context, percentAge, true).replace("_", " ") + ")");
                         if (getResultCategory(context, percentAge, true).contains(context instanceof PreTestResultActivity ? FinanceLearningConstants.PRETEST_PROFICIENCY_LEVEL_BASIC : FinanceLearningConstants.MAIN_PROFICIENCY_LEVEL_BELOW_AVERAGE)) {
                             percentageView.setTextColor(Color.RED);
                         } else if (getResultCategory(context, percentAge, true).contains(context instanceof PreTestResultActivity ? FinanceLearningConstants.PRETEST_PROFICIENCY_LEVEL_INTERMEDIATE : FinanceLearningConstants.MAIN_PROFICIENCY_LEVEL_AVERAGE)) {

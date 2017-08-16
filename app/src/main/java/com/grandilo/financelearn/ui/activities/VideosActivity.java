@@ -21,6 +21,7 @@ import com.grandilo.financelearn.ui.adapters.VideosAdapter;
 import com.grandilo.financelearn.utils.AppPreferences;
 import com.grandilo.financelearn.utils.FinanceLearningConstants;
 import com.grandilo.financelearn.utils.FirebaseUtils;
+import com.grandilo.financelearn.utils.UiUtils;
 
 import org.json.JSONObject;
 
@@ -117,10 +118,10 @@ public class VideosActivity extends AppCompatActivity {
                         if (FinanceLearningConstants.courseIdNameMap.containsKey(courseId)) {
                             //Get percentage on cause
                             List<JSONObject> rightAnswers = FinanceLearningConstants.pretestRightAnswers.get(courseId);
-                            int totalNoOfQ = signedInUserObject.optInt(FinanceLearningConstants.TOTAL_NO_OF_QS);
                             if (rightAnswers != null) {
                                 int rightAnswersCount = rightAnswers.size();
-                                float percentAge = rightAnswers.size() * 100 / totalNoOfQ;
+                                UiUtils.showToast("Right Answers Count= "+rightAnswersCount);
+                                float percentAge = rightAnswers.size() * 100 / 5;
                                 if (rightAnswersCount > 0) {
                                     if (getResultCategory(percentAge).contains(expertLevel)){
                                         videos.add(videoProps);
