@@ -120,7 +120,6 @@ public class VideosActivity extends AppCompatActivity {
                             List<JSONObject> rightAnswers = FinanceLearningConstants.pretestRightAnswers.get(courseId);
                             if (rightAnswers != null) {
                                 int rightAnswersCount = rightAnswers.size();
-                                UiUtils.showToast("Right Answers Count= "+rightAnswersCount);
                                 float percentAge = rightAnswers.size() * 100 / 5;
                                 if (rightAnswersCount > 0) {
                                     if (getResultCategory(percentAge).contains(expertLevel)){
