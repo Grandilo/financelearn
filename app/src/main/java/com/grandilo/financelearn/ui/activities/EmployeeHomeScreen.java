@@ -138,6 +138,7 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
 
     private void finishLogOut() {
         AppPreferences.saveLoggedInType(EmployeeHomeScreen.this, null);
+        clearPreviousAnswers();
         Intent splashScreenIntent = new Intent(EmployeeHomeScreen.this, SplashActivity.class);
         startActivity(splashScreenIntent);
         finish();
@@ -234,6 +235,18 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
             startActivity(uploadVideoIntent);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void clearPreviousAnswers() {
+        try {
+            FinanceLearningConstants.pretestRightAnswers.clear();
+            FinanceLearningConstants.pretestWrongAnswers.clear();
+            FinanceLearningConstants.coursesToTest.clear();
+            FinanceLearningConstants.courseIdNameMap.clear();
+            FinanceLearningConstants.pickedOptions.clear();
+        } catch (Exception ignored) {
+
+        }
     }
 
     @Override

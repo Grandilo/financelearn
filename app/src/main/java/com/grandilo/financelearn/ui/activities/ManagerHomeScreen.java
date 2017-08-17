@@ -262,15 +262,7 @@ public class ManagerHomeScreen extends AppCompatActivity {
 
                         if (databaseError == null) {
                             Toast.makeText(ManagerHomeScreen.this, "Tests reset successfully. The staff may retake the tests now", Toast.LENGTH_LONG).show();
-                            try {
-                                FinanceLearningConstants.pretestRightAnswers.clear();
-                                FinanceLearningConstants.pretestWrongAnswers.clear();
-                                FinanceLearningConstants.coursesToTest.clear();
-                                FinanceLearningConstants.courseIdNameMap.clear();
-                                FinanceLearningConstants.pickedOptions.clear();
-                            } catch (Exception ignored) {
-
-                            }
+                            clearPreviousAnswers();
                         } else {
                             Toast.makeText(ManagerHomeScreen.this, "Error during test reset. Please try again.", Toast.LENGTH_LONG).show();
                         }
@@ -286,6 +278,18 @@ public class ManagerHomeScreen extends AppCompatActivity {
         builder.create();
         builder.show();
 
+    }
+
+    private void clearPreviousAnswers() {
+        try {
+            FinanceLearningConstants.pretestRightAnswers.clear();
+            FinanceLearningConstants.pretestWrongAnswers.clear();
+            FinanceLearningConstants.coursesToTest.clear();
+            FinanceLearningConstants.courseIdNameMap.clear();
+            FinanceLearningConstants.pickedOptions.clear();
+        } catch (Exception ignored) {
+
+        }
     }
 
 }
