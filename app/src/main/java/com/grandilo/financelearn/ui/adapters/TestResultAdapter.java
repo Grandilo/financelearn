@@ -93,6 +93,9 @@ public class TestResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
                 List<JSONObject> rightAnswers;
 
+                Log.d("RightAnswers", FinanceLearningConstants.pretestRightAnswers.toString());
+                Log.d("WrongAnswers", FinanceLearningConstants.pretestRightAnswers.toString());
+
                 if (context instanceof PreTestResultActivity) {
                     rightAnswers = FinanceLearningConstants.pretestRightAnswers.get(courseId);
                 } else {
