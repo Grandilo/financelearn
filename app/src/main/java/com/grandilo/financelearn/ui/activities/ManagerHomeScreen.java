@@ -262,6 +262,15 @@ public class ManagerHomeScreen extends AppCompatActivity {
 
                         if (databaseError == null) {
                             Toast.makeText(ManagerHomeScreen.this, "Tests reset successfully. The staff may retake the tests now", Toast.LENGTH_LONG).show();
+                            try {
+                                FinanceLearningConstants.pretestRightAnswers.clear();
+                                FinanceLearningConstants.pretestWrongAnswers.clear();
+                                FinanceLearningConstants.coursesToTest.clear();
+                                FinanceLearningConstants.courseIdNameMap.clear();
+                                FinanceLearningConstants.pickedOptions.clear();
+                            } catch (Exception ignored) {
+
+                            }
                         } else {
                             Toast.makeText(ManagerHomeScreen.this, "Error during test reset. Please try again.", Toast.LENGTH_LONG).show();
                         }
