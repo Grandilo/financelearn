@@ -3,10 +3,12 @@
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
+.idea/markdown-navigator/
 .DS_Store
 /build
 /captures
 .externalNativeBuild
+.idea/misc.xml
 # Built application files
 *.apk
 *.ap_
