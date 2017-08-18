@@ -78,10 +78,8 @@ public class MainTestQuestionAndAnswersAdapter extends PagerAdapter {
     }
 
     private void setupMultiChoiceQuestions(View parentView, ViewFlipper optionsFlipper, final String question, final String courseId, final String[] answers, JSONArray options) {
-
         optionsFlipper.setDisplayedChild(1);
         RadioGroup multiChoiceRadioGroup = parentView.findViewById(R.id.multi_select_radio_group);
-
         for (int i = 0; i < options.length(); i++) {
             final String optionName = options.optString(i);
             CheckBox radioButton = (CheckBox) multiChoiceRadioGroup.getChildAt(i);

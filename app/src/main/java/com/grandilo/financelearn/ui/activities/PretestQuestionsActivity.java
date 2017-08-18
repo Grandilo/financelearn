@@ -186,7 +186,6 @@ public class PretestQuestionsActivity extends AppCompatActivity implements View.
                 HashMap<Integer, HashMap<String, Object>> pretestInfo = (HashMap<Integer, HashMap<String, Object>>) dataSnapshot.getValue(objectGenericTypeIndicator);
 
                 if (pretestInfo != null) {
-
                     JSONObject preTestJSONObject = new JSONObject(pretestInfo);
                     String courseId = preTestJSONObject.optString(FinanceLearningConstants.COURSE_ID);
                     if (selectedCoursesForPretest.contains(courseId)) {
@@ -194,7 +193,6 @@ public class PretestQuestionsActivity extends AppCompatActivity implements View.
                         //NotifyDataSetChanged here
                         pretestQuestionAndAnswersAdapter.notifyDataSetChanged();
                     }
-
                 }
 
                 questionsPageCounter.setText(questionsViewPager.getCurrentItem() + 1 + " of " + pretestQuestions.size());

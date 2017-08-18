@@ -73,7 +73,9 @@ public class MainTestQuestionsActivity extends AppCompatActivity implements View
         fetchCourseNames();
 
         checkMainTestStatus();
+
         questionsViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -201,7 +203,6 @@ public class MainTestQuestionsActivity extends AppCompatActivity implements View
                 HashMap<Integer, HashMap<String, Object>> pretestInfo = (HashMap<Integer, HashMap<String, Object>>) dataSnapshot.getValue(objectGenericTypeIndicator);
 
                 if (pretestInfo != null) {
-
                     JSONObject preTestJSONObject = new JSONObject(pretestInfo);
                     String courseId = preTestJSONObject.optString(FinanceLearningConstants.COURSE_ID);
                     if (selectedCoursesForMainTest.contains(courseId)) {
@@ -209,7 +210,6 @@ public class MainTestQuestionsActivity extends AppCompatActivity implements View
                         //NotifyDataSetChanged here
                         mainTestQuestionAndAnswersAdapter.notifyDataSetChanged();
                     }
-
                 }
 
                 questionsPageCounter.setText(questionsViewPager.getCurrentItem() + 1 + " of " + mainTestQuestions.size());

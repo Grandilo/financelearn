@@ -52,7 +52,9 @@ public class PreTestResultActivity extends AppCompatActivity {
         }
 
         for (String key : FinanceLearningConstants.courseIdNameMap.keySet()) {
-            courseIds.add(key);
+            if (!courseIds.contains(key)) {
+                courseIds.add(key);
+            }
         }
 
         Log.d("ResultTag", "CourseIds = " + TextUtils.join(",", courseIds));
@@ -62,13 +64,12 @@ public class PreTestResultActivity extends AppCompatActivity {
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent videosIntent = new Intent(PreTestResultActivity.this,VideosActivity.class);
+                Intent videosIntent = new Intent(PreTestResultActivity.this, VideosActivity.class);
                 startActivity(videosIntent);
             }
         });
         totalNumberOfQs = getIntent().getExtras().getInt(FinanceLearningConstants.TOTAL_NO_OF_QS);
         initResultAdapter();
-
         updateSignedInUserPretestState();
     }
 
@@ -89,14 +90,14 @@ public class PreTestResultActivity extends AppCompatActivity {
                     updatableProps.put(FinanceLearningConstants.PRETEST_RIGHT_ANSWERS, rightAnsJSON.toString());
                 }
 
-                if (!FinanceLearningConstants.pretestWrongAnswers.isEmpty()){
+                if (!FinanceLearningConstants.pretestWrongAnswers.isEmpty()) {
                     JSONObject wrongAnsJSON = new JSONObject(FinanceLearningConstants.pretestWrongAnswers);
-                    updatableProps.put(FinanceLearningConstants.PRETEST_WRONG_ANSWERS,wrongAnsJSON.toString());
+                    updatableProps.put(FinanceLearningConstants.PRETEST_WRONG_ANSWERS, wrongAnsJSON.toString());
                 }
 
                 updatableProps.put(FinanceLearningConstants.PRETEST_TAKEN, true);
 
-                updatableProps.put(FinanceLearningConstants.TOTAL_NO_OF_QS,totalNumberOfQs);
+                updatableProps.put(FinanceLearningConstants.TOTAL_NO_OF_QS, totalNumberOfQs);
 
             }
 

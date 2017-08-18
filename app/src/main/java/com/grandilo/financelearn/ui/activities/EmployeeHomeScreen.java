@@ -69,7 +69,9 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
         String mainTestRightAnswers = signedInUserProps.optString(FinanceLearningConstants.MAIN_TEST_RIGHT_ANSWERS);
 
         if (allPretestCourses != null) {
+
             Log.d("ResultTag", "AllPretest Courses are not null");
+
             try {
                 JSONArray allPretestCoursesJSONArray = new JSONArray(allPretestCourses);
                 for (int i = 0; i < allPretestCoursesJSONArray.length(); i++) {
@@ -83,35 +85,29 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
         } else {
             Log.d("ResultTag", "AllPretest Courses are null");
         }
 
         if (rightPretestAnswers != null) {
-
-            Type hasType = new TypeToken<HashMap<String, Object>>() {
+            Type hashType = new TypeToken<HashMap<String, Object>>() {
             }.getType();
-
             Gson gson = new Gson();
-            HashMap<String, List<JSONObject>> rightAnswersMap = gson.fromJson(rightPretestAnswers, hasType);
+            HashMap<String, List<JSONObject>> rightAnswersMap = gson.fromJson(rightPretestAnswers, hashType);
             if (rightAnswersMap != null) {
                 FinanceLearningConstants.pretestRightAnswers.putAll(rightAnswersMap);
             }
-
         }
 
         if (mainTestRightAnswers != null) {
-
-            Type hasType = new TypeToken<HashMap<String, Object>>() {
+            Type hashType = new TypeToken<HashMap<String, Object>>() {
             }.getType();
-
             Gson gson = new Gson();
-            HashMap<String, List<JSONObject>> mainTestRightAnswersMap = gson.fromJson(mainTestRightAnswers, hasType);
-
+            HashMap<String, List<JSONObject>> mainTestRightAnswersMap = gson.fromJson(mainTestRightAnswers, hashType);
             if (mainTestRightAnswersMap != null) {
                 FinanceLearningConstants.mainTestRightAnswers.putAll(mainTestRightAnswersMap);
             }
-
         }
 
         courseReference = FirebaseUtils.getCourses();
@@ -305,12 +301,10 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
                 HashMap<String, Object> courseProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
                 String courseKey = dataSnapshot.getKey();
 
-                if (pretestCourseList.contains(courseKey)) {
-                    if (courseProps != null) {
-                        String courseName = (String) courseProps.get(FinanceLearningConstants.COURSE_NAME);
-                        FinanceLearningConstants.courseIdNameMap.put(dataSnapshot.getKey(), courseName);
-                        FinanceLearningConstants.fullCourseDetailsMap.put(dataSnapshot.getKey(), courseProps);
-                    }
+                if (!pretestCourseList.isEmpty() && pretestCourseList.contains(courseKey) && courseProps != null) {
+                    String courseName = (String) courseProps.get(FinanceLearningConstants.COURSE_NAME);
+                    FinanceLearningConstants.courseIdNameMap.put(dataSnapshot.getKey(), courseName);
+                    FinanceLearningConstants.fullCourseDetailsMap.put(dataSnapshot.getKey(), courseProps);
                 }
             }
 
