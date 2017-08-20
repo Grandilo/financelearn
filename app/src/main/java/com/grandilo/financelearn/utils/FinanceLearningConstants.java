@@ -34,7 +34,7 @@ public class FinanceLearningConstants {
     public static final java.lang.String VIDEO_NAME = "video_name";
     static final String MAIN_TEST = "main_test";
 
-    public static final String MAIN_TEST_RESULT = "main_test_right_answers";
+    public static final String MAIN_TEST_RESULT = "main_test_result";
     public static final String MAIN_TEST_WRONG_ANSWERS = "main_test_wrong_answers";
     public static final java.lang.String STAFF_HR_ID = "staff_hr_id";
     public static final java.lang.String STAFF_MANAGER_ID = "staff_manager_id";
