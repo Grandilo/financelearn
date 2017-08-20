@@ -102,7 +102,7 @@ public class AppPreferences {
         getSharedPreferences().edit().putString(courseId, coursePropsString).commit();
     }
 
-    public static String getCourseMapString(String courseId) {
+    static String getCourseMapString(String courseId) {
         return getSharedPreferences().getString(courseId, null);
     }
 

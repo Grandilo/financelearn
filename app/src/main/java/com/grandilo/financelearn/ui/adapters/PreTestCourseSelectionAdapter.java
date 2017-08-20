@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.grandilo.financelearn.R;
 import com.grandilo.financelearn.ui.activities.PreTestCourseSelectionActivity;
@@ -34,12 +33,10 @@ public class PreTestCourseSelectionAdapter extends RecyclerView.Adapter<Recycler
 
     private LayoutInflater layoutInflater;
     private List<HashMap<String, Object>> courses;
-    private Context context;
 
     private static JSONObject signedInUser;
 
     public PreTestCourseSelectionAdapter(Context context, List<HashMap<String, Object>> courses) {
-        this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
         this.courses = courses;
         signedInUser = AppPreferences.getSignedInUser(context);
@@ -56,7 +53,7 @@ public class PreTestCourseSelectionAdapter extends RecyclerView.Adapter<Recycler
         CourseItemHolder courseItemHolder = (CourseItemHolder) holder;
         HashMap<String, Object> courseItem = courses.get(position);
         if (courseItem != null) {
-            courseItemHolder.bindCourse(context, courseItem);
+            courseItemHolder.bindCourse(courseItem);
         }
     }
 
@@ -85,7 +82,7 @@ public class PreTestCourseSelectionAdapter extends RecyclerView.Adapter<Recycler
             return assignedCoursesList;
         }
 
-        void bindCourse(final Context context, HashMap<String, Object> courseItem) {
+        void bindCourse(HashMap<String, Object> courseItem) {
 
             final String coursesAssigned = signedInUser.optString(FinanceLearningConstants.COURSES_ASSIGNED);
             final String courseId = (String) courseItem.get(FinanceLearningConstants.COURSE_ID);
@@ -106,6 +103,7 @@ public class PreTestCourseSelectionAdapter extends RecyclerView.Adapter<Recycler
                             }
                             checkBox.setChecked(true);
                             checkedPositions.put(courseId.hashCode(), true);
+                            PreTestCourseSelectionActivity.reviewSelections();
                         }
                     }
                 } catch (JSONException e) {
@@ -125,7 +123,6 @@ public class PreTestCourseSelectionAdapter extends RecyclerView.Adapter<Recycler
 
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-
                     if (finalCourseArray != null && getCoursesAssignedList(finalCourseArray).contains(courseId)) {
                         checkBox.setChecked(true);
                     } else {
@@ -147,17 +144,13 @@ public class PreTestCourseSelectionAdapter extends RecyclerView.Adapter<Recycler
                             }
                         }
                     }
-
                     PreTestCourseSelectionActivity.reviewSelections();
-
                 }
 
             });
 
         }
 
-
     }
-
 
 }

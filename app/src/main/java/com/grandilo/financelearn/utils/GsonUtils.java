@@ -3,16 +3,8 @@ package com.grandilo.financelearn.utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author Ugo
@@ -20,7 +12,7 @@ import java.util.Map;
 
 public class GsonUtils {
 
-    public static Gson getGson() {
+    private static Gson getGson() {
         return new Gson();
     }
 
@@ -30,7 +22,7 @@ public class GsonUtils {
         return gson.toJson(marshable, hashType);
     }
 
-    public static HashMap<String, Object> getHashFromString(String stringMarshal) {
+    private static HashMap<String, Object> getHashFromString(String stringMarshal) {
         Type hashType = getHashTypeToken();
         return getGson().fromJson(stringMarshal, hashType);
     }

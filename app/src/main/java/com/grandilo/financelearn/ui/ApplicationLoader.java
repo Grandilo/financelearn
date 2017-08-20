@@ -1,28 +1,15 @@
 package com.grandilo.financelearn.ui;
 
 import android.app.Application;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
-import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Logger;
-import com.google.firebase.database.ValueEventListener;
 import com.grandilo.financelearn.PushReceptionService;
 import com.grandilo.financelearn.utils.AppPreferences;
-import com.grandilo.financelearn.utils.FinanceLearningConstants;
-import com.grandilo.financelearn.utils.FirebaseUtils;
-import com.jenzz.appstate.AppStateListener;
 import com.jenzz.appstate.AppStateMonitor;
 
 import org.json.JSONObject;
-
-import java.util.HashMap;
 
 /**
  * @author Ugo
@@ -40,8 +27,8 @@ public class ApplicationLoader extends Application {
         FirebaseDatabase.getInstance().setLogLevel(Logger.Level.INFO);
 
         final JSONObject signedInUserProps = AppPreferences.getSignedInUser(ApplicationLoader.this);
-
         AppStateMonitor appStateMonitor = AppStateMonitor.create(this);
+
 //        appStateMonitor.addListener(new AppStateListener() {
 //
 //            @Override

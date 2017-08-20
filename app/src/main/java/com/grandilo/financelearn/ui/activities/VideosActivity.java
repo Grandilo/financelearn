@@ -21,7 +21,6 @@ import com.grandilo.financelearn.R;
 import com.grandilo.financelearn.ui.adapters.VideosAdapter;
 import com.grandilo.financelearn.utils.FinanceLearningConstants;
 import com.grandilo.financelearn.utils.FirebaseUtils;
-import com.grandilo.financelearn.utils.UiUtils;
 
 import org.json.JSONObject;
 

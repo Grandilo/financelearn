@@ -54,7 +54,6 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
 
         initViews();
         populateSignedInUserProps();
-
         String signedInUserId = signedInUserProps.optString("staff_id");
 
         if (signedInUserId.equals("guest")) {
@@ -68,6 +67,20 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
         String previousPretestResult = signedInUserProps.optString(FinanceLearningConstants.PRETEST_RESULT);
         String previousMainTestResult = signedInUserProps.optString(FinanceLearningConstants.MAIN_TEST_RESULT);
 
+        prepareUserSelectedCourseIds(previouslySelectedCourseIds);
+
+        checkDumpUserSelectedCourseIds();
+
+        offloadPreviousPretestResultIfAvailable(previousPretestResult);
+        offloadPreviousMainTestResultIfAvailable(previousPretestResult, previousMainTestResult);
+
+        courseReference = FirebaseUtils.getCourses();
+        fetchCourses();
+        fetchUpdatedUserInfo();
+
+    }
+
+    private void prepareUserSelectedCourseIds(String previouslySelectedCourseIds) {
         if (previouslySelectedCourseIds != null) {
             try {
                 JSONArray previouslySelectedPretestCoursesJSONArray = new JSONArray(previouslySelectedCourseIds);
@@ -83,7 +96,9 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
                 e.printStackTrace();
             }
         }
+    }
 
+    private void checkDumpUserSelectedCourseIds() {
         if (!listOfSelectedCourseIds.isEmpty()) {
             FinanceLearningConstants.idsOfCoursesToTest.clear();
             for (String courseId : listOfSelectedCourseIds) {
@@ -91,23 +106,9 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
                 FinanceLearningConstants.checkedPositions.put(courseId.hashCode(), true);
             }
         }
+    }
 
-        if (previousPretestResult != null) {
-            try {
-                FinanceLearningConstants.pretestResult.clear();
-                JSONObject pretestJSONObject = new JSONObject(previousPretestResult);
-                Iterator<String> keysItr = pretestJSONObject.keys();
-                while (keysItr.hasNext()) {
-                    String key = keysItr.next();
-                    Object value = pretestJSONObject.get(key);
-                    FinanceLearningConstants.pretestResult.put(key, value);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }
-
+    private void offloadPreviousMainTestResultIfAvailable(String previousPretestResult, String previousMainTestResult) {
         if (previousMainTestResult != null) {
             try {
                 FinanceLearningConstants.mainTestResult.clear();
@@ -122,11 +123,23 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
                 e.printStackTrace();
             }
         }
+    }
 
-        courseReference = FirebaseUtils.getCourses();
-        fetchCourses();
-        fetchUpdatedUserInfo();
-
+    private void offloadPreviousPretestResultIfAvailable(String previousPretestResult) {
+        if (previousPretestResult != null) {
+            try {
+                FinanceLearningConstants.pretestResult.clear();
+                JSONObject pretestJSONObject = new JSONObject(previousPretestResult);
+                Iterator<String> keysItr = pretestJSONObject.keys();
+                while (keysItr.hasNext()) {
+                    String key = keysItr.next();
+                    Object value = pretestJSONObject.get(key);
+                    FinanceLearningConstants.pretestResult.put(key, value);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

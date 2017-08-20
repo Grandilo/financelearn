@@ -12,9 +12,10 @@ import com.grandilo.financelearn.ui.ApplicationLoader;
  * @author Ugo
  */
 
+@SuppressWarnings("deprecation")
 public class UiUtils {
 
-    public static ProgressDialog operationsProgressDialog;
+    private static ProgressDialog operationsProgressDialog;
     private static String TAG = UiUtils.class.getSimpleName();
 
     public static void showProgressDialog(final Context context, final String message) {
@@ -32,7 +33,7 @@ public class UiUtils {
                 }
             }
         } catch (WindowManager.BadTokenException e) {
-            Log.e(TAG, "Your father lip. Dialog no gree close again o. See the error na = " + e.getMessage());
+
         }
     }
 

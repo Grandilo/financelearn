@@ -40,6 +40,7 @@ import java.util.List;
  * @author Ugo
  */
 
+@SuppressWarnings("deprecation")
 public class ManagerHomeScreen extends AppCompatActivity {
 
     private RecyclerView staffRecyclerView;
