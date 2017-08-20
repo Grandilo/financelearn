@@ -14,6 +14,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.grandilo.financelearn.R;
 import com.grandilo.financelearn.utils.AppPreferences;
+import com.grandilo.financelearn.utils.FinanceLearningConstants;
 import com.grandilo.financelearn.utils.FirebaseUtils;
 import com.grandilo.financelearn.utils.UiUtils;
 
@@ -72,6 +73,7 @@ public class UpdatePasswordActivity extends AppCompatActivity implements View.On
                     UiUtils.showProgressDialog(UpdatePasswordActivity.this, "Please wait");
                     HashMap<String, Object> updatableProps = new HashMap<>();
                     updatableProps.put("password", newPasswordBox.getText().toString().trim());
+                    updatableProps.put(FinanceLearningConstants.PASSWORD_UPDATED,true);
 
                     FirebaseUtils.getStaffReference().child(userId).updateChildren(updatableProps,
                             new DatabaseReference.CompletionListener() {

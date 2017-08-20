@@ -3,8 +3,6 @@ package com.grandilo.financelearn.ui.adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +12,11 @@ import com.grandilo.financelearn.R;
 import com.grandilo.financelearn.ui.activities.MainTestResultActivity;
 import com.grandilo.financelearn.ui.activities.PreTestResultActivity;
 import com.grandilo.financelearn.utils.FinanceLearningConstants;
+import com.grandilo.financelearn.utils.GsonUtils;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Ugo
@@ -27,13 +25,9 @@ import java.util.List;
 public class TestResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
-    private List<String> courseIds;
-    private int totalNumberOfQuestions;
 
-    public TestResultAdapter(Context context, List<String> courseIds, int totalNumberOfQuestions) {
+    public TestResultAdapter(Context context) {
         this.context = context;
-        this.totalNumberOfQuestions = totalNumberOfQuestions;
-        this.courseIds = courseIds;
     }
 
     @Override
@@ -45,13 +39,13 @@ public class TestResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         PretestResultViewHolder pretestResultViewHolder = (PretestResultViewHolder) holder;
-        String courseId = courseIds.get(position);
-        pretestResultViewHolder.bindResult(context, totalNumberOfQuestions, courseId);
+        String courseId = FinanceLearningConstants.idsOfCoursesToTest.get(position);
+        pretestResultViewHolder.bindResult(context, courseId);
     }
 
     @Override
     public int getItemCount() {
-        return courseIds.size();
+        return FinanceLearningConstants.idsOfCoursesToTest.size();
     }
 
     @SuppressWarnings("WeakerAccess")
@@ -87,29 +81,25 @@ public class TestResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             }
         }
 
-        public void bindResult(Context context, int totalNoOfQ, String courseId) {
+        public void bindResult(Context context, String courseId) {
 
             try {
 
-                List<JSONObject> rightAnswers;
-
-                Log.d("RightAnswers", FinanceLearningConstants.pretestRightAnswers.toString());
-                Log.d("WrongAnswers", FinanceLearningConstants.pretestRightAnswers.toString());
-
+                JSONObject resultObject;
                 if (context instanceof PreTestResultActivity) {
-                    rightAnswers = FinanceLearningConstants.pretestRightAnswers.get(courseId);
+                    resultObject = (JSONObject) FinanceLearningConstants.pretestResult.get(courseId);
                 } else {
-                    rightAnswers = FinanceLearningConstants.mainTestRightAnswers.get(courseId);
+                    resultObject = (JSONObject) FinanceLearningConstants.mainTestResult.get(courseId);
                 }
 
-                resultItem.setText(FinanceLearningConstants.courseIdNameMap.get(courseId));
+                resultItem.setText(GsonUtils.getCourseName(courseId));
 
-                if (rightAnswers != null) {
-                    int rightAnswersCount = rightAnswers.size();
-                    float percentAge = (100 * rightAnswers.size()) / 5;
+                if (resultObject != null) {
+                    int selectedOptions = resultObject.length();
+                    float percentAge = (100 * selectedOptions) / 5;
                     FinanceLearningConstants.mainTestScoresMap.put(courseId, percentAge);
-                    if (rightAnswersCount > 0) {
-                        percentageView.setText((percentAge == 80 ? 100 : (percentAge > 100 ? 100 : percentAge)) + " % (" + getResultCategory(context, percentAge, true).replace("_", " ") + ")");
+                    if (selectedOptions > 0) {
+                        percentageView.setText(percentAge + " % (" + getResultCategory(context, percentAge, true).replace("_", " ") + ")");
                         if (getResultCategory(context, percentAge, true).contains(context instanceof PreTestResultActivity ? FinanceLearningConstants.PRETEST_PROFICIENCY_LEVEL_BASIC : FinanceLearningConstants.MAIN_PROFICIENCY_LEVEL_BELOW_AVERAGE)) {
                             percentageView.setTextColor(Color.RED);
                         } else if (getResultCategory(context, percentAge, true).contains(context instanceof PreTestResultActivity ? FinanceLearningConstants.PRETEST_PROFICIENCY_LEVEL_INTERMEDIATE : FinanceLearningConstants.MAIN_PROFICIENCY_LEVEL_AVERAGE)) {
@@ -126,7 +116,7 @@ public class TestResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     percentageView.setTextColor(Color.RED);
                 }
 
-                injectCourseRecommendations(context, courseId, totalNoOfQ);
+                injectCourseRecommendations(context, courseId);
 
             } catch (NullPointerException ignore) {
 
@@ -134,27 +124,28 @@ public class TestResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         }
 
-        private void injectCourseRecommendations(Context context, String courseId, int totalNoOfQ) {
+        private void injectCourseRecommendations(Context context, String courseId) {
 
             if (context instanceof MainTestResultActivity) {
 
-                List<JSONObject> pretestRightAnswersList = FinanceLearningConstants.pretestRightAnswers.get(courseId);
-                List<JSONObject> mainTestRightAnswers = FinanceLearningConstants.mainTestRightAnswers.get(courseId);
+                JSONObject pretestResultsObject = (JSONObject) FinanceLearningConstants.pretestResult.get(courseId);
+
+                JSONObject mainTestResultsObject = (JSONObject) FinanceLearningConstants.mainTestResult.get(courseId);
 
                 ArrayList<String> recommendationKeys = new ArrayList<>();
 
                 String pretestCategory;
 
-                if (pretestRightAnswersList != null) {
-                    float pretestRightAnswer = pretestRightAnswersList.size() * 100 / totalNoOfQ;
-                    pretestCategory = getResultCategory(context, pretestRightAnswer, false);
+                if (pretestResultsObject != null) {
+                    float pretestSelectedOptions = pretestResultsObject.length() * 100 / 5;
+                    pretestCategory = getResultCategory(context, pretestSelectedOptions, false);
                 } else {
                     pretestCategory = getResultCategory(context, 0, false);
                 }
 
                 String mainTestCategory;
-                if (mainTestRightAnswers != null) {
-                    float mainTestRightAnswer = mainTestRightAnswers.size() * 100 / totalNoOfQ;
+                if (mainTestResultsObject != null) {
+                    float mainTestRightAnswer = mainTestResultsObject.length() * 100 / 5;
                     mainTestCategory = getResultCategory(context, mainTestRightAnswer, true);
                 } else {
                     mainTestCategory = getResultCategory(context, 0, true);
@@ -164,8 +155,6 @@ public class TestResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 recommendationKeys.add(mainTestCategory);
 
                 FinanceLearningConstants.recommendationsMap.put(courseId, recommendationKeys);
-
-                Log.d("ListJoin", "CourseId= " + courseId + "and rec key=" + TextUtils.join(",", recommendationKeys));
 
             }
 

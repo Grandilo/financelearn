@@ -7,8 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -26,9 +24,7 @@ import com.grandilo.financelearn.utils.FirebaseUtils;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * @author Ugo.
@@ -36,9 +32,7 @@ import java.util.List;
 
 public class PreTestResultActivity extends AppCompatActivity {
 
-    private RecyclerView courseResultList;
-    private List<String> courseIds = new ArrayList<>();
-    private int totalNumberOfQs;
+    private RecyclerView courseResultRecyclerView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,58 +40,34 @@ public class PreTestResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pretest_result);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolbar);
-
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
-        for (String key : FinanceLearningConstants.courseIdNameMap.keySet()) {
-            courseIds.add(key);
-        }
-
-        Log.d("ResultTag", "CourseIds = " + TextUtils.join(",", courseIds));
-
-        courseResultList = (RecyclerView) findViewById(R.id.course_result_list);
+        courseResultRecyclerView = (RecyclerView) findViewById(R.id.course_result_recycler_view);
         TextView continueButton = (TextView) findViewById(R.id.continue_button);
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent videosIntent = new Intent(PreTestResultActivity.this,VideosActivity.class);
+                Intent videosIntent = new Intent(PreTestResultActivity.this, VideosActivity.class);
                 startActivity(videosIntent);
             }
         });
-        totalNumberOfQs = getIntent().getExtras().getInt(FinanceLearningConstants.TOTAL_NO_OF_QS);
         initResultAdapter();
-
         updateSignedInUserPretestState();
     }
 
     private void updateSignedInUserPretestState() {
-
         JSONObject jsonObject = AppPreferences.getSignedInUser(this);
-
         if (jsonObject != null) {
 
             final String staffId = jsonObject.optString("staff_id");
 
             HashMap<String, Object> updatableProps = new HashMap<>();
 
-            if (!FinanceLearningConstants.pretestRightAnswers.isEmpty() || !FinanceLearningConstants.pretestWrongAnswers.isEmpty()) {
-
-                if (!FinanceLearningConstants.pretestRightAnswers.isEmpty()) {
-                    JSONObject rightAnsJSON = new JSONObject(FinanceLearningConstants.pretestRightAnswers);
-                    updatableProps.put(FinanceLearningConstants.PRETEST_RIGHT_ANSWERS, rightAnsJSON.toString());
-                }
-
-                if (!FinanceLearningConstants.pretestWrongAnswers.isEmpty()){
-                    JSONObject wrongAnsJSON = new JSONObject(FinanceLearningConstants.pretestWrongAnswers);
-                    updatableProps.put(FinanceLearningConstants.PRETEST_WRONG_ANSWERS,wrongAnsJSON.toString());
-                }
-
+            if (!FinanceLearningConstants.pretestResult.isEmpty()) {
+                JSONObject pretestResultJSON = new JSONObject(FinanceLearningConstants.pretestResult);
+                updatableProps.put(FinanceLearningConstants.PRETEST_RESULT, pretestResultJSON.toString());
                 updatableProps.put(FinanceLearningConstants.PRETEST_TAKEN, true);
-
-                updatableProps.put(FinanceLearningConstants.TOTAL_NO_OF_QS,totalNumberOfQs);
-
             }
 
             FirebaseUtils.getStaffReference().child(staffId).updateChildren(updatableProps, new DatabaseReference.CompletionListener() {
@@ -152,9 +122,9 @@ public class PreTestResultActivity extends AppCompatActivity {
     }
 
     private void initResultAdapter() {
-        TestResultAdapter testResultAdapter = new TestResultAdapter(this, courseIds, totalNumberOfQs);
-        courseResultList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        courseResultList.setAdapter(testResultAdapter);
+        TestResultAdapter testResultAdapter = new TestResultAdapter(this);
+        courseResultRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        courseResultRecyclerView.setAdapter(testResultAdapter);
     }
 
 }

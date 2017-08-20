@@ -2,6 +2,7 @@ package com.grandilo.financelearn.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.grandilo.financelearn.ui.ApplicationLoader;
@@ -14,7 +15,7 @@ import java.util.HashMap;
 /**
  * @author Ugo
  */
-
+@SuppressLint("ApplySharedPref")
 public class AppPreferences {
 
     public static String getLoggedInType(Context context) {
@@ -70,33 +71,43 @@ public class AppPreferences {
 
     @SuppressLint("ApplySharedPref")
     static void saveEmailSentStatus(String email, boolean b) {
-        ApplicationLoader.getInstance().getSharedPreferences(FinanceLearningConstants.SHARED_PREFS, Context.MODE_PRIVATE).edit().putBoolean(email, b).commit();
+        getSharedPreferences().edit().putBoolean(email, b).commit();
     }
 
     public static boolean hasEmailBeingSent(String email) {
-        return ApplicationLoader.getInstance().getSharedPreferences(FinanceLearningConstants.SHARED_PREFS, Context.MODE_PRIVATE).getBoolean(email, false);
+        return getSharedPreferences().getBoolean(email, false);
     }
 
     public static boolean isFirstTime() {
-        return ApplicationLoader.getInstance()
-                .getSharedPreferences(FinanceLearningConstants.SHARED_PREFS, Context.MODE_PRIVATE)
+        return getSharedPreferences()
                 .getBoolean(FinanceLearningConstants.LOGGED_IN, true);
     }
 
     public static void saveNotFirstLogIn() {
-        ApplicationLoader.getInstance()
-                .getSharedPreferences(FinanceLearningConstants.SHARED_PREFS, Context.MODE_PRIVATE)
+        getSharedPreferences()
                 .edit()
                 .putBoolean(FinanceLearningConstants.LOGGED_IN, false).apply();
     }
 
     @SuppressLint("ApplySharedPref")
     public static void saveDownloadReference(long refId, String fileName) {
-        ApplicationLoader.getInstance().getSharedPreferences(FinanceLearningConstants.SHARED_PREFS, Context.MODE_PRIVATE).edit().putString("_" + refId, fileName).commit();
+        getSharedPreferences().edit().putString("_" + refId, fileName).commit();
     }
 
     public static String getDownloadReference(long refId) {
-        return ApplicationLoader.getInstance().getSharedPreferences(FinanceLearningConstants.SHARED_PREFS, Context.MODE_PRIVATE).getString("_" + refId, "file");
+        return getSharedPreferences().getString("_" + refId, "file");
+    }
+
+    public static void saveCourse(String courseId, String coursePropsString) {
+        getSharedPreferences().edit().putString(courseId, coursePropsString).commit();
+    }
+
+    static String getCourseMapString(String courseId) {
+        return getSharedPreferences().getString(courseId, null);
+    }
+
+    private static SharedPreferences getSharedPreferences() {
+        return ApplicationLoader.getInstance().getSharedPreferences(FinanceLearningConstants.SHARED_PREFS, Context.MODE_PRIVATE);
     }
 
 }

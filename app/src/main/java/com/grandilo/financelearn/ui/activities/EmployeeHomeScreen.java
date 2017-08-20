@@ -19,21 +19,20 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.grandilo.financelearn.R;
 import com.grandilo.financelearn.ui.UploadCourseVideoActivity;
 import com.grandilo.financelearn.utils.AppPreferences;
 import com.grandilo.financelearn.utils.FinanceLearningConstants;
 import com.grandilo.financelearn.utils.FirebaseUtils;
+import com.grandilo.financelearn.utils.GsonUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 @SuppressWarnings("deprecation")
@@ -44,7 +43,7 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
     private ChildEventListener coursesEventListener;
     private DatabaseReference courseReference;
 
-    private List<String> pretestCourseList = new ArrayList<>();
+    private List<String> listOfSelectedCourseIds = new ArrayList<>();
     private View myCoursesView;
     private TextView librariesOrVideoDemosTextView;
 
@@ -52,71 +51,95 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_home_screen);
+
         initViews();
         populateSignedInUserProps();
-
         String signedInUserId = signedInUserProps.optString("staff_id");
 
         if (signedInUserId.equals("guest")) {
             myCoursesView.setVisibility(View.GONE);
-            librariesOrVideoDemosTextView.setText("DEMO VIDEOS");
+            librariesOrVideoDemosTextView.setText(getString(R.string.demo_videos));
         } else {
-            librariesOrVideoDemosTextView.setText("LIBRARIES");
+            librariesOrVideoDemosTextView.setText(getString(R.string.libraries));
         }
 
-        String allPretestCourses = signedInUserProps.optString(FinanceLearningConstants.ALL_PRETEST_COURSES);
-        String rightPretestAnswers = signedInUserProps.optString(FinanceLearningConstants.PRETEST_RIGHT_ANSWERS);
-        String mainTestRightAnswers = signedInUserProps.optString(FinanceLearningConstants.MAIN_TEST_RIGHT_ANSWERS);
+        String previouslySelectedCourseIds = signedInUserProps.optString(FinanceLearningConstants.ALL_SELECTED_COURSE_IDS);
+        String previousPretestResult = signedInUserProps.optString(FinanceLearningConstants.PRETEST_RESULT);
+        String previousMainTestResult = signedInUserProps.optString(FinanceLearningConstants.MAIN_TEST_RESULT);
 
-        if (allPretestCourses != null) {
-            Log.d("ResultTag", "AllPretest Courses are not null");
+        prepareUserSelectedCourseIds(previouslySelectedCourseIds);
+
+        checkDumpUserSelectedCourseIds();
+
+        offloadPreviousPretestResultIfAvailable(previousPretestResult);
+        offloadPreviousMainTestResultIfAvailable(previousMainTestResult);
+
+        courseReference = FirebaseUtils.getCourses();
+        fetchCourses();
+        fetchUpdatedUserInfo();
+
+    }
+
+    private void prepareUserSelectedCourseIds(String previouslySelectedCourseIds) {
+        if (previouslySelectedCourseIds != null) {
             try {
-                JSONArray allPretestCoursesJSONArray = new JSONArray(allPretestCourses);
-                for (int i = 0; i < allPretestCoursesJSONArray.length(); i++) {
-                    String courseId = allPretestCoursesJSONArray.optString(i);
+                JSONArray previouslySelectedPretestCoursesJSONArray = new JSONArray(previouslySelectedCourseIds);
+                for (int i = 0; i < previouslySelectedPretestCoursesJSONArray.length(); i++) {
+                    String courseId = previouslySelectedPretestCoursesJSONArray.optString(i);
                     if (courseId != null) {
-                        if (!pretestCourseList.contains(courseId)) {
-                            pretestCourseList.add(courseId);
+                        if (!listOfSelectedCourseIds.contains(courseId)) {
+                            listOfSelectedCourseIds.add(courseId);
                         }
                     }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        } else {
-            Log.d("ResultTag", "AllPretest Courses are null");
         }
+    }
 
-        if (rightPretestAnswers != null) {
-
-            Type hasType = new TypeToken<HashMap<String, Object>>() {
-            }.getType();
-
-            Gson gson = new Gson();
-            HashMap<String, List<JSONObject>> rightAnswersMap = gson.fromJson(rightPretestAnswers, hasType);
-            if (rightAnswersMap != null) {
-                FinanceLearningConstants.pretestRightAnswers.putAll(rightAnswersMap);
+    private void checkDumpUserSelectedCourseIds() {
+        if (!listOfSelectedCourseIds.isEmpty()) {
+            FinanceLearningConstants.idsOfCoursesToTest.clear();
+            for (String courseId : listOfSelectedCourseIds) {
+                FinanceLearningConstants.idsOfCoursesToTest.add(courseId);
+                FinanceLearningConstants.checkedPositions.put(courseId.hashCode(), true);
             }
-
         }
+    }
 
-        if (mainTestRightAnswers != null) {
-
-            Type hasType = new TypeToken<HashMap<String, Object>>() {
-            }.getType();
-
-            Gson gson = new Gson();
-            HashMap<String, List<JSONObject>> mainTestRightAnswersMap = gson.fromJson(mainTestRightAnswers, hasType);
-
-            if (mainTestRightAnswersMap != null) {
-                FinanceLearningConstants.mainTestRightAnswers.putAll(mainTestRightAnswersMap);
+    private void offloadPreviousMainTestResultIfAvailable(String previousMainTestResult) {
+        if (previousMainTestResult != null) {
+            try {
+                FinanceLearningConstants.mainTestResult.clear();
+                JSONObject mainTestJSONObject = new JSONObject(previousMainTestResult);
+                Iterator<String> keysItr = mainTestJSONObject.keys();
+                while (keysItr.hasNext()) {
+                    String key = keysItr.next();
+                    Object value = mainTestJSONObject.get(key);
+                    FinanceLearningConstants.mainTestResult.put(key, value);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-
         }
+    }
 
-        courseReference = FirebaseUtils.getCourses();
-        fetchCourses();
-        fetchUpdatedUserInfo();
+    private void offloadPreviousPretestResultIfAvailable(String previousPretestResult) {
+        if (previousPretestResult != null) {
+            try {
+                FinanceLearningConstants.pretestResult.clear();
+                JSONObject pretestJSONObject = new JSONObject(previousPretestResult);
+                Iterator<String> keysItr = pretestJSONObject.keys();
+                while (keysItr.hasNext()) {
+                    String key = keysItr.next();
+                    Object value = pretestJSONObject.get(key);
+                    FinanceLearningConstants.pretestResult.put(key, value);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -138,6 +161,7 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
 
     private void finishLogOut() {
         AppPreferences.saveLoggedInType(EmployeeHomeScreen.this, null);
+        clearPreviousAnswers();
         Intent splashScreenIntent = new Intent(EmployeeHomeScreen.this, SplashActivity.class);
         startActivity(splashScreenIntent);
         finish();
@@ -161,8 +185,9 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
                     getSupportActionBar().setTitle(Html.fromHtml("Welcome, <b>" + surname + " " + lastName + "</b>"));
                 }
             }
+            boolean passwordUpdated = signedInUserProps.optBoolean(FinanceLearningConstants.PASSWORD_UPDATED, false);
             boolean isFirstLoggedIn = AppPreferences.isFirstTime();
-            if (isFirstLoggedIn && !userId.equals("guest")) {
+            if (isFirstLoggedIn && !userId.equals("guest") && !passwordUpdated) {
                 Intent updatePasswordIntent = new Intent(EmployeeHomeScreen.this, UpdatePasswordActivity.class);
                 startActivity(updatePasswordIntent);
             }
@@ -236,6 +261,15 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
         return super.onOptionsItemSelected(item);
     }
 
+    private void clearPreviousAnswers() {
+        try {
+            FinanceLearningConstants.pretestResult.clear();
+            FinanceLearningConstants.selectedAnOption.clear();
+        } catch (Exception ignored) {
+
+        }
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -245,7 +279,6 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
                     boolean pretestTaken = signedInUserProps.optBoolean(FinanceLearningConstants.PRETEST_TAKEN, false);
                     if (pretestTaken) {
                         Intent pretestResultIntent = new Intent(EmployeeHomeScreen.this, PreTestResultActivity.class);
-                        pretestResultIntent.putExtra(FinanceLearningConstants.TOTAL_NO_OF_QS, signedInUserProps.optInt(FinanceLearningConstants.TOTAL_NO_OF_QS));
                         startActivity(pretestResultIntent);
                     } else {
                         Intent preTestIntent = new Intent(EmployeeHomeScreen.this, PreTestCourseSelectionActivity.class);
@@ -253,7 +286,6 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
                     }
                 } else {
                     Intent mainTestResultIntent = new Intent(EmployeeHomeScreen.this, MainTestResultActivity.class);
-                    mainTestResultIntent.putExtra(FinanceLearningConstants.TOTAL_NO_OF_QS, signedInUserProps.optInt(FinanceLearningConstants.TOTAL_NO_OF_QS));
                     startActivity(mainTestResultIntent);
                 }
                 break;
@@ -290,13 +322,11 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
                 };
 
                 HashMap<String, Object> courseProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
-                String courseKey = dataSnapshot.getKey();
 
-                if (pretestCourseList.contains(courseKey)) {
-                    if (courseProps != null) {
-                        String courseName = (String) courseProps.get(FinanceLearningConstants.COURSE_NAME);
-                        FinanceLearningConstants.courseIdNameMap.put(dataSnapshot.getKey(), courseName);
-                        FinanceLearningConstants.fullCourseDetailsMap.put(dataSnapshot.getKey(), courseProps);
+                if (!listOfSelectedCourseIds.isEmpty() && courseProps != null) {
+                    String courseId = (String) courseProps.get(FinanceLearningConstants.COURSE_ID);
+                    if (listOfSelectedCourseIds.contains(courseId)) {
+                        AppPreferences.saveCourse(courseId, GsonUtils.getHashMarshall(courseProps));
                     }
                 }
             }
@@ -328,25 +358,28 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
     public void fetchUpdatedUserInfo() {
 
         if (signedInUserProps != null) {
-            FirebaseUtils.getStaffReference().child(signedInUserProps.optString("staff_id")).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot != null) {
-                        GenericTypeIndicator<HashMap<String, Object>> hashMapGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>() {
-                        };
-                        HashMap<String, Object> newUserProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
-                        if (newUserProps != null) {
-                            AppPreferences.saveLoggedInUser(EmployeeHomeScreen.this, newUserProps);
+
+            FirebaseUtils.getStaffReference().child(signedInUserProps.optString("staff_id"))
+                    .addValueEventListener(new ValueEventListener() {
+
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot != null) {
+                                GenericTypeIndicator<HashMap<String, Object>> hashMapGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>() {
+                                };
+                                HashMap<String, Object> newUserProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
+                                if (newUserProps != null) {
+                                    AppPreferences.saveLoggedInUser(EmployeeHomeScreen.this, newUserProps);
+                                }
+                            }
                         }
-                    }
-                }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
-                }
+                        }
 
-            });
+                    });
 
         }
 

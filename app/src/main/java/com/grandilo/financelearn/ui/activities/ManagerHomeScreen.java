@@ -40,6 +40,7 @@ import java.util.List;
  * @author Ugo
  */
 
+@SuppressWarnings("deprecation")
 public class ManagerHomeScreen extends AppCompatActivity {
 
     private RecyclerView staffRecyclerView;
@@ -240,15 +241,13 @@ public class ManagerHomeScreen extends AppCompatActivity {
                 HashMap<String, Object> updatableProps = new HashMap<>();
 
                 updatableProps.put(FinanceLearningConstants.PRETEST_TAKEN, null);
-                updatableProps.put(FinanceLearningConstants.PRETEST_RIGHT_ANSWERS, null);
+                updatableProps.put(FinanceLearningConstants.PRETEST_RESULT, null);
                 updatableProps.put(FinanceLearningConstants.PRETEST_WRONG_ANSWERS, null);
 
                 updatableProps.put(FinanceLearningConstants.MAIN_TEST_TAKEN, null);
                 updatableProps.put(FinanceLearningConstants.MAIN_TEST_WRONG_ANSWERS, null);
-                updatableProps.put(FinanceLearningConstants.MAIN_TEST_RIGHT_ANSWERS, null);
-
-                updatableProps.put(FinanceLearningConstants.TOTAL_NO_OF_QS, null);
-                updatableProps.put(FinanceLearningConstants.ALL_PRETEST_COURSES, null);
+                updatableProps.put(FinanceLearningConstants.MAIN_TEST_RESULT, null);
+                updatableProps.put(FinanceLearningConstants.ALL_SELECTED_COURSE_IDS, null);
 
                 progressDialog.setMessage("Resetting tests, please wait...");
                 progressDialog.show();
@@ -262,6 +261,7 @@ public class ManagerHomeScreen extends AppCompatActivity {
 
                         if (databaseError == null) {
                             Toast.makeText(ManagerHomeScreen.this, "Tests reset successfully. The staff may retake the tests now", Toast.LENGTH_LONG).show();
+                            clearPreviousAnswers();
                         } else {
                             Toast.makeText(ManagerHomeScreen.this, "Error during test reset. Please try again.", Toast.LENGTH_LONG).show();
                         }
@@ -277,6 +277,16 @@ public class ManagerHomeScreen extends AppCompatActivity {
         builder.create();
         builder.show();
 
+    }
+
+    private void clearPreviousAnswers() {
+        try {
+            FinanceLearningConstants.pretestResult.clear();
+            FinanceLearningConstants.idsOfCoursesToTest.clear();
+            FinanceLearningConstants.selectedAnOption.clear();
+        } catch (Exception ignored) {
+
+        }
     }
 
 }

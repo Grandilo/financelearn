@@ -11,7 +11,7 @@ import com.google.firebase.storage.StorageReference;
 
 public class FirebaseUtils {
 
-    public static DatabaseReference getRootReference() {
+    private static DatabaseReference getRootReference() {
         return FirebaseDatabase.getInstance().getReference();
     }
 
@@ -38,7 +38,7 @@ public class FirebaseUtils {
         return getRootReference().child(FinanceLearningConstants.COURSE_VIDEOS);
     }
 
-    public static StorageReference getFirebaseStorageReference() {
+    static StorageReference getFirebaseStorageReference() {
         return FirebaseStorage.getInstance().getReferenceFromUrl(FinanceLearningConstants.FINANCE_LEARN_FILES_BUCKET);
     }
 

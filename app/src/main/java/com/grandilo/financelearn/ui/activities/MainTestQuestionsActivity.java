@@ -21,8 +21,6 @@ import com.grandilo.financelearn.utils.AppPreferences;
 import com.grandilo.financelearn.utils.FinanceLearningConstants;
 import com.grandilo.financelearn.utils.FirebaseUtils;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -40,12 +38,12 @@ public class MainTestQuestionsActivity extends AppCompatActivity implements View
     private ViewPager questionsViewPager;
     private MainTestQuestionAndAnswersAdapter mainTestQuestionAndAnswersAdapter;
 
-    private List<String> selectedCoursesForMainTest = new ArrayList<>();
-
-    private ChildEventListener questionsAndAnswersListener, coursesListener;
-    private DatabaseReference mainTestReference, coursesReference;
+    private ChildEventListener questionsAndAnswersListener;
+    private DatabaseReference mainTestReference;
 
     private List<JSONObject> mainTestQuestions = new ArrayList<>();
+
+    private List<String> mainTestCourseIds;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,7 +57,7 @@ public class MainTestQuestionsActivity extends AppCompatActivity implements View
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        setupCourseList();
+        mainTestCourseIds = FinanceLearningConstants.idsOfCoursesToTest;
 
         initViews();
 
@@ -67,13 +65,13 @@ public class MainTestQuestionsActivity extends AppCompatActivity implements View
         questionsViewPager.setAdapter(mainTestQuestionAndAnswersAdapter);
 
         mainTestReference = FirebaseUtils.getMainTestReference();
-        coursesReference = FirebaseUtils.getCourses();
 
         fetchQuestionsForSelectedCourses();
-        fetchCourseNames();
 
         checkMainTestStatus();
+
         questionsViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -85,7 +83,7 @@ public class MainTestQuestionsActivity extends AppCompatActivity implements View
                     JSONObject previousQuestion = mainTestQuestions.get(position - 1);
                     if (previousQuestion != null) {
                         String previousTestQuestion = previousQuestion.optString(FinanceLearningConstants.QUESTION);
-                        if (previousTestQuestion != null && !FinanceLearningConstants.pickedOptions.containsKey(previousTestQuestion)) {
+                        if (previousTestQuestion != null && !FinanceLearningConstants.selectedAnOption.containsKey(previousTestQuestion)) {
                             questionsViewPager.setCurrentItem(position - 1);
                         }
                     }
@@ -122,26 +120,6 @@ public class MainTestQuestionsActivity extends AppCompatActivity implements View
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void setupCourseList() {
-        JSONObject signedInUser = AppPreferences.getSignedInUser(this);
-        if (signedInUser != null) {
-            String allTestCourses = signedInUser.optString(FinanceLearningConstants.ALL_PRETEST_COURSES);
-            if (allTestCourses != null) {
-                try {
-                    JSONArray coursesArray = new JSONArray(allTestCourses);
-                    for (int i = 0; i < coursesArray.length(); i++) {
-                        String courseId = coursesArray.optString(i);
-                        if (!selectedCoursesForMainTest.contains(courseId)) {
-                            selectedCoursesForMainTest.add(courseId);
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 
     private void initViews() {
@@ -198,18 +176,16 @@ public class MainTestQuestionsActivity extends AppCompatActivity implements View
                 GenericTypeIndicator<Object> objectGenericTypeIndicator = new GenericTypeIndicator<Object>() {
                 };
 
-                HashMap<Integer, HashMap<String, Object>> pretestInfo = (HashMap<Integer, HashMap<String, Object>>) dataSnapshot.getValue(objectGenericTypeIndicator);
+                HashMap<Integer, HashMap<String, Object>> mainTestInfo = (HashMap<Integer, HashMap<String, Object>>) dataSnapshot.getValue(objectGenericTypeIndicator);
 
-                if (pretestInfo != null) {
-
-                    JSONObject preTestJSONObject = new JSONObject(pretestInfo);
-                    String courseId = preTestJSONObject.optString(FinanceLearningConstants.COURSE_ID);
-                    if (selectedCoursesForMainTest.contains(courseId)) {
-                        mainTestQuestions.add(preTestJSONObject);
+                if (mainTestInfo != null) {
+                    JSONObject mainTestJSONObject = new JSONObject(mainTestInfo);
+                    String courseId = mainTestJSONObject.optString(FinanceLearningConstants.COURSE_ID);
+                    if (mainTestCourseIds.contains(courseId)) {
+                        mainTestQuestions.add(mainTestJSONObject);
                         //NotifyDataSetChanged here
                         mainTestQuestionAndAnswersAdapter.notifyDataSetChanged();
                     }
-
                 }
 
                 questionsPageCounter.setText(questionsViewPager.getCurrentItem() + 1 + " of " + mainTestQuestions.size());
@@ -249,9 +225,7 @@ public class MainTestQuestionsActivity extends AppCompatActivity implements View
         if (mainTestReference != null && questionsAndAnswersListener != null) {
             mainTestReference.removeEventListener(questionsAndAnswersListener);
         }
-        if (coursesReference != null && coursesListener != null) {
-            coursesReference.removeEventListener(coursesListener);
-        }
+
     }
 
     @Override
@@ -266,7 +240,6 @@ public class MainTestQuestionsActivity extends AppCompatActivity implements View
                 } else {
                     //Finish up here
                     Intent preTestResultIntent = new Intent(MainTestQuestionsActivity.this, MainTestResultActivity.class);
-                    preTestResultIntent.putExtra(FinanceLearningConstants.TOTAL_NO_OF_QS, mainTestQuestions.size());
                     startActivity(preTestResultIntent);
                     finish();
                 }
@@ -278,55 +251,6 @@ public class MainTestQuestionsActivity extends AppCompatActivity implements View
                 }
                 break;
         }
-    }
-
-    private void fetchCourseNames() {
-
-        coursesListener = new ChildEventListener() {
-
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                GenericTypeIndicator<HashMap<String, Object>> hashMapGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>() {
-                };
-
-                HashMap<String, Object> courseProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
-                String courseKey = dataSnapshot.getKey();
-
-                if (selectedCoursesForMainTest.contains(courseKey)) {
-                    if (courseProps != null) {
-                        String courseName = (String) courseProps.get(FinanceLearningConstants.COURSE_NAME);
-                        FinanceLearningConstants.courseIdNameMap.put(dataSnapshot.getKey(), courseName);
-                        FinanceLearningConstants.fullCourseDetailsMap.put(dataSnapshot.getKey(), courseProps);
-                    }
-                }
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-
-        };
-
-        coursesReference.addChildEventListener(coursesListener);
-
     }
 
 }

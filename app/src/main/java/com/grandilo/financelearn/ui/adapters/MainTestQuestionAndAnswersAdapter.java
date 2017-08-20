@@ -1,9 +1,8 @@
 package com.grandilo.financelearn.ui.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -78,10 +76,8 @@ public class MainTestQuestionAndAnswersAdapter extends PagerAdapter {
     }
 
     private void setupMultiChoiceQuestions(View parentView, ViewFlipper optionsFlipper, final String question, final String courseId, final String[] answers, JSONArray options) {
-
         optionsFlipper.setDisplayedChild(1);
         RadioGroup multiChoiceRadioGroup = parentView.findViewById(R.id.multi_select_radio_group);
-
         for (int i = 0; i < options.length(); i++) {
             final String optionName = options.optString(i);
             CheckBox radioButton = (CheckBox) multiChoiceRadioGroup.getChildAt(i);
@@ -91,78 +87,34 @@ public class MainTestQuestionAndAnswersAdapter extends PagerAdapter {
 
                     @Override
                     public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                        JSONObject courseReference = (JSONObject) FinanceLearningConstants.mainTestResult.get(courseId);
 
-                        if (checked) {
-
-                            List<String> answersList = Arrays.asList(answers);
-
-                            if (answersList.contains(optionName.trim())) {
-
-                                //This is the answer, add it to the list of correct answers for this course id
-                                JSONObject correctObject = new JSONObject();
-
-                                try {
-                                    correctObject.put(FinanceLearningConstants.QUESTION, question);
-                                    correctObject.put(FinanceLearningConstants.ANSWER, TextUtils.join(",", answersList));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                                if (FinanceLearningConstants.mainTestRightAnswers.containsKey(courseId)) {
-                                    List<JSONObject> rightAnswers = FinanceLearningConstants.mainTestRightAnswers.get(courseId);
-                                    if (!rightAnswers.contains(correctObject)) {
-                                        rightAnswers.add(correctObject);
-                                    }
-                                    FinanceLearningConstants.mainTestRightAnswers.put(courseId, rightAnswers);
-                                } else {
-                                    List<JSONObject> rightAnswers = new ArrayList<>();
-                                    rightAnswers.add(correctObject);
-                                    FinanceLearningConstants.mainTestRightAnswers.put(courseId, rightAnswers);
-                                }
-
-                                Log.d("AnswerLog", "Right Answers Map = " + FinanceLearningConstants.mainTestRightAnswers.toString());
-
-                            } else {
-
-                                //User selected a wrong answer, clear previous right answer if any
-                                JSONObject rightObject = new JSONObject();
-                                try {
-                                    rightObject.put(FinanceLearningConstants.QUESTION, question);
-                                    rightObject.put(FinanceLearningConstants.ANSWER, Arrays.asList(answers));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                                if (FinanceLearningConstants.mainTestRightAnswers.containsKey(courseId)) {
-                                    List<JSONObject> rightAnswers = FinanceLearningConstants.mainTestRightAnswers.get(courseId);
-                                    if (rightAnswers.contains(rightObject)) {
-                                        rightAnswers.remove(rightObject);
-                                    }
-                                    FinanceLearningConstants.mainTestRightAnswers.put(courseId, rightAnswers);
-                                }
-
-                                JSONObject wrongObject = new JSONObject();
-                                try {
-                                    wrongObject.put(FinanceLearningConstants.QUESTION, question);
-                                    wrongObject.put(FinanceLearningConstants.ANSWER, optionName);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                if (FinanceLearningConstants.mainTestWrongAnswers.containsKey(courseId)) {
-                                    List<JSONObject> wrongAnswers = FinanceLearningConstants.mainTestWrongAnswers.get(courseId);
-                                    if (!wrongAnswers.contains(wrongObject)) {
-                                        wrongAnswers.add(wrongObject);
-                                    }
-                                    FinanceLearningConstants.mainTestWrongAnswers.put(courseId, wrongAnswers);
-                                } else {
-                                    List<JSONObject> wrongAnswers = new ArrayList<>();
-                                    wrongAnswers.add(wrongObject);
-                                    FinanceLearningConstants.mainTestWrongAnswers.put(courseId, wrongAnswers);
-                                }
-                                Log.d("AnswerLog", "Wrong Answers Map = " + FinanceLearningConstants.mainTestWrongAnswers.toString());
+                        if (courseReference != null) {
+                            JSONObject questionReference = courseReference.optJSONObject(String.valueOf(question.trim().hashCode()));
+                            if (questionReference != null) {
+                                courseReference.remove(String.valueOf(question.trim().hashCode()));
                             }
                         }
-                        FinanceLearningConstants.pickedOptions.put(question,true);
+
+                        if (checked) {
+                            try {
+                                List<String> answersList = Arrays.asList(answers);
+                                if (answersList.contains(optionName.trim())) {
+                                    JSONObject selectedOption = getSelectedOption(question, optionName);
+                                    if (courseReference != null) {
+                                        injectSelectedOption(selectedOption, courseReference, question, courseId);
+                                    } else {
+                                        JSONObject newCourseReference = new JSONObject();
+                                        injectSelectedOption(selectedOption, newCourseReference, question, courseId);
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        FinanceLearningConstants.selectedAnOption.put(question, true);
+
                     }
 
                 });
@@ -187,78 +139,32 @@ public class MainTestQuestionAndAnswersAdapter extends PagerAdapter {
 
                     @Override
                     public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                        if (checked) {
+                        JSONObject courseReference = (JSONObject) FinanceLearningConstants.mainTestResult.get(courseId);
 
-                            if (answer.trim().equals(optionName.trim())) {
-                                //This is the answer, add it to the list of correct answers for this course id
-                                JSONObject correctObject = new JSONObject();
-                                try {
-                                    correctObject.put(FinanceLearningConstants.QUESTION, question);
-                                    correctObject.put(FinanceLearningConstants.ANSWER, optionName);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                                if (FinanceLearningConstants.mainTestRightAnswers.containsKey(courseId)) {
-                                    List<JSONObject> rightAnswers = FinanceLearningConstants.mainTestRightAnswers.get(courseId);
-                                    if (!rightAnswers.contains(correctObject)) {
-                                        rightAnswers.add(correctObject);
-                                    }
-                                    FinanceLearningConstants.mainTestRightAnswers.put(courseId, rightAnswers);
-                                } else {
-                                    List<JSONObject> rightAnswers = new ArrayList<>();
-                                    rightAnswers.add(correctObject);
-                                    FinanceLearningConstants.mainTestRightAnswers.put(courseId, rightAnswers);
-                                }
-
-                                Log.d("AnswerLog", "Right Answers Map = " + FinanceLearningConstants.mainTestRightAnswers.toString());
-
-                            } else {
-
-                                //User selected a wrong answer, clear previous right answer if any
-                                JSONObject rightObject = new JSONObject();
-
-                                try {
-                                    rightObject.put(FinanceLearningConstants.QUESTION, question);
-                                    rightObject.put(FinanceLearningConstants.ANSWER, answer);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                                if (FinanceLearningConstants.mainTestRightAnswers.containsKey(courseId)) {
-                                    List<JSONObject> rightAnswers = FinanceLearningConstants.mainTestRightAnswers.get(courseId);
-                                    if (rightAnswers.contains(rightObject)) {
-                                        rightAnswers.remove(rightObject);
-                                    }
-                                    FinanceLearningConstants.mainTestRightAnswers.put(courseId, rightAnswers);
-                                }
-
-                                JSONObject wrongObject = new JSONObject();
-                                try {
-                                    wrongObject.put(FinanceLearningConstants.QUESTION, question);
-                                    wrongObject.put(FinanceLearningConstants.ANSWER, optionName);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                                if (FinanceLearningConstants.mainTestWrongAnswers.containsKey(courseId)){
-                                    List<JSONObject> wrongAnswers = FinanceLearningConstants.mainTestWrongAnswers.get(courseId);
-                                    if (!wrongAnswers.contains(wrongObject)) {
-                                        wrongAnswers.add(wrongObject);
-                                    }
-                                    FinanceLearningConstants.mainTestWrongAnswers.put(courseId, wrongAnswers);
-                                }else{
-                                    List<JSONObject>wrongAnswers = new ArrayList<>();
-                                    wrongAnswers.add(wrongObject);
-                                    FinanceLearningConstants.mainTestWrongAnswers.put(courseId, wrongAnswers);
-                                }
-                                Log.d("AnswerLog", "Wrong Answers Map = " + FinanceLearningConstants.mainTestWrongAnswers.toString());
-
+                        if (courseReference != null) {
+                            JSONObject questionReference = courseReference.optJSONObject(String.valueOf(question.trim().hashCode()));
+                            if (questionReference != null) {
+                                courseReference.remove(String.valueOf(question.trim().hashCode()));
                             }
-
                         }
 
-                        FinanceLearningConstants.pickedOptions.put(question,true);
+                        if (checked) {
+                            try {
+                                if (answer.contains(optionName.trim())) {
+                                    JSONObject selectedOption = getSelectedOption(question, optionName);
+                                    if (courseReference != null) {
+                                        injectSelectedOption(selectedOption, courseReference, question, courseId);
+                                    } else {
+                                        JSONObject newCourseReference = new JSONObject();
+                                        injectSelectedOption(selectedOption, newCourseReference, question, courseId);
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        FinanceLearningConstants.selectedAnOption.put(question, true);
 
                     }
 
@@ -268,6 +174,23 @@ public class MainTestQuestionAndAnswersAdapter extends PagerAdapter {
 
         }
 
+    }
+
+    private void injectSelectedOption(JSONObject selectedOption, JSONObject courseReference, String question, String courseId) throws JSONException {
+        courseReference.put(String.valueOf(question.trim().hashCode()), selectedOption);
+        FinanceLearningConstants.mainTestResult.put(courseId, courseReference);
+    }
+
+    @NonNull
+    private JSONObject getSelectedOption(String question, String answer) {
+        JSONObject selectedOptionObject = new JSONObject();
+        try {
+            selectedOptionObject.put(FinanceLearningConstants.QUESTION, question);
+            selectedOptionObject.put(FinanceLearningConstants.PICKED_OPTION, answer);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return selectedOptionObject;
     }
 
     @Override

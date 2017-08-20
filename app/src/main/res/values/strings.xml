@@ -51,5 +51,6 @@
     <string name="login">Login</string>
     <string name="guest">Guest</string>
     <string name="libraries">Libraries</string>
+    <string name="demo_videos">DEMO VIDEOS</string>
 
 </resources>
