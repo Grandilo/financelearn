@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -17,12 +18,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.internal.LinkedTreeMap;
 import com.grandilo.financelearn.R;
 import com.grandilo.financelearn.ui.adapters.RecommendationsAdapter;
 import com.grandilo.financelearn.utils.AppPreferences;
 import com.grandilo.financelearn.utils.EmailUtils;
 import com.grandilo.financelearn.utils.FinanceLearningConstants;
 import com.grandilo.financelearn.utils.FirebaseUtils;
+import com.grandilo.financelearn.utils.GsonUtils;
 
 import org.json.JSONObject;
 
@@ -63,18 +66,22 @@ public class RecommendedCourseActivity extends AppCompatActivity {
     private void initRecommendations() {
         for (String key : FinanceLearningConstants.recommendationsMap.keySet()) {
 
+            Log.d("RecoMap",key);
+
             List<String> recommendationList = FinanceLearningConstants.recommendationsMap.get(key);
 
             if (recommendationList != null) {
-                String stringifiedList = TextUtils.join("_", recommendationList);
-                if (stringifiedList != null) {
-                    HashMap<String, Object> associatedCourse = FinanceLearningConstants.fullCourseDetailsMap.get(key);
+                String stringifiedRecommendations = TextUtils.join("_", recommendationList);
+                Log.d("RecoMap","Value = "+stringifiedRecommendations);
+
+                if (stringifiedRecommendations != null) {
+                    HashMap<String, Object> associatedCourse = GsonUtils.getCourseProps(key);
                     if (associatedCourse != null) {
 
-                        HashMap<String, String> recommendationsMap = (HashMap<String, String>) associatedCourse.get("recommendation");
+                        LinkedTreeMap<String, Object> recommendationsMap = (LinkedTreeMap<String, Object>) associatedCourse.get("recommendation");
 
                         if (recommendationsMap != null) {
-                            String recommendation = recommendationsMap.get(stringifiedList);
+                            String recommendation = (String) recommendationsMap.get(stringifiedRecommendations);
                             if (recommendation != null) {
                                 if (!recommendation.contains("go_back_to_videos")) {
                                     if (!recommendedCourses.contains(recommendation)) {

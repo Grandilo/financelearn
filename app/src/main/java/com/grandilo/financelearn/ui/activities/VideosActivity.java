@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -18,7 +19,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.grandilo.financelearn.R;
 import com.grandilo.financelearn.ui.adapters.VideosAdapter;
-import com.grandilo.financelearn.utils.AppPreferences;
 import com.grandilo.financelearn.utils.FinanceLearningConstants;
 import com.grandilo.financelearn.utils.FirebaseUtils;
 import com.grandilo.financelearn.utils.UiUtils;
@@ -42,15 +42,12 @@ public class VideosActivity extends AppCompatActivity {
     private ChildEventListener videosListener;
     private DatabaseReference videosReference;
 
-    private JSONObject signedInUserObject;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_videos);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolbar);
-        signedInUserObject = AppPreferences.getSignedInUser(this);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -69,7 +66,7 @@ public class VideosActivity extends AppCompatActivity {
         proceedToMainTestView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent mainTestIntent = new Intent(VideosActivity.this,MainTestQuestionsActivity.class);
+                Intent mainTestIntent = new Intent(VideosActivity.this, MainTestQuestionsActivity.class);
                 startActivity(mainTestIntent);
             }
         });
@@ -115,18 +112,19 @@ public class VideosActivity extends AppCompatActivity {
                         String courseId = (String) courseDetails.get(FinanceLearningConstants.COURSE_ID);
                         final String expertLevel = (String) videoProps.get(FinanceLearningConstants.EXPERTISE_LEVEL);
 
-                        if (FinanceLearningConstants.courseIdNameMap.containsKey(courseId)) {
-                            //Get percentage on cause
-                            List<JSONObject> rightAnswers = FinanceLearningConstants.pretestRightAnswers.get(courseId);
-                            if (rightAnswers != null) {
-                                int rightAnswersCount = rightAnswers.size();
-                                float percentAge = 100* rightAnswers.size() / 5;
+                        if (FinanceLearningConstants.idsOfCoursesToTest.contains(courseId)) {
+                            JSONObject pretestResultObject = (JSONObject) FinanceLearningConstants.pretestResult.get(courseId);
+                            if (pretestResultObject != null) {
+                                int rightAnswersCount = pretestResultObject.length();
+                                float percentAge = 100 * rightAnswersCount / 5;
+                                Log.d("ResultLog", "RightAnswersCount=" + rightAnswersCount + " percentage=" + percentAge);
+
                                 if (rightAnswersCount > 0) {
-                                    if (getResultCategory(percentAge).contains(expertLevel)){
+                                    if (getResultCategory(percentAge).contains(expertLevel)) {
                                         videos.add(videoProps);
                                     }
-                                }else{
-                                    if (expertLevel.contains("Basic")){
+                                } else {
+                                    if (expertLevel.contains("Basic")) {
                                         videos.add(videoProps);
                                     }
                                 }

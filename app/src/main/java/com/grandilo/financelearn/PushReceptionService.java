@@ -37,15 +37,15 @@ public class PushReceptionService extends Service {
 
         if (signedInUserObject != null) {
 
-            FirebaseUtils.getNotificationsNode().orderByChild(FinanceLearningConstants.NOTIFICATIONS_TARGET)
+            FirebaseUtils.getNotificationsNode()
+                    .orderByChild(FinanceLearningConstants.NOTIFICATIONS_TARGET)
                     .equalTo(signedInUserObject.optString("staff_id"))
                     .addChildEventListener(new ChildEventListener() {
 
                         @Override
                         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                            GenericTypeIndicator<HashMap<String, Object>> notifGenericTypeIndicator =
-                                    new GenericTypeIndicator<HashMap<String, Object>>() {};
+                            GenericTypeIndicator<HashMap<String, Object>> notifGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>() {};
 
                             HashMap<String, Object> notifProps = dataSnapshot.getValue(notifGenericTypeIndicator);
 
@@ -77,8 +77,11 @@ public class PushReceptionService extends Service {
 
                     });
 
+
         }
+
         return START_STICKY;
+
     }
 
     @Nullable

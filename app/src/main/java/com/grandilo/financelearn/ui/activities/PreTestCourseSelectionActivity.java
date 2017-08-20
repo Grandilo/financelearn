@@ -26,6 +26,7 @@ import com.grandilo.financelearn.ui.adapters.PreTestCourseSelectionAdapter;
 import com.grandilo.financelearn.utils.AppPreferences;
 import com.grandilo.financelearn.utils.FinanceLearningConstants;
 import com.grandilo.financelearn.utils.FirebaseUtils;
+import com.grandilo.financelearn.utils.GsonUtils;
 import com.grandilo.financelearn.utils.UiUtils;
 
 import org.json.JSONArray;
@@ -35,15 +36,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
+import java.util.UUID;
 
 /**
  * @author Ugo
  */
-
 @SuppressWarnings("deprecation")
 @SuppressLint("StaticFieldLeak")
-
 public class PreTestCourseSelectionActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static TextView nextButton;
@@ -81,7 +80,6 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
         signedInUser = AppPreferences.getSignedInUser(this);
 
         if (signedInUser != null) {
-
             try {
                 if (signedInUser.getString(FinanceLearningConstants.COURSES_ASSIGNED) != null) {
                     assignedCourses = new JSONArray(signedInUser.getString(FinanceLearningConstants.COURSES_ASSIGNED));
@@ -105,7 +103,6 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
                 e.printStackTrace();
                 nextButton.setVisibility(View.GONE);
             }
-
         }
 
         initViews();
@@ -125,8 +122,9 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
     }
 
     public static void reviewSelections() {
-        int selectedCoursesCount = FinanceLearningConstants.coursesToTest.size();
-        if (selectedCoursesCount == 4 && assignedCourses != null && assignedCourses.length() > 0) {
+        int selectedCourseIdsCount = FinanceLearningConstants.idsOfCoursesToTest.size();
+        if (selectedCourseIdsCount == 4 && assignedCourses != null && assignedCourses.length() > 0) {
+            UiUtils.showToast("All four courses selected. You may proceed.");
             bottomBar.setVisibility(View.VISIBLE);
             nextButton.setVisibility(View.VISIBLE);
         } else {
@@ -154,16 +152,17 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
 
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
                 GenericTypeIndicator<HashMap<String, Object>> hashMapGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>() {
                 };
-
                 HashMap<String, Object> courseProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
                 if (courseProps != null) {
-                    courseProps.put(FinanceLearningConstants.COURSE_ID, dataSnapshot.getKey());
+                    String courseId = (String) courseProps.get(FinanceLearningConstants.COURSE_ID);
+                    if (!courses.contains(courseProps)) {
+                        courses.add(courseProps);
+                        preTestCourseSelectionAdapter.notifyDataSetChanged();
+                        AppPreferences.saveCourse(courseId, GsonUtils.getHashMarshall(courseProps));
+                    }
                 }
-                courses.add(courseProps);
-                preTestCourseSelectionAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -193,7 +192,6 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
     @Override
     protected void onStop() {
         super.onStop();
-        FinanceLearningConstants.coursesToTest.clear();
         if (courseReference != null && coursesEventListener != null) {
             courseReference.removeEventListener(coursesEventListener);
         }
@@ -227,9 +225,7 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
             case R.id.next_button:
                 //Prepare questions here
                 updateSelfSelectedCourses();
-                ArrayList<String> selectedCourseIds = FinanceLearningConstants.coursesToTest;
                 Intent preTestIntent = new Intent(PreTestCourseSelectionActivity.this, PretestQuestionsActivity.class);
-                preTestIntent.putStringArrayListExtra(FinanceLearningConstants.SELECTED_PRE_TEST_COURSES, selectedCourseIds);
                 startActivity(preTestIntent);
                 finish();
                 break;
@@ -238,12 +234,12 @@ public class PreTestCourseSelectionActivity extends AppCompatActivity implements
     }
 
     private void updateSelfSelectedCourses() {
-        HashMap<String, Object> pretestCourses = new HashMap<>();
-        List<String> coursesToTest = FinanceLearningConstants.coursesToTest;
-        if (!coursesToTest.isEmpty()) {
-            pretestCourses.put(FinanceLearningConstants.ALL_PRETEST_COURSES, coursesToTest);
+        HashMap<String, Object> pretestCourseIds = new HashMap<>();
+        List<String> idsOfCoursesToTest = FinanceLearningConstants.idsOfCoursesToTest;
+        if (!idsOfCoursesToTest.isEmpty()) {
+            pretestCourseIds.put(FinanceLearningConstants.ALL_SELECTED_COURSE_IDS, idsOfCoursesToTest);
         }
-        FirebaseUtils.getStaffReference().child(signedInUser.optString("staff_id")).updateChildren(pretestCourses, new DatabaseReference.CompletionListener() {
+        FirebaseUtils.getStaffReference().child(signedInUser.optString("staff_id")).updateChildren(pretestCourseIds, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(final DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError == null) {

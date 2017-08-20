@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -21,14 +22,12 @@ import com.grandilo.financelearn.ui.adapters.PretestQuestionAndAnswersAdapter;
 import com.grandilo.financelearn.utils.AppPreferences;
 import com.grandilo.financelearn.utils.FinanceLearningConstants;
 import com.grandilo.financelearn.utils.FirebaseUtils;
-import com.grandilo.financelearn.utils.UiUtils;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author Ugo
@@ -41,11 +40,12 @@ public class PretestQuestionsActivity extends AppCompatActivity implements View.
     private ViewPager questionsViewPager;
     private PretestQuestionAndAnswersAdapter pretestQuestionAndAnswersAdapter;
 
-    private List<String> selectedCoursesForPretest;
-    private ChildEventListener questionsAndAnswersListener, coursesListener;
-    private DatabaseReference preTestReference, coursesReference;
+    private ChildEventListener questionsAndAnswersListener;
+    private DatabaseReference preTestReference;
 
     private List<JSONObject> pretestQuestions = new ArrayList<>();
+
+    private List<String> pretestCourseIds;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,7 +59,9 @@ public class PretestQuestionsActivity extends AppCompatActivity implements View.
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        offloadIntent();
+        pretestCourseIds = FinanceLearningConstants.idsOfCoursesToTest;
+
+        Log.d("SelectedCourseIds", TextUtils.join(",",pretestCourseIds));
 
         initViews();
 
@@ -67,10 +69,8 @@ public class PretestQuestionsActivity extends AppCompatActivity implements View.
         questionsViewPager.setAdapter(pretestQuestionAndAnswersAdapter);
 
         preTestReference = FirebaseUtils.getPretestReference();
-        coursesReference = FirebaseUtils.getCourses();
 
         fetchQuestionsForSelectedCourses();
-        fetchCourseNames();
 
         checkPretestStatus();
         questionsViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -86,7 +86,7 @@ public class PretestQuestionsActivity extends AppCompatActivity implements View.
                     JSONObject previousQuestion = pretestQuestions.get(position - 1);
                     if (previousQuestion != null) {
                         String previousTestQuestion = previousQuestion.optString(FinanceLearningConstants.QUESTION);
-                        if (previousTestQuestion != null && !FinanceLearningConstants.pickedOptions.containsKey(previousTestQuestion)) {
+                        if (previousTestQuestion != null && !FinanceLearningConstants.selectedAnOption.containsKey(previousTestQuestion)) {
                             questionsViewPager.setCurrentItem(position - 1);
                         }
                     }
@@ -110,8 +110,8 @@ public class PretestQuestionsActivity extends AppCompatActivity implements View.
     private void checkPretestStatus() {
         JSONObject signedInUser = AppPreferences.getSignedInUser(this);
         if (signedInUser != null) {
-            boolean pretestTaken = signedInUser.optBoolean(FinanceLearningConstants.PRETEST_TAKEN,false);
-            if (pretestTaken){
+            boolean pretestTaken = signedInUser.optBoolean(FinanceLearningConstants.PRETEST_TAKEN, false);
+            if (pretestTaken) {
                 finish();
             }
         }
@@ -124,11 +124,6 @@ public class PretestQuestionsActivity extends AppCompatActivity implements View.
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void offloadIntent() {
-        Bundle intentExtras = getIntent().getExtras();
-        selectedCoursesForPretest = intentExtras.getStringArrayList(FinanceLearningConstants.SELECTED_PRE_TEST_COURSES);
     }
 
     private void initViews() {
@@ -173,6 +168,7 @@ public class PretestQuestionsActivity extends AppCompatActivity implements View.
     }
 
     private void fetchQuestionsForSelectedCourses() {
+
         questionsAndAnswersListener = new ChildEventListener() {
 
             @Override
@@ -186,12 +182,14 @@ public class PretestQuestionsActivity extends AppCompatActivity implements View.
                 HashMap<Integer, HashMap<String, Object>> pretestInfo = (HashMap<Integer, HashMap<String, Object>>) dataSnapshot.getValue(objectGenericTypeIndicator);
 
                 if (pretestInfo != null) {
-                    JSONObject preTestJSONObject = new JSONObject(pretestInfo);
-                    String courseId = preTestJSONObject.optString(FinanceLearningConstants.COURSE_ID);
-                    if (selectedCoursesForPretest.contains(courseId)) {
-                        pretestQuestions.add(preTestJSONObject);
-                        //NotifyDataSetChanged here
+                    JSONObject preTestQuestionObject = new JSONObject(pretestInfo);
+                    String courseId = preTestQuestionObject.optString(FinanceLearningConstants.COURSE_ID);
+                    if (pretestCourseIds.contains(courseId) && !pretestQuestions.contains(preTestQuestionObject)) {
+                        Log.d("SelectedCourseIds", "Yope we got in = "+courseId);
+                        pretestQuestions.add(preTestQuestionObject);
                         pretestQuestionAndAnswersAdapter.notifyDataSetChanged();
+                    }else{
+                        Log.d("SelectedCourseIds", "Nope we got out= "+courseId);
                     }
                 }
 
@@ -232,9 +230,6 @@ public class PretestQuestionsActivity extends AppCompatActivity implements View.
         if (preTestReference != null && questionsAndAnswersListener != null) {
             preTestReference.removeEventListener(questionsAndAnswersListener);
         }
-        if (coursesReference != null && coursesListener != null) {
-            coursesReference.removeEventListener(coursesListener);
-        }
     }
 
     @Override
@@ -249,7 +244,6 @@ public class PretestQuestionsActivity extends AppCompatActivity implements View.
                 } else {
                     //Finish up here
                     Intent preTestResultIntent = new Intent(PretestQuestionsActivity.this, PreTestResultActivity.class);
-                    preTestResultIntent.putExtra(FinanceLearningConstants.TOTAL_NO_OF_QS, pretestQuestions.size());
                     startActivity(preTestResultIntent);
                 }
                 break;
@@ -260,54 +254,6 @@ public class PretestQuestionsActivity extends AppCompatActivity implements View.
                 }
                 break;
         }
-    }
-
-    private void fetchCourseNames() {
-
-        coursesListener = new ChildEventListener() {
-
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                GenericTypeIndicator<HashMap<String, Object>> hashMapGenericTypeIndicator = new GenericTypeIndicator<HashMap<String, Object>>() {
-                };
-
-                HashMap<String, Object> courseProps = dataSnapshot.getValue(hashMapGenericTypeIndicator);
-                String courseKey = dataSnapshot.getKey();
-
-                if (selectedCoursesForPretest.contains(courseKey)) {
-                    if (courseProps != null) {
-                        String courseName = (String) courseProps.get(FinanceLearningConstants.COURSE_NAME);
-                        FinanceLearningConstants.courseIdNameMap.put(dataSnapshot.getKey(), courseName);
-                        FinanceLearningConstants.fullCourseDetailsMap.put(dataSnapshot.getKey(), courseProps);
-
-                    }
-                }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-
-        };
-
-        coursesReference.addChildEventListener(coursesListener);
     }
 
 }

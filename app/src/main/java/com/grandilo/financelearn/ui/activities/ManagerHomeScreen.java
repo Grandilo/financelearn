@@ -240,15 +240,13 @@ public class ManagerHomeScreen extends AppCompatActivity {
                 HashMap<String, Object> updatableProps = new HashMap<>();
 
                 updatableProps.put(FinanceLearningConstants.PRETEST_TAKEN, null);
-                updatableProps.put(FinanceLearningConstants.PRETEST_RIGHT_ANSWERS, null);
+                updatableProps.put(FinanceLearningConstants.PRETEST_RESULT, null);
                 updatableProps.put(FinanceLearningConstants.PRETEST_WRONG_ANSWERS, null);
 
                 updatableProps.put(FinanceLearningConstants.MAIN_TEST_TAKEN, null);
                 updatableProps.put(FinanceLearningConstants.MAIN_TEST_WRONG_ANSWERS, null);
-                updatableProps.put(FinanceLearningConstants.MAIN_TEST_RIGHT_ANSWERS, null);
-
-                updatableProps.put(FinanceLearningConstants.TOTAL_NO_OF_QS, null);
-                updatableProps.put(FinanceLearningConstants.ALL_PRETEST_COURSES, null);
+                updatableProps.put(FinanceLearningConstants.MAIN_TEST_RESULT, null);
+                updatableProps.put(FinanceLearningConstants.ALL_SELECTED_COURSE_IDS, null);
 
                 progressDialog.setMessage("Resetting tests, please wait...");
                 progressDialog.show();
@@ -282,11 +280,9 @@ public class ManagerHomeScreen extends AppCompatActivity {
 
     private void clearPreviousAnswers() {
         try {
-            FinanceLearningConstants.pretestRightAnswers.clear();
-            FinanceLearningConstants.pretestWrongAnswers.clear();
-            FinanceLearningConstants.coursesToTest.clear();
-            FinanceLearningConstants.courseIdNameMap.clear();
-            FinanceLearningConstants.pickedOptions.clear();
+            FinanceLearningConstants.pretestResult.clear();
+            FinanceLearningConstants.idsOfCoursesToTest.clear();
+            FinanceLearningConstants.selectedAnOption.clear();
         } catch (Exception ignored) {
 
         }
