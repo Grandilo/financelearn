@@ -72,7 +72,7 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
         checkDumpUserSelectedCourseIds();
 
         offloadPreviousPretestResultIfAvailable(previousPretestResult);
-        offloadPreviousMainTestResultIfAvailable(previousPretestResult, previousMainTestResult);
+        offloadPreviousMainTestResultIfAvailable(previousMainTestResult);
 
         courseReference = FirebaseUtils.getCourses();
         fetchCourses();
@@ -108,11 +108,11 @@ public class EmployeeHomeScreen extends AppCompatActivity implements View.OnClic
         }
     }
 
-    private void offloadPreviousMainTestResultIfAvailable(String previousPretestResult, String previousMainTestResult) {
+    private void offloadPreviousMainTestResultIfAvailable(String previousMainTestResult) {
         if (previousMainTestResult != null) {
             try {
                 FinanceLearningConstants.mainTestResult.clear();
-                JSONObject mainTestJSONObject = new JSONObject(previousPretestResult);
+                JSONObject mainTestJSONObject = new JSONObject(previousMainTestResult);
                 Iterator<String> keysItr = mainTestJSONObject.keys();
                 while (keysItr.hasNext()) {
                     String key = keysItr.next();
